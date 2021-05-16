@@ -1,5 +1,4 @@
 # MicroShop 
-## SGSETeam3
 ### Cloud-Software-Engineer
 - Michael Nickel
 - Benedikt Wiest
