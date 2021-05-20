@@ -1,28 +1,27 @@
 # MicroShop 
-### Cloud-Software-Engineer
-- Michael Nickel
-- Benedikt Wiest
-- David Nickel
-- Marc Schwettmann
-- Lennart Dümke
-- Yannic Döll
 
-### DevOps-Engineer
-- Domenic Drechsel
+## Rollenzuordnung
+|  Name | Rolle  |
+| ------------ | ------------ |
+|Benedikt Wiest| Cloud-Software-Engineer |
+|David Nickel| Cloud-Software-Engineer |
+|Lennart Dümke| Cloud-Software-Engineer |
+|Marc Schwettmann| Cloud-Software-Engineer |
+|Michael Nickel| Cloud-Software-Engineer |
+|Yannic Döll| Cloud-Software-Engineer |
+|Domenic Drechsel|DevOps-Engineer|
+|Lukas Walter|Scrum-Master|
 
-### Scrum-Master
-- Lukas Walter
+## Verantwortlichkeiten
 
-## Organisationseinheiten eines Onlineshops
-
-- Payment (Michael Nickel)
-- Logistik (Benedikt Wiest)
-- Package Tracking (Benedikt Wiest)
-- Usermanagement / Account Service (David Nickel)
-- Catalog Service (Marc Schwettmann)
-- Cart Service (Lennart Dümke)
-- Order Service (Yannic Döll)
-- API Gateway (Domenic Drechsel)
+|  Microservice | Verantwortung  | Technologien  |
+| ------------ | ------------ | ------------ |
+| Logistik + Package Tracking  | Benedikt Wiest  | C# |
+| Usermanagement/Account Service  | David Nickel  | FastAPI  |
+| Cart Service  | Lennart Dümke  | Django/Python |
+| Catalog Service  | Marc Schwettmann  | node.js |
+| Payment  | Michael Nickel  | .Net  |
+| Order Service  | Yannic Döll | Django/Python |
 
 ## Architektur Pattern
 https://microservices.io/patterns/microservices.html
@@ -40,3 +39,6 @@ Die Ziele dieses Projekts teilen sich dabei in zwei Gruppen auf: die Sicht des K
 Durch die Modularisierung und die Aufteilung der Systemkomponenten in Microservices soll garantiert werden, dass bei Aktualisierung eines Service keine anderen Services betroffen sind. Dieses Konzept der niedrigen Kopplung und hohen Kohäsion soll dazu führen, den geschriebenen Code wartbarer und schlanker zu machen. Die Skalierbarkeit des Service muss in allen Bereichen gegeben sein, um mit einer steigenden Anzahl an Nutzern die Performance des Systems beizubehalten. 
 
 Es gibt etliche Online-Shops, deren Usability nicht nur sehr niedrig ist, sondern die auch langsam und optisch nicht ansprechend sind. MicroShop soll diese Defizite nicht aufweisen und Kunden ein gutes Gefühl während des Einkaufens geben. Im Kontext der Digitalisierung ergeben sich häufige Wechsel der Anforderungen an ein System. Um die bestmögliche User Experience zu garantieren, muss es möglich sein, einzelne Module schnell zu tauschen, um immer auf dem neusten Stand der Technik zu sein. Durch die Möglichkeit der ständigen Verbesserung und der damit einhergehenden guten Nutzbarkeit, kann MicroShop überzeugen und sich von anderen Online-Shops unterscheiden. MicroShop versteht sich selbst als Prototyp und ist weder ein Forum noch ein Marketplace.
+
+
+
