@@ -3,7 +3,7 @@
 ## Rollenzuordnung
 |  Name | Rolle  |
 | ------------ | ------------ |
-|Benedikt Wiest| Cloud-Software-Engineer |
+|~~Benedikt Wiest| Cloud-Software-Engineer ~~|
 |David Nickel| Cloud-Software-Engineer |
 |Lennart Dümke| Cloud-Software-Engineer |
 |Marc Schwettmann| Cloud-Software-Engineer |
@@ -16,7 +16,7 @@
 
 |  Microservice | Verantwortung  | Technologien  |
 | ------------ | ------------ | ------------ |
-| Logistik + Package Tracking  | Benedikt Wiest  | C# |
+| ~~Logistik + Package Tracking  | Benedikt Wiest  | C# ~~|
 | Usermanagement/Account Service  | David Nickel  | FastAPI  |
 | Cart Service  | Lennart Dümke  | Django/Python |
 | Catalog Service  | Marc Schwettmann  | node.js |
