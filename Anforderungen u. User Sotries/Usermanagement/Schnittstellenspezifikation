@@ -1,0 +1,358 @@
+openapi: 3.0.0
+info:
+  version: '1'
+  title: Usermanagement Api
+  description: ''
+servers:
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: localhost:8001
+paths:
+  /login/:
+    post:
+      tags:
+        - Usermanagement
+      requestBody:
+        $ref: '#/components/requestBodies/Login'
+      responses:
+        200:
+          $ref: '#/components/responses/OK'
+
+  /logout/:
+    post:
+      tags:
+        - Usermanagement
+      responses:
+        200:
+          $ref: '#/components/responses/OK'
+  /all_accounts/:
+    get:
+      tags:
+        - Usermanagement
+      responses:
+        200:
+          $ref: '#/components/responses/Accounts'
+  /changePassword/:
+    put:
+      tags:
+        - Usermanagement
+      requestBody:
+        $ref: '#/components/requestBodies/Login'
+      responses:
+        200:
+          $ref: '#/components/responses/OK'
+  /User/{id}/:
+    parameters:
+      - $ref: '#/components/parameters/Id'
+    get:
+      tags:
+        - Usermanagement
+      responses:
+        200:
+          $ref: '#/components/responses/User'
+    put:
+      tags:
+        - Usermanagement
+      requestBody:
+        $ref: '#/components/requestBodies/ChangeUser'
+      responses:
+        200:
+          $ref: '#/components/responses/User'
+    delete:
+      tags:
+        - Usermanagement
+      responses:
+        200:
+          $ref: '#/components/responses/OK'
+  /User/Lock/{id}/{active}/:
+    parameters:
+      - $ref: '#/components/parameters/Id'
+      - $ref: '#/components/parameters/Active'
+    put:
+      tags:
+        - Usermanagement
+      responses:
+        200:
+          $ref: '#/components/responses/OK'
+  /User/Create/Customer/:
+    post:
+      tags:
+        - Usermanagement
+      requestBody:
+        $ref: '#/components/requestBodies/NewCustomer'
+      responses:
+        200:
+          $ref: '#/components/responses/UserWithAdress'
+  /User/Create/:
+    post:
+      tags:
+        - Usermanagement
+      requestBody:
+        $ref: '#/components/requestBodies/NewUser'
+      responses:
+        200:
+          $ref: '#/components/responses/UserWithAdress'
+  /User/{id}/Adress/:
+    parameters:
+      - $ref: '#/components/parameters/Id'
+    post:
+      tags:
+        - Usermanagement
+      requestBody:
+        $ref: '#/components/requestBodies/NewAdress'
+      responses:
+        200:
+          $ref: '#/components/responses/Adress'
+    get:
+      tags:
+        - Usermanagement
+      responses:
+        200:
+          $ref: '#/components/responses/AdressList'
+  /User/{id}/Adress/{adress_id}/:
+    parameters:
+      - $ref: '#/components/parameters/Id'
+      - $ref: '#/components/parameters/AdressId'
+    put:
+      tags:
+        - Usermanagement
+      requestBody:
+        $ref: '#/components/requestBodies/NewAdress'
+      responses:
+        200:
+          $ref: '#/components/responses/Adress'
+    delete:
+      tags:
+        - Usermanagement
+      responses:
+        200:
+          $ref: '#/components/responses/OK'
+
+
+components:
+  parameters:
+    Id:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+    AdressId:
+      name: adress_id
+      in: path
+      required: true
+      schema:
+        type: integer
+    Active:
+      name: active
+      in: path
+      required: true
+      schema:
+        type: boolean
+
+  requestBodies:
+    ChangeUser:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UserInfos'
+    Login:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Login'
+    NewUser:
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/UserCreate'
+              - $ref: '#/components/schemas/AdressCreate'
+    NewCustomer:
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/CustomerCreate'
+              - $ref: '#/components/schemas/AdressCreate'
+    NewAdress:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/AdressCreate'
+
+  responses:
+    OK:
+      description: Ok
+    User:
+      description: Ok
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UserInfos'
+    UserWithAdress:
+      description: Ok
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/UserInfos'
+              - $ref: '#/components/schemas/Adress'
+    Accounts:
+      description: Ok
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/UserInfos'
+    AdressList:
+      description: Ok
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/Adress'
+    Adress:
+      description: Ok
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Adress'
+
+  schemas:
+    Login:
+      type: object
+      properties:
+        username:
+          type: string
+          example: username
+        password:
+          type: string
+          example: safePassword
+    UserInfos:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Mustermann
+        firstname:
+          type: string
+          example: Max
+        email:
+          type: string
+          example: max@mail.de
+        phone:
+          type: string
+          example: 0512323442
+        birthdate:
+          type: string
+          format: date
+        active:
+          type: boolean
+          example: true
+        type:
+          type: string
+          example: Kunde
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        firstname:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+        birthdate:
+          type: string
+          format: date
+        hashed_password:
+          type: string
+        active:
+          type: boolean
+        type:
+          type: string
+          example: Kunde
+    UserCreate:
+      type: object
+      properties:
+        name:
+          type: string
+        firstname:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+        birthdate:
+          type: string
+          format: date
+        password:
+          type: string
+        active:
+          type: boolean
+        type:
+          type: string
+          example: Kunde
+    CustomerCreate:
+      type: object
+      properties:
+        name:
+          type: string
+        firstname:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+        birthdate:
+          type: string
+          format: date
+        hashed_password:
+          type: string
+        active:
+          type: boolean
+    Adress:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 12
+        country:
+          type: string
+          example: Deutschland
+        city:
+          type: string
+          example: Harsewinkel
+        plz:
+          type: integer
+          example: 33428
+        street:
+          type: string
+          example: Straße
+        housenumber:
+          type: string
+          example: 1a
+    AdressCreate:
+      type: object
+      properties:
+        country:
+          type: string
+          example: Deutschland
+        city:
+          type: string
+          example: Harsewinkel
+        plz:
+          type: integer
+          example: 33428
+        street:
+          type: string
+          example: Straße
+        housenumber:
+          type: string
+          example: 1a
