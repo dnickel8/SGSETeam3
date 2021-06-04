@@ -7,3 +7,4 @@
 
 - Korrekte Eingabe aller benötigten Informationen (User Interface)
 - Zahlungsinformationen können verarbeitet werden (API)
+- Testzahlung durchführen als Integrationstestfall abbilden
