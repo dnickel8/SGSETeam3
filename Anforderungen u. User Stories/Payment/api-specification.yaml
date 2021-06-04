@@ -1,0 +1,196 @@
+openapi: 3.0.1
+info:
+  title: SGSE - Payment Service
+  description: Payment API Description
+  version: v1
+paths:
+  /createInvoiceAndPay/:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Invoice'
+            
+      summary: ''
+      description: ''
+      operationId: ''
+      responses:
+        '200':
+          description: OK
+        '500':
+          description: Internal Server Error
+        '400':
+          description: Wrong information
+  /getInvoiceForUser/{invoiceId}/{userId}:
+    get:
+      parameters: 
+        - in: path
+          name: invoiceId
+          schema:
+            type: string
+          required: true
+        - in: path
+          name: userId
+          schema:
+            type: string
+          required: true
+      summary: ''
+      description: ''
+      operationId: ''
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvoiceDetails'
+        '500':
+          description: Internal Server Error
+        '400':
+          description: Wrong information
+  /getAllInvoicesForUser/{userId}:
+    get:
+      parameters:
+          - in: path
+            name: userId
+            schema:
+              type: string
+            required: true
+      summary: ''
+      description: ''
+      operationId: ''
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/InvoiceDetails'
+        '500':
+          description: Internal Server Error
+        '400':
+          description: Wrong information
+  /showDetailsForPayment/{paymentId}:
+    get:
+      parameters:
+          - in: path
+            name: paymentId
+            schema:
+              type: string
+            required: true
+      summary: ''
+      description: ''
+      operationId: ''
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Payment'
+        '500':
+          description: Internal Server Error
+        '400':
+          description: Wrong information
+components: 
+  schemas:
+    Invoice:
+      type: object
+      properties:
+        invoiceDetails:
+          $ref: '#/components/schemas/InvoiceDetails'
+        recipient:
+          $ref: '#/components/schemas/Recipient'
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Item'
+    InvoiceDetails:
+      type: object
+      properties:
+        invoiceNumber:
+          type: string
+        invoiceDate:
+          type: string
+          format: date
+        currencyCode:
+          type: string
+        note:
+          type: string
+        dueDate:
+          type: string
+          format: date
+    Recipient:
+      type: object
+      properties:
+        firstName:
+          type: string
+        surname:
+          type: string
+        address:
+          $ref: '#/components/schemas/Address'
+        emailAddress:
+          type: string
+        phoneNumber:
+          type: string
+        shippingInfo:
+          $ref: '#/components/schemas/ShippingInfo'
+    Item:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        quantity:
+          type: number
+        discount:
+          type: number
+        tax:
+          type: number
+        amount:
+          $ref: '#/components/schemas/Amount'
+    Address:
+      type: object
+      properties:
+        street: 
+          type: string
+        postalCode:
+          type: string
+        city:
+          type: string
+        countryCode:
+          type: string
+        
+    ShippingInfo:
+      type: object
+      properties:
+        firstName:
+          type: string
+        surname:
+          type: string
+        address:
+          $ref: '#/components/schemas/Address' 
+    Amount:
+      type: object
+      properties:
+        currencyCode:
+          type: string
+        value:
+          type: number
+    Payment:
+      type: object
+      properties:
+        amount:
+          $ref: '#/components/schemas/Amount'
+        invoiceId:
+          type: string
+        status:
+          type: string
+      
+    

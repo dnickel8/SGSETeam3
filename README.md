@@ -1,34 +1,27 @@
-# MicroShop 
+# Team 3 - MicroShop 
 
 ## Rollenzuordnung
 |  Name | Rolle  |
 | ------------ | ------------ |
-|<s>Benedikt Wiest </s>|<s>Cloud-Software-Engineer </s>|
-|David Nickel| Cloud-Software-Engineer |
-|Lennart Dümke| Cloud-Software-Engineer |
+|Lennart Dümke| Cloud-Software-Engineer + Scrum-Master |
+|David Nickel| Cloud-Software-Engineer + DevOps-Engineer |
 |Marc Schwettmann| Cloud-Software-Engineer |
 |Michael Nickel| Cloud-Software-Engineer |
 |Yannic Döll| Cloud-Software-Engineer |
-|Domenic Drechsel|DevOps-Engineer|
-|Lukas Walter|Scrum-Master|
+|&nbsp;|&nbsp;|
+|<s>Lukas Walter</s>|<s>Scrum-Master</s>|
+|<s>Domenic Drechsel</s>|<s>DevOps-Engineer</s>|
+|<s>Benedikt Wiest </s>|<s>Cloud-Software-Engineer </s>|
 
 ## Verantwortlichkeiten
 
 |  Microservice | Verantwortung  | Technologien  |
 | ------------ | ------------ | ------------ |
-| <s>Logistik + Package Tracking </s> |<s> Benedikt Wiest </s> |<s> C# </s>|
-| Usermanagement/Account Service  | David Nickel  | FastAPI  |
-| Cart Service  | Lennart Dümke  | Django/Python |
+| Account Service  | David Nickel  | FastAPI  |
 | Catalog Service  | Marc Schwettmann  | node.js |
-| Payment  | Michael Nickel  | .Net  |
+| Cart Service  | Lennart Dümke  | Django/Python |
 | Order Service  | Yannic Döll | Django/Python |
-
-## Architektur Pattern
-https://microservices.io/patterns/microservices.html
-
-## Beispiel
-https://dzone.com/articles/microservices-online-shop
-
+| Payment Service  | Michael Nickel  | .Net  |
 
 # Kurzdarstellung der Projektidee
 
