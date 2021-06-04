@@ -1,0 +1,107 @@
+{
+   "Order": {
+      "type": "object",
+      "properties": {
+         "id": {
+            "type": "string"
+         },
+         "date": {
+            "type": "string",
+            "format": "date"
+         },
+        "shippingMethodId": {
+            "type": "string",
+         },
+         "User": {
+              "type": "object",
+              "properties": {
+                 "id": {
+                    "type": "string"
+                 }
+              }
+           },
+         "products": [
+            "product" {
+              "type": "object",
+              "properties": {
+                 "name": {
+                    "type": "string"
+                 },
+                 "description": {
+                    "type": "string"
+                 },
+                 "imageUrl": {
+                    "type": "string"
+                 },
+                 "productCatalogUrl": {
+                    "type": "string"
+                 },
+                 "quantity": {
+                    "type": "number"
+                 },
+                 "discount": {
+                    "type": "number"
+                 },
+                 "tax": {
+                    "type": "number"
+                 },
+                 "currencyCode": {
+                    "type": "number"
+                 },
+                 "price": {
+                    "type": "number"
+                 }
+              }
+           }
+         ],
+         "address": {
+              "type": "object",
+              "properties": {
+                 "firstName": {
+                    "type": "string"
+                 },
+                 "lastName": {
+                    "type": "string"
+                 },
+                 "street": {
+                    "type": "string"
+                 },
+                 "number": {
+                    "type": "string"
+                 },
+                 "postCode": {
+                    "type": "number"
+                 },
+                 "city": {
+                    "type": "number"
+                 }
+              }
+           },
+         "shippingMethod": {
+            "$ref": "#/components/schemas/ShippingMethod"
+         }
+      }
+   }
+}
+
+
+
+{
+   "ShippingMethod": {
+      "type": "object",
+      "properties": {
+        "id": {
+            "type": "string"
+         },
+         "name": {
+            "type": "string"
+         },
+         "description": {
+            "type": "string"
+         },
+         "price": {
+            "type": "string"
+         }
+      }
+   }
+}

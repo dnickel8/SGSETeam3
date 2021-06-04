@@ -1,0 +1,156 @@
+openapi: 3.0.1
+info:
+  title: SGSE - Order Service
+  description: Order API Description
+  version: v1
+paths:
+  /placeOrder/:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewOrder'
+            
+      summary: 'Place new order'
+      responses:
+        '200':
+          description: OK
+        '406':
+          description: Data not acceptable
+        '500':
+          description: Could not handle query
+  /getOrders/{userId}:
+    get:
+      parameters: 
+        - in: path
+          name: userId
+          schema:
+            type: string
+          required: true
+      summary: 'Get all orders of a user'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                    $ref: '#/components/schemas/Orders'
+        '404':
+          description: User not found
+        '500':
+          description: Could not handle query
+  /getOrder/{userId}/{orderId}:
+    get:
+      parameters: 
+        - in: path
+          name: userId
+          schema:
+            type: string
+          required: true
+        - in: path
+          name: orderId
+          schema:
+            type: string
+          required: true
+      summary: 'Get specific order of a user'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        '404':
+          description: Order not found
+        '500':
+          description: Could not handle query
+components: 
+  schemas:
+    Orders:
+      type: object
+      properties:
+        orders:
+          type: array
+          items: 
+            $ref: '#/components/schemas/User'
+    NewOrder:
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/User'
+        products:
+          type: array
+          items:
+            $ref: '#/components/schemas/Product'
+    Order:
+      type: object
+      properties:
+        id:
+          type: string
+        date:
+          type: string
+          format: date
+        user:
+          $ref: '#/components/schemas/User'
+        products:
+          type: array
+          items:
+            $ref: '#/components/schemas/Product'
+        address:
+          $ref: '#/components/schemas/Address'
+        shippingMethod:
+          $ref: '#/components/schemas/ShippingMethod'
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+    Product:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        imageUrl:
+          type: string
+        productCatalogUrl:
+          type: string
+        quantity:
+          type: number
+        discount:
+          type: number
+        tax:
+          type: number
+        currencyCode:
+          type: number
+        price:
+          type: number
+    Address:
+      type: object
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        street:
+          type: string
+        number:
+          type: string
+        postCode:
+          type: number
+        city:
+          type: number
+    ShippingMethod:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        price:
+          type: string
+        
