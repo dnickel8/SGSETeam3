@@ -1,0 +1,378 @@
+{
+	"definitions": {},
+	"$schema": "http://json-schema.org/draft-07/schema#", 
+	"$id": "https://example.com/object1622807775.json", 
+	"title": "Invoice", 
+	"type": "object",
+	"required": [
+		"invoiceDetails",
+		"recipient",
+		"items"
+	],
+	"properties": {
+		"invoiceDetails": {
+			"$id": "#root/invoiceDetails", 
+			"title": "Invoicedetails", 
+			"type": "object",
+			"required": [
+				"invoiceNumber",
+				"invoiceDate",
+				"currencyCode",
+				"note",
+				"dueDate"
+			],
+			"properties": {
+				"invoiceNumber": {
+					"$id": "#root/invoiceDetails/invoiceNumber", 
+					"title": "Invoicenumber", 
+					"type": "string",
+					"default": "",
+					"examples": [
+						"string"
+					],
+					"pattern": "^.*$"
+				},
+				"invoiceDate": {
+					"$id": "#root/invoiceDetails/invoiceDate", 
+					"title": "Invoicedate", 
+					"type": "string",
+                    "format": "date",
+					"default": "",
+					"examples": [
+						"2021-06-04"
+					],
+					"pattern": "^.*$"
+				},
+				"currencyCode": {
+					"$id": "#root/invoiceDetails/currencyCode", 
+					"title": "Currencycode", 
+					"type": "string",
+					"default": "",
+					"examples": [
+						"string"
+					],
+					"pattern": "^.*$"
+				},
+				"note": {
+					"$id": "#root/invoiceDetails/note", 
+					"title": "Note", 
+					"type": "string",
+					"default": "",
+					"examples": [
+						"string"
+					],
+					"pattern": "^.*$"
+				},
+				"dueDate": {
+					"$id": "#root/invoiceDetails/dueDate", 
+					"title": "Duedate", 
+					"type": "string",
+                    "format": "date",
+					"default": "",
+					"examples": [
+						"2021-06-04"
+					],
+					"pattern": "^.*$"
+				}
+			}
+		}
+,
+		"recipient": {
+			"$id": "#root/recipient", 
+			"title": "Recipient", 
+			"type": "object",
+			"required": [
+				"firstName",
+				"surname",
+				"address",
+				"emailAddress",
+				"phoneNumber",
+				"shippingInfo"
+			],
+			"properties": {
+				"firstName": {
+					"$id": "#root/recipient/firstName", 
+					"title": "Firstname", 
+					"type": "string",
+					"default": "",
+					"examples": [
+						"string"
+					],
+					"pattern": "^.*$"
+				},
+				"surname": {
+					"$id": "#root/recipient/surname", 
+					"title": "Surname", 
+					"type": "string",
+					"default": "",
+					"examples": [
+						"string"
+					],
+					"pattern": "^.*$"
+				},
+				"address": {
+					"$id": "#root/recipient/address", 
+					"title": "Address", 
+					"type": "object",
+					"required": [
+						"street",
+						"postalCode",
+						"city",
+						"countryCode"
+					],
+					"properties": {
+						"street": {
+							"$id": "#root/recipient/address/street", 
+							"title": "Street", 
+							"type": "string",
+							"default": "",
+							"examples": [
+								"string"
+							],
+							"pattern": "^.*$"
+						},
+						"postalCode": {
+							"$id": "#root/recipient/address/postalCode", 
+							"title": "Postalcode", 
+							"type": "string",
+							"default": "",
+							"examples": [
+								"string"
+							],
+							"pattern": "^.*$"
+						},
+						"city": {
+							"$id": "#root/recipient/address/city", 
+							"title": "City", 
+							"type": "string",
+							"default": "",
+							"examples": [
+								"string"
+							],
+							"pattern": "^.*$"
+						},
+						"countryCode": {
+							"$id": "#root/recipient/address/countryCode", 
+							"title": "Countrycode", 
+							"type": "string",
+							"default": "",
+							"examples": [
+								"string"
+							],
+							"pattern": "^.*$"
+						}
+					}
+				}
+,
+				"emailAddress": {
+					"$id": "#root/recipient/emailAddress", 
+					"title": "Emailaddress", 
+					"type": "string",
+					"default": "",
+					"examples": [
+						"string"
+					],
+					"pattern": "^.*$"
+				},
+				"phoneNumber": {
+					"$id": "#root/recipient/phoneNumber", 
+					"title": "Phonenumber", 
+					"type": "string",
+					"default": "",
+					"examples": [
+						"string"
+					],
+					"pattern": "^.*$"
+				},
+				"shippingInfo": {
+					"$id": "#root/recipient/shippingInfo", 
+					"title": "Shippinginfo", 
+					"type": "object",
+					"required": [
+						"firstName",
+						"surname",
+						"address"
+					],
+					"properties": {
+						"firstName": {
+							"$id": "#root/recipient/shippingInfo/firstName", 
+							"title": "Firstname", 
+							"type": "string",
+							"default": "",
+							"examples": [
+								"string"
+							],
+							"pattern": "^.*$"
+						},
+						"surname": {
+							"$id": "#root/recipient/shippingInfo/surname", 
+							"title": "Surname", 
+							"type": "string",
+							"default": "",
+							"examples": [
+								"string"
+							],
+							"pattern": "^.*$"
+						},
+						"address": {
+							"$id": "#root/recipient/shippingInfo/address", 
+							"title": "Address", 
+							"type": "object",
+							"required": [
+								"street",
+								"postalCode",
+								"city",
+								"countryCode"
+							],
+							"properties": {
+								"street": {
+									"$id": "#root/recipient/shippingInfo/address/street", 
+									"title": "Street", 
+									"type": "string",
+									"default": "",
+									"examples": [
+										"string"
+									],
+									"pattern": "^.*$"
+								},
+								"postalCode": {
+									"$id": "#root/recipient/shippingInfo/address/postalCode", 
+									"title": "Postalcode", 
+									"type": "string",
+									"default": "",
+									"examples": [
+										"string"
+									],
+									"pattern": "^.*$"
+								},
+								"city": {
+									"$id": "#root/recipient/shippingInfo/address/city", 
+									"title": "City", 
+									"type": "string",
+									"default": "",
+									"examples": [
+										"string"
+									],
+									"pattern": "^.*$"
+								},
+								"countryCode": {
+									"$id": "#root/recipient/shippingInfo/address/countryCode", 
+									"title": "Countrycode", 
+									"type": "string",
+									"default": "",
+									"examples": [
+										"string"
+									],
+									"pattern": "^.*$"
+								}
+							}
+						}
+
+					}
+				}
+
+			}
+		}
+,
+		"items": {
+			"$id": "#root/items", 
+			"title": "Items", 
+			"type": "array",
+			"default": [],
+			"items":{
+				"$id": "#root/items/items", 
+				"title": "Items", 
+				"type": "object",
+				"required": [
+					"name",
+					"description",
+					"quantity",
+					"discount",
+					"tax",
+					"amount"
+				],
+				"properties": {
+					"name": {
+						"$id": "#root/items/items/name", 
+						"title": "Name", 
+						"type": "string",
+						"default": "",
+						"examples": [
+							"string"
+						],
+						"pattern": "^.*$"
+					},
+					"description": {
+						"$id": "#root/items/items/description", 
+						"title": "Description", 
+						"type": "string",
+						"default": "",
+						"examples": [
+							"string"
+						],
+						"pattern": "^.*$"
+					},
+					"quantity": {
+						"$id": "#root/items/items/quantity", 
+						"title": "Quantity", 
+						"type": "integer",
+						"examples": [
+							0
+						],
+						"default": 0
+					},
+					"discount": {
+						"$id": "#root/items/items/discount", 
+						"title": "Discount", 
+						"type": "integer",
+						"examples": [
+							0
+						],
+						"default": 0
+					},
+					"tax": {
+						"$id": "#root/items/items/tax", 
+						"title": "Tax", 
+						"type": "integer",
+						"examples": [
+							0
+						],
+						"default": 0
+					},
+					"amount": {
+						"$id": "#root/items/items/amount", 
+						"title": "Amount", 
+						"type": "object",
+						"required": [
+							"currencyCode",
+							"value"
+						],
+						"properties": {
+							"currencyCode": {
+								"$id": "#root/items/items/amount/currencyCode", 
+								"title": "Currencycode", 
+								"type": "string",
+								"default": "",
+								"examples": [
+									"string"
+								],
+								"pattern": "^.*$"
+							},
+							"value": {
+								"$id": "#root/items/items/amount/value", 
+								"title": "Value", 
+								"type": "integer",
+								"examples": [
+									0
+								],
+								"default": 0
+							}
+						}
+					}
+
+				}
+			}
+
+		}
+	}
+}
