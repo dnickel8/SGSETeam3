@@ -1,0 +1,153 @@
+openapi: 3.0.0
+info:
+  version: '1'
+  title: Catalog Service Api
+  description: ''
+
+paths:
+  /createArticle/:
+    post:
+      tags:
+        - CatalogService
+      requestBody:
+        $ref: '#/components/requestBodies/Article'
+      responses:
+        200:
+          $ref: '#/components/responses/OK'
+
+  /deleteArticle/{id}/:
+    parameters:
+      - $ref: '#/components/parameters/Id'
+    delete:
+      tags:
+        - CatalogService
+      responses:
+        200:
+          $ref: '#/components/responses/OK'
+        404:
+          $ref: '#/components/responses/not_found'
+  /changeArticle/{id}/:
+    parameters:
+      - $ref: '#/components/parameters/Id'
+    put:
+      tags:
+        - CatalogService
+      responses:
+        200:
+          $ref: '#/components/responses/OK'
+        404:
+          $ref: '#/components/responses/not_found'
+  /getAll/:
+    get:
+      tags:
+        - CatalogService
+      responses:
+        200:
+          $ref: '#/components/responses/OK'
+  /getArticle/{id}/:
+    parameters:
+      - $ref: '#/components/parameters/Id'
+    get:
+      tags:
+        - CatalogService
+      responses:
+        200:
+          $ref: '#/components/responses/OK'
+        404:
+          $ref: '#/components/responses/not_found'
+  /createPicture/:
+    post:
+      tags:
+        - CatalogService
+      requestBody:
+        $ref: '#/components/requestBodies/Picture'
+      responses:
+        200:
+          $ref: '#/components/responses/OK'
+    
+  /getPicture/{id}/:
+    parameters:
+      - $ref: '#/components/parameters/Id'
+    get:
+      tags:
+        - CatalogService
+      responses:
+        200:
+          $ref: '#/components/responses/OK'   
+        404:
+          $ref: '#/components/responses/not_found'
+  /deletePicture/{id}/:
+    parameters:
+      - $ref: '#/components/parameters/Id'
+    delete:
+      tags:
+        - CatalogService
+      responses:
+        200:
+          $ref: '#/components/responses/OK'
+        404:
+          $ref: '#/components/responses/not_found'
+
+components:
+  parameters:
+    Id:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+
+  requestBodies:
+    Article:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Article'
+    Picture:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Picture'
+            
+  responses:
+    OK:
+      description: Ok
+    not_found:
+      description: Item not found
+
+  schemas:
+    Article:
+      type: object
+      properties:
+        articlename:
+          type: string
+          example: microphone
+        description:
+          type: string
+          example: my microphone
+        price:
+          type: string
+          example: 10,99€ 
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/key-value'
+        pictures:
+          type: array
+          items:
+            $ref: '#/components/schemas/pictures'
+    Picture:
+      type: object
+      properties:
+        data:
+          type: string
+          format: base64
+          example: JJ7/D9bCfmdF1qkYNhtk/P5uvZ0N2zAUsiScDJA==XXuR
+
+    key-value:
+      type: string
+      example: key:value
+    pictures:
+      type: integer
+      example: 123
+      
