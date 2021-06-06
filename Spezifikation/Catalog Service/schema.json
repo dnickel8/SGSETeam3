@@ -1,0 +1,51 @@
+{
+  "Article": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string"
+      },
+      "articlename": {
+        "type": "string"
+      },
+      "description": {
+        "type": "string"
+      },
+      "price": {
+        "type": "string"
+      },
+      "Details": {
+        "type": "array",
+          "items": {
+            "key": {
+              "type": "string"
+            },
+            "value": {
+              "type": "string"
+            }
+          }
+      },
+      "pictures": {
+        "type": "array",
+        "items": {
+          "type": "number"
+        }
+      }
+    }
+  }
+}
+
+{
+  "Picture": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string"
+      },
+      "data": {
+        "type": "string",
+        "format": "base64"
+      }
+    }
+  }
+}
