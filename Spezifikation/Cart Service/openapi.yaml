@@ -1,0 +1,203 @@
+openapi: 3.0.1
+info:
+  title: SGSE - Cart Service
+  description: Cart API Description
+  version: v1
+paths:
+  /getArticleCountCart/{userID}:
+    get:
+      summary: 'Returns the shopping cart article count for a given customer'
+      parameters:
+      - name: "userID"
+        in: "path"
+        description: "ID of the user"
+        required: true
+        schema:
+            type: string
+      responses:
+        '200':
+          description: 'Article count'
+          content:
+            application/json:
+              schema:
+                    $ref: '#/components/schemas/articlecountcart'
+        '404':
+          description: User not found
+        '500':
+          description: Could not handle query
+  /putArticleCart:
+    put:
+      summary: 'Adds an article to the cart'
+      requestBody:
+        $ref: '#/components/requestBodies/article'
+      responses:
+        '200':
+          description: 'OK'
+  /changeArticleQuantityCart:
+    put:
+      summary: 'Changes the quantity of an article in the cart'
+      requestBody:
+        $ref: '#/components/requestBodies/articlequantity'
+      responses:
+        '200':
+          description: 'OK'
+  /deleteArticleCart/{userID}/{articleID}:
+    delete:
+      summary: 'Deletes a cart article'
+      parameters:
+      - name: "userID"
+        in: "path"
+        description: "ID of the user"
+        required: true
+        schema:
+            type: string
+      - name: "articleID"
+        in: "path"
+        description: "ID of the article"
+        required: true
+        schema:
+            type: string
+      responses:
+        '200':
+          description: 'OK'
+        '404':
+          description: 'User not found'
+  /getArticlesCart/{userID}:
+    get:
+      summary: 'Returns the shopping cart articles for a given customer'
+      parameters:
+      - name: "userID"
+        in: "path"
+        description: "ID of the user"
+        required: true
+        schema:
+            type: string
+      responses:
+        '200':
+          description: 'Cart articles'
+          content:
+            application/json:
+              schema:
+                    $ref: '#/components/schemas/articlescart'
+        '404':
+          description: User not found
+        '500':
+          description: Could not handle query    
+  /getArticlesList/{userID}:
+    get:
+      summary: 'Returns the list articles for a given customer'
+      parameters:
+      - name: "userID"
+        in: "path"
+        description: "ID of the user"
+        required: true
+        schema:
+            type: string
+      responses:
+        '200':
+          description: 'List articles'
+          content:
+            application/json:
+              schema:
+                    $ref: '#/components/schemas/articleslist'
+        '404':
+          description: User not found
+        '500':
+          description: Could not handle query
+  /putArticleList:
+    put:
+      summary: 'Adds an article to the list'
+      requestBody:
+        $ref: '#/components/requestBodies/article'
+      responses:
+        '200':
+          description: 'OK'
+  /deleteArticleList/{userID}/{articleID}:
+    delete:
+      summary: 'Deletes a list article'
+      parameters:
+      - name: "userID"
+        in: "path"
+        description: "ID of the user"
+        required: true
+        schema:
+            type: string
+      - name: "articleID"
+        in: "path"
+        description: "ID of the article"
+        required: true
+        schema:
+            type: string
+      responses:
+        '200':
+          description: 'OK'
+        '404':
+          description: 'User not found'
+components:
+  schemas:
+    articleuser:
+      type: object
+      properties:
+        userid:
+          type: string
+        title:
+          type: string
+        price:
+          type: number
+        vendor:
+          type: string
+        imagepath:
+          type: string
+        url:
+          type: string
+    article:
+      type: object
+      properties:
+        title:
+          type: string
+        price:
+          type: number
+        vendor:
+          type: string
+        imagepath:
+          type: string
+        url:
+          type: string
+    articlequantity:
+      type: object
+      properties:
+        userid:
+          type: number
+        articleid:
+          type: number
+        quantity:
+          type: number
+    articlecountcart:
+      type: object
+      properties:
+        userid:
+          type: number
+        count:
+          type: number
+    articlescart:
+      type: array
+      items:
+        oneOf:
+          - $ref: '#/components/schemas/article'
+    articleslist:
+      type: array
+      items:
+        oneOf:
+          - $ref: '#/components/schemas/article'
+  requestBodies:
+    article:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/articleuser'
+    articlequantity:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/articlequantity'
+            

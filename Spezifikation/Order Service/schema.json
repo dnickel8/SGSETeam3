@@ -10,7 +10,7 @@
             "format": "date"
          },
         "shippingMethodId": {
-            "type": "string",
+            "type": "string"
          },
          "User": {
               "type": "object",
@@ -21,7 +21,7 @@
               }
            },
          "products": [
-            "product" {
+            {
               "type": "object",
               "properties": {
                  "name": {
