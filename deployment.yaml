@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cart
+spec: 
+  replicas: 1
+  selector:
+    matchLabels:
+      app: onlineshop-cluster
+  template:
+    metadata:
+      labels:
+        app: onlineshop-cluster
+    spec:
+      containers:
+        - name: app
+          image: gcr.io/PROJECT_ID/IMAGE:TAG
+          imagePullPolicy: Always
