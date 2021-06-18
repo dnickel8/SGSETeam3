@@ -1,32 +1,43 @@
-FROM registry.access.redhat.com/ubi8-minimal
-
+ENV KEYCLOAK jboss/keycloak
 ENV KEYCLOAK_VERSION 14.0.0
-ENV JDBC_POSTGRES_VERSION 42.2.5
-ENV JDBC_MYSQL_VERSION 8.0.22
-ENV JDBC_MARIADB_VERSION 2.5.4
-ENV JDBC_MSSQL_VERSION 8.2.2.jre11
 
-ENV LAUNCH_JBOSS_IN_BACKGROUND 1
-ENV PROXY_ADDRESS_FORWARDING false
-ENV JBOSS_HOME /opt/jboss/keycloak
-ENV LANG en_US.UTF-8
+FROM ${KEYCLOAK}:${KEYCLOAK_VERSION}
 
-ARG GIT_REPO
-ARG GIT_BRANCH
-ARG KEYCLOAK_DIST=https://github.com/keycloak/keycloak/releases/download/$KEYCLOAK_VERSION/keycloak-$KEYCLOAK_VERSION.tar.gz
+ARG KEYCLOAK_USER ${{ secrets.KEYCLOAK_USER }}
+ARG KEYCLOAK_PASSWORD ${{ secrets.KEYCLOAK_PASSWORD }}
+ARG POSTGRES_IP ${{ secrets.GCP_POSTGRES_IP }}
+ARG POSTGRES_PASSWORD ${{ secrets.GCP_POSTGRES_PASSWORD }}
 
-USER root
+# Import Keycloak realm/users 
+COPY ./realm-config /etc/core-realm.json 
 
-RUN microdnf update -y && microdnf install -y glibc-langpack-en gzip hostname java-11-openjdk-headless openssl tar which && microdnf clean all
+# Keycloak config 
+ENV KEYCLOAK_LOGLEVEL DEBUG 
+ENV ROOT_LOGLEVEL DEBUG 
+ENV PROXY_ADDRESS_FORWARDING true 
 
-ADD tools /opt/jboss/tools
-RUN /opt/jboss/tools/build-keycloak.sh
+# Keycloak users 
+ENV KEYCLOAK_USER $KEYCLOAK_USER 
+ENV KEYCLOAK_PASSWORD $KEYCLOAK_PASSWORD 
 
-USER 1000
+# Database config 
+ENV DB_VENDOR postgres 
+ENV DB_ADDR $POSTGRES_IP 
+ENV DB_DATABASE keycloak 
+ENV DB_USER keycloak 
+ENV DB_PASSWORD $POSTGRES_PASSWORD 
+ENV KEYCLOAK_IMPORT /etc/core-realm.json 
+
+
+ENV JAVA_OPTS -server \ 
+-Xms256m \ 
+-Xmx2048m \ 
+-XX:MetaspaceSize=96M \ 
+-XX:MaxMetaspaceSize=256m \ 
+-Djboss.modules.system.pkgs=org.jboss.byteman \ 
+-Djava.awt.headless=true \ 
+-Djava.net.preferIPv4Stack=true \ 
+-Dkeycloak.migration.strategy=OVERWRITE_EXISTING \ 
+-Dkeycloak.profile.feature.upload_scripts=enabled
 
 EXPOSE 8080
-EXPOSE 8443
-
-ENTRYPOINT [ "/opt/jboss/tools/docker-entrypoint.sh" ]
-
-CMD ["-b", "0.0.0.0"]
