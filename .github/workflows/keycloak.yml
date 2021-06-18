@@ -10,7 +10,7 @@
 #
 # For more support on how to run the workflow, please visit https://github.com/google-github-actions/setup-gcloud/tree/master/example-workflows/gke
 
-name: Build and Deploy to GKE
+name: Keycloak to GKE
 
 on:
   workflow_dispatch:
@@ -52,10 +52,24 @@ jobs:
         location: ${{ env.GKE_ZONE }}
         credentials: ${{ secrets.GKE_SA_KEY }}
 
-    # Push the Docker image to Google Container Registry
-    - name: Docker Image Publish
+    # Build the Docker image
+    - name: Build Docker Image
       run: |-
-        docker push "quay.io/keycloak/keycloak:14.0.0"
+        docker build \
+          --build-arg GIT_REPO=keycloak/keycloak \
+          --build-arg GIT_BRANCH=master \
+          .
+      #run: |-
+      #  docker build \
+      #    --tag "gcr.io/$PROJECT_ID/$IMAGE:$GITHUB_SHA" \
+      #    --build-arg GITHUB_SHA="$GITHUB_SHA" \
+      #    --build-arg GITHUB_REF="$GITHUB_REF" \
+      #    .
+    
+    # Push the Docker image to Google Container Registry
+    - name: Publish Docker Image to GCR
+      run: |-
+        docker push "gcr.io/$PROJECT_ID/$IMAGE:$GITHUB_SHA"
 
     # Set up kustomize
     - name: Set up Kustomize
