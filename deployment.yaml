@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: onlineshop-deployment
+  name: #onlineshop-deployment
 spec: 
   replicas: 1
   selector:
     matchLabels:
-      app: onlineshop-deployment
+      app: #onlineshop-deployment
   template:
     metadata:
       labels:
-        app: onlineshop-deployment
+        app: #onlineshop-deployment
     spec:
       containers:
         - name: app
