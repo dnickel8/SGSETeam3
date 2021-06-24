@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: onlineshop-deployment
+  name: keycloak-deployment
 spec: 
   replicas: 1
   selector:
     matchLabels:
-      app: onlineshop-deployment
+      app: keycloak-deployment
   template:
     metadata:
       labels:
-        app: onlineshop-deployment
+        app: keycloak-deployment
     spec:
       containers:
         - name: app
