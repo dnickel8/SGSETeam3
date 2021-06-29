@@ -69,7 +69,8 @@ jobs:
       - name: Docker run
         run: |-
           docker run --name keycloak -p 8080:8080 --net keycloak-network \
-          -e DB_ADDR=postgres -e DB_USER=keycloak -e DB_PASSWORD=password \
+          #-e DB_ADDR=postgres \
+          -e DB_USER=keycloak -e DB_PASSWORD=password \
           -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=admin \
           -e JDBC_PARAMS=useSSL=false \
           jboss/keycloak
