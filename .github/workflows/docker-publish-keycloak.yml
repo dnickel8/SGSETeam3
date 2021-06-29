@@ -39,12 +39,12 @@ jobs:
       
       - name: Docker build
         run: |-
-          docker build -f AccountService/Dockerfile \
+          docker build -f AccountService/Dockerfile-Test \
           --tag docker.io/dnickel/keycloak-test:1.0.0 \
           --build-arg KEYCLOAK=jboss/keycloak \
           --build-arg KEYCLOAK_VERSION=14.0.0 \
           --build-arg POSTGRES_PASSWORD=database \
-          --build-arg KEYCLOAK_PASSWORD=${{ secrets.KEYCLOAK_PASSWORD }} \
+          --build-arg KEYCLOAK_PASSWORD=admin \
           .
           
      # ${{ secrets.GCP_POSTGRES_PASSWORD }} \
