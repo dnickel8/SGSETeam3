@@ -44,9 +44,11 @@ jobs:
           --build-arg KEYCLOAK=jboss/keycloak \
           --build-arg KEYCLOAK_VERSION=14.0.0 \
           --build-arg POSTGRES_PASSWORD=database \
-          #${{ secrets.GCP_POSTGRES_PASSWORD }} \
           --build-arg KEYCLOAK_PASSWORD=${{ secrets.KEYCLOAK_PASSWORD }} \
           .
+          
+     # ${{ secrets.GCP_POSTGRES_PASSWORD }} \
+     
       - name: Login to Docker Hub
         run: |-
           docker login -u dnickel -p Twoiback24
