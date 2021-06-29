@@ -62,11 +62,16 @@ jobs:
       
       - name: start postgres
         run: |-
-          docker run -d --name postgres --net keycloak-network -e POSTGRES_DB=keycloak -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=database postgres
+          docker run -d --name postgres --net keycloak-network \
+          -e POSTGRES_DB=keycloak -e POSTGRES_USER=postgres \
+          -e POSTGRES_PASSWORD=database postgres
           
       - name: Docker run
         run: |-
-          docker run -p 8080:8080 --net keycloak-network -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=admin docker.io/dnickel/docker-test-image:1.0.0
+          docker run --name keycloak -p 8080:8080 --net keycloak-network \
+          -e DB_ADDR=postgres -e DB_USER=keycloak -e DB_PASSWORD=password \
+          -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=admin jboss/keycloak
+
           
         #  docker run --name keycloak --net keycloak-network jboss/keycloak -e DB_USER=keycloak -e DB_PASSWORD=passwor
 
