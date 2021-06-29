@@ -39,7 +39,7 @@ jobs:
       
       - name: Docker build
         run: |-
-          docker build -f AccountService/Dockerfile-Test \
+          docker build -f AccountService/Dockerfile_Test \
           --tag docker.io/dnickel/keycloak-test:1.0.0 \
           --build-arg KEYCLOAK=jboss/keycloak \
           --build-arg KEYCLOAK_VERSION=14.0.0 \
