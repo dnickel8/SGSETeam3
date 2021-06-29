@@ -43,7 +43,8 @@ jobs:
           --tag docker.io/dnickel/keycloak-test:1.0.0 \
           --build-arg KEYCLOAK=jboss/keycloak \
           --build-arg KEYCLOAK_VERSION=14.0.0 \
-          --build-arg POSTGRES_PASSWORD=${{ secrets.GCP_POSTGRES_PASSWORD }} \
+          --build-arg POSTGRES_PASSWORD=database
+          #${{ secrets.GCP_POSTGRES_PASSWORD }} \
           --build-arg KEYCLOAK_PASSWORD=${{ secrets.KEYCLOAK_PASSWORD }} \
           .
       - name: Login to Docker Hub
