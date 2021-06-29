@@ -54,7 +54,16 @@ jobs:
         run: |-
           docker push docker.io/dnickel/keycloak-test:1.0.0
           
+      - name: Create network
+        run: docker network create keycloak-network
+      
+      - name: start postgres
+        run: |-
+          docker run -d --name postgres --net keycloak-network -e POSTGRES_DB=keycloak -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=database postgres
+          
       - name: Docker run
         run: |-
-          docker run -p 8080:8080 -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=admin docker.io/dnickel/docker-test-image:1.0.0
+          docker run -p 8080:8080 --net keycloak-network -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=admin docker.io/dnickel/docker-test-image:1.0.0
+          
+        #  docker run --name keycloak --net keycloak-network jboss/keycloak -e DB_USER=keycloak -e DB_PASSWORD=passwor
 
