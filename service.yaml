@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: onlineshop
+  name: vue-service
 spec:
   selector:
-    app: onlineshop
+    app: vue-service
   type: LoadBalancer
   ports:
     - port: 80
-      targetPort: 8080
+      targetPort: 8090
