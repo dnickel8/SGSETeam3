@@ -1,6 +1,0 @@
-apiVersion: kustomize.config.k8s.io/vibertal
-kind: Kustomization
-
-resources:
-  - deployment.yaml
-  - service.yaml
