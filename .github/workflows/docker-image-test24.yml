@@ -1,0 +1,15 @@
+name: einfach ausprobieren
+
+on:
+  workflow_dispatch:
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build the Docker image
+      run: docker run --name keycloak -p 8080:8080 -e KEYCOAK_USER=admin -e KEYCLOAK_PASSWORD=admin jboss/keycloak
