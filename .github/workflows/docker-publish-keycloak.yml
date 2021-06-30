@@ -67,8 +67,7 @@ jobs:
      #     -e POSTGRES_PASSWORD=database postgres
           
       - name: Docker run
-        run: |-
-          docker run --name keycloak -p 8080:8080 -e KEYCOAK_USER=admin -e KEYCLOAK_PASSWORD=admin jboss/keycloak
+        run: docker run --name keycloak -p 8080:8080 -e KEYCOAK_USER=admin -e KEYCLOAK_PASSWORD=admin jboss/keycloak
      #     docker run --name keycloak -p 8080:8080 --net keycloak-network \
       #    -e DB_USER=keycloak -e DB_PASSWORD=password \
        #   -e DB_ADDR=docker.io/dnickel/postgres \  
