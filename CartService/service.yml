@@ -4,7 +4,7 @@ metadata:
   name: cart-service
 spec:
   selector:
-    app: cart-service
+    app: cart-deployment
   type: LoadBalancer
   ports:
     - port: 80
