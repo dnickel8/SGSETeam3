@@ -78,3 +78,9 @@ jobs:
         ./kustomize build . | kubectl apply -f -
         kubectl rollout status deployment/$DEPLOYMENT_NAME
         kubectl get services -o wide
+        
+    #Expose
+    - name: Expose
+      run: |-
+        kubectl expose deployment cart-deployment --name cart-service \
+        --type LoadBalancer --protocol TCP --port 80 --target-port 8080
