@@ -11,6 +11,9 @@ ENV POSTGRES_PASSWORD $secrets.GCP_POSTGRES_PASSWORD
 # Import Keycloak realm/users 
 COPY ./realm-config /etc/core-realm.json 
 
+# copy kustomization.yaml
+COPY ./AccountService .
+
 # Keycloak config 
 ENV KEYCLOAK_LOGLEVEL DEBUG 
 ENV ROOT_LOGLEVEL DEBUG 
