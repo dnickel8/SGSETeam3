@@ -1,0 +1,28 @@
+# app.yaml
+
+runtime: custom
+env: flex
+service: my-keycloak-service
+manual_scaling:
+     instances: 1
+
+resources:
+  cpu: 2
+  memory_gb: 8
+  disk_size_gb: 10
+
+liveness_check:
+  path: "/"
+  check_interval_sec: 30
+  timeout_sec: 10
+  failure_threshold: 5
+  success_threshold: 2
+  initial_delay_sec: 300
+
+readiness_check:
+  path: "/"
+  timeout_sec: 10
+  check_interval_sec: 30
+  failure_threshold: 5
+  success_threshold: 2
+  app_start_timeout_sec: 180

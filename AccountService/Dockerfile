@@ -11,7 +11,7 @@ ENV POSTGRES_IP $secrets.GCP_POSTGRES_IP
 ENV POSTGRES_PASSWORD $secrets.GCP_POSTGRES_PASSWORD
 
 # Import Keycloak realm/users 
-COPY ./AccountService/realm-config /etc/core-realm.json 
+COPY ./realm-config /etc/core-realm.json 
 
 # Keycloak config 
 ENV KEYCLOAK_LOGLEVEL DEBUG 
@@ -23,12 +23,12 @@ ENV KEYCLOAK_USER $KEYCLOAK_USER
 ENV KEYCLOAK_PASSWORD $KEYCLOAK_PASSWORD 
 
 # Database config 
-ENV DB_VENDOR postgres 
-ENV DB_ADDR $POSTGRES_IP 
-ENV DB_DATABASE keycloak 
-ENV DB_USER keycloak 
-ENV DB_PASSWORD $POSTGRES_PASSWORD 
-ENV KEYCLOAK_IMPORT /etc/core-realm.json 
+#ENV DB_VENDOR postgres 
+#ENV DB_ADDR $POSTGRES_IP 
+#ENV DB_DATABASE keycloak 
+#ENV DB_USER keycloak 
+#ENV DB_PASSWORD $POSTGRES_PASSWORD 
+#ENV KEYCLOAK_IMPORT /etc/core-realm.json 
 
 
 ENV JAVA_OPTS -server \ 

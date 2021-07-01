@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: onlineshop
+  name: order-service
 spec:
   selector:
-    app: onlineshop
+    app: order-deployment
   type: LoadBalancer
   ports:
     - port: 80

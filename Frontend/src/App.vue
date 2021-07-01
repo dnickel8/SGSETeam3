@@ -1,36 +1,31 @@
 <template>
   <v-app>
     <v-app-bar app color="primary" dark>
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
-
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
+      <div class="d-flex align-center mr-4">
+        <v-btn v-on:click="openHome" text class="text-none">
+          <div class="text-h4">MicroShop</div>
+        </v-btn>
       </div>
 
-      <v-spacer></v-spacer>
+      <v-text-field
+        v-model="search"
+        append-icon="mdi-magnify"
+        label="Search"
+        single-line
+        hide-details
+      ></v-text-field>
 
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
+      <div class="ml-4 d-flex align-center">
+        <v-btn v-on:click="openCart" class="ma-2" text icon>
+          <v-icon large>mdi-cart-outline</v-icon>
+        </v-btn>
+        <v-btn v-on:click="openWishlist" class="ma-2" text icon>
+          <v-icon large>mdi-format-list-bulleted</v-icon>
+        </v-btn>
+        <v-btn v-on:click="openUserSettings" class="ma-2" text icon>
+          <v-icon large>mdi-account</v-icon>
+        </v-btn>
+      </div>
     </v-app-bar>
 
     <v-main>
@@ -42,9 +37,24 @@
 <script>
 export default {
   name: "App",
-
-  data: () => ({
-    //
-  }),
+  data: function () {
+    return {
+      search: "",
+    };
+  },
+  methods: {
+    openHome: function () {
+      this.$router.push({ name: "home" });
+    },
+    openCart: function () {
+      this.$router.push({ name: "cart" });
+    },
+    openWishlist: function () {
+      this.$router.push({ name: "wishlist" });
+    },
+    openUserSettings: function () {
+      // TODO: login + logout + orders
+    },
+  },
 };
 </script>
