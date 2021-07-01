@@ -61,13 +61,7 @@ jobs:
           --build-arg KEYCLOAK_VERSION=14.0.0 \
           --build-arg POSTGRES_PASSWORD=${{ secrets.GCP_POSTGRES_PASSWORD }} \
           --build-arg KEYCLOAK_PASSWORD=${{ secrets.KEYCLOAK_PASSWORD }} \
-          .
-      #run: |-
-      #  docker build \
-      #    --tag "gcr.io/$PROJECT_ID/$IMAGE:$GITHUB_SHA" \
-      #    --build-arg GITHUB_SHA="$GITHUB_SHA" \
-      #    --build-arg GITHUB_REF="$GITHUB_REF" \
-      #    .
+          ./AccountService/
     
     # Push the Docker image to Google Container Registry
     - name: Publish Docker Image to GCR
@@ -78,12 +72,12 @@ jobs:
     - name: Set up Kustomize
       run: |-
         curl -sfLo kustomize https://github.com/kubernetes-sigs/kustomize/releases/download/v3.1.0/kustomize_3.1.0_linux_amd64
-        chmod u+x ./kustomize
+        chmod u+x ./AccountService/kustomize
 
     # Deploy the Docker image to the GKE cluster
     - name: Deploy
       run: |-
-        ./kustomize edit set image gcr.io/PROJECT_ID/IMAGE:TAG=gcr.io/$PROJECT_ID/$IMAGE:1.0.0
-        ./kustomize build . | kubectl apply -f -
+        ./AccountService/kustomize edit set image gcr.io/PROJECT_ID/IMAGE:TAG=gcr.io/$PROJECT_ID/$IMAGE:1.0.0
+        ./AccountService/kustomize build . | kubectl apply -f -
         kubectl rollout status deployment/$DEPLOYMENT_NAME
         kubectl get services -o wide
