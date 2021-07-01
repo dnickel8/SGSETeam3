@@ -9,7 +9,7 @@ ENV POSTGRES_IP $secrets.GCP_POSTGRES_IP
 ENV POSTGRES_PASSWORD $secrets.GCP_POSTGRES_PASSWORD
 
 # Import Keycloak realm/users 
-COPY ./AccountService/realm-config /etc/core-realm.json 
+COPY ./realm-config /etc/core-realm.json 
 
 # Keycloak config 
 ENV KEYCLOAK_LOGLEVEL DEBUG 
