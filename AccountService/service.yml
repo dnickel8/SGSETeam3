@@ -4,8 +4,8 @@ metadata:
   name: account-service
 spec:
   selector:
-    app: account-service
+    app: account-deployment
   type: LoadBalancer
   ports:
     - port: 80
-      targetPort: 8091
+      targetPort: 8080
