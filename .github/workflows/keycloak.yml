@@ -19,8 +19,8 @@ env:
   PROJECT_ID: ${{ secrets.GKE_PROJECT }}
   GKE_CLUSTER: onlineshop-cluster
   GKE_ZONE: europe-west3
-  DEPLOYMENT_NAME: onlineshop-deployment
-  IMAGE: keycloak-image
+  DEPLOYMENT_NAME: account-deployment
+  IMAGE: account-image
   TAG: 1.0.0
 
 jobs:
