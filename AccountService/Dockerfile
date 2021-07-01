@@ -12,7 +12,7 @@ ENV POSTGRES_PASSWORD $secrets.GCP_POSTGRES_PASSWORD
 COPY ./realm-config /etc/core-realm.json 
 
 # copy kustomization.yaml
-COPY ./AccountService/kustomization.yaml ./kustomization.yaml
+COPY ./kustomization.yaml ./kustomization.yaml
 
 # Keycloak config 
 ENV KEYCLOAK_LOGLEVEL DEBUG 
