@@ -10,7 +10,7 @@
 #
 # For more support on how to run the workflow, please visit https://github.com/google-github-actions/setup-gcloud/tree/master/example-workflows/gke
 
-name: Keycloak to GKE
+name: Account to GKE
 
 on:
   workflow_dispatch:
@@ -22,6 +22,7 @@ env:
   DEPLOYMENT_NAME: account-deployment
   IMAGE: account-image
   TAG: 1.0.0
+  DIRECTORY: AccountService
 
 jobs:
   setup-build-publish-deploy:
@@ -55,18 +56,18 @@ jobs:
     # Build the Docker image
     - name: Build Docker Image
       run: |-
-        docker build -f AccountService/Dockerfile \
-          --tag "gcr.io/$PROJECT_ID/$IMAGE:1.0.0" \
+        docker build -f ${{ DIRECTORY }}/Dockerfile \
+          --tag "gcr.io/$PROJECT_ID/$IMAGE:$TAG" \
           --build-arg KEYCLOAK=jboss/keycloak \
           --build-arg KEYCLOAK_VERSION=14.0.0 \
           --build-arg POSTGRES_PASSWORD=${{ secrets.GCP_POSTGRES_PASSWORD }} \
           --build-arg KEYCLOAK_PASSWORD=${{ secrets.KEYCLOAK_PASSWORD }} \
-          ./AccountService/
+          ./${{ DIRECTORY }}/
     
     # Push the Docker image to Google Container Registry
     - name: Publish Docker Image to GCR
       run: |-
-        docker push "gcr.io/$PROJECT_ID/$IMAGE:1.0.0"
+        docker push "gcr.io/$PROJECT_ID/$IMAGE:$TAG"
 
     # Set up kustomize
     - name: Set up Kustomize
@@ -77,7 +78,10 @@ jobs:
     # Deploy the Docker image to the GKE cluster
     - name: Deploy
       run: |-
-        ./kustomize build ./AccountService/ | kubectl apply -f -
+        ./kustomize edit add resource ./${{ DIRECTORY }}/deployment.yml
+        ./kustomize edit add resource ./${{ DIRECTORY }}/service.yml
+        ./kustomize edit set image gcr.io/PROJECT_ID/IMAGE:TAG=gcr.io/$PROJECT_ID/$IMAGE:$TAG
+        ./kustomize build . | kubectl apply -f -
         kubectl rollout status deployment/$DEPLOYMENT_NAME
         kubectl get services -o wide
         
