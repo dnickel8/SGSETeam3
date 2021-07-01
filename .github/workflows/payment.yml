@@ -2,7 +2,7 @@
 #
 # For more support on how to run the workflow, please visit https://github.com/google-github-actions/setup-gcloud/tree/master/example-workflows/gke
 
-name: Cart to GKE
+name: Payment to GKE
 
 on:
   workflow_dispatch:
