@@ -40,6 +40,7 @@ ENV JAVA_OPTS -server \
 -Djava.awt.headless=true \ 
 -Djava.net.preferIPv4Stack=true \ 
 -Dkeycloak.migration.strategy=OVERWRITE_EXISTING \ 
--Dkeycloak.profile.feature.upload_scripts=enabled
+-Dkeycloak.profile.feature.upload_scripts=enabled \
+-Dkeycloak.import=/etc/core-realm.json
 
 EXPOSE 8080
