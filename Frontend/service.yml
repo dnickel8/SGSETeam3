@@ -4,7 +4,7 @@ metadata:
   name: vue-service
 spec:
   selector:
-    app: vue-service
+    app: vue-deployment
   type: LoadBalancer
   ports:
     - port: 80
