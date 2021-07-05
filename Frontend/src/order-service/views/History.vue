@@ -52,10 +52,10 @@
       },
       async getOrders() {
       await axios
-        .get('http://127.0.0.1:8000/api/v1/orders/')
+        .get('http://127.0.0.1:8000/api/v1/getOrders/123/')
         .then(response => {
           this.orders = JSON.parse(response.data);
-          console.log(this.orders)
+          console.log(response.data)
           this.calculateTotalAmount()
         })
         .catch(error => {

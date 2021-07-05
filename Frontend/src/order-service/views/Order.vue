@@ -66,7 +66,7 @@
                       <v-text-field
                           label="Vorname"
                           :rules="rules_text"
-                          v-bind:value="address.fist_name"
+                          v-model="address.fist_name"
                           solo
                       ></v-text-field>
                       </v-col>
@@ -78,7 +78,7 @@
                       <v-text-field
                           label="Nachname"
                           :rules="rules_text"
-                          v-bind:value="address.last_name"
+                          v-model="address.last_name"
                           solo
                       ></v-text-field>
                       </v-col>
@@ -92,7 +92,7 @@
                       <v-text-field
                           label="Straße"
                           :rules="rules_text"
-                          v-bind:value="address.street"
+                          v-model="address.street"
                           solo
                       ></v-text-field>
                       </v-col>
@@ -104,7 +104,7 @@
                       <v-text-field
                           label="Hausnummer"
                           :rules="rules_number"
-                          v-bind:value="address.number"
+                          v-model="address.number"
                           solo
                       ></v-text-field>
                       </v-col>
@@ -118,7 +118,7 @@
                       <v-text-field
                           label="PLZ"
                           :rules="rules_code"
-                          v-bind:value="address.code"
+                          v-model="address.code"
                           solo
                       ></v-text-field>
                       </v-col>
@@ -130,7 +130,7 @@
                       <v-text-field
                           label="Stadt"
                           :rules="rules_text"
-                          v-bind:value="address.city"
+                          v-model="address.city"
                           solo
                       ></v-text-field>
                       </v-col>
@@ -170,7 +170,7 @@
               <v-row class="align-center">
                 <v-text-field
                     :rules="rules_number"
-                    v-bind:value="product.count"
+                    v-model="product.count"
                     @change="calculateTotalAmount"
                 ></v-text-field>
               </v-row>
@@ -241,12 +241,12 @@
             price: 9}
         ],
         address: {
-          fist_name: "Max",
-          last_name: "Mustermann",
-          street: "Bahnhofstraße",
-          number: "10",
-          code: "10115",
-          city: "Berlin"
+          fist_name: "",
+          last_name: "",
+          street: "",
+          number: "",
+          code: "",
+          city: ""
         },
         radios: 'Standard',
         rules_text: [
@@ -277,29 +277,14 @@
     beforeMount(){
       this.calculateTotalAmount()
     },
-    /*
     watch: {
       products: {
+        immediate: true,
+        handler: function() {
+          this.calculateTotalAmount()
+        },
         deep: true,
-
-        handler() {
-          console.log('list changed')
-          this.totalAmount = "Apfelkuchen"
-        }
       }
     },
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    */
   }
 </script>
