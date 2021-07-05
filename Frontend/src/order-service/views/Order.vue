@@ -154,7 +154,7 @@
       </v-stepper-content>
 
       <v-stepper-content step="3">
-        <Payment @changeStep="onChangeStep" />
+        <Payment :address="address" @changeStep="onChangeStep" />
       </v-stepper-content>
     </v-stepper-items>
   </v-stepper>
@@ -190,7 +190,7 @@ export default {
         },
       ],
       address: {
-        fist_name: "",
+        first_name: "",
         last_name: "",
         street: "",
         number: "",
@@ -224,7 +224,6 @@ export default {
     },
     onChangeStep(step) {
       this.e1 = step;
-      console.log(this.e1);
     },
   },
   beforeMount() {

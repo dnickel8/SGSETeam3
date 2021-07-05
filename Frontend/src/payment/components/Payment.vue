@@ -11,7 +11,6 @@
           >Die Bestellung wurde erfolgreich durchgeführt!</v-alert
         >
       </v-overlay>
-      <v-row>{{ test }}</v-row>
       <v-row justify="center">
         <v-sheet class="pa-8" color="white" elevation="8" rounded
           ><h3 class="ma-3">Express Checkout</h3>
@@ -41,80 +40,91 @@
             ></v-col>
           </v-row>
           <v-row justify="center"><h3>Rechnungsadresse</h3></v-row>
-          <v-row justify="center">
-            <v-col cols="12" sm="6"
-              ><v-text-field
-                v-model="fields.firstname"
-                :rules="fieldRules"
-                label="Vorname"
-                required
-                solo
-              ></v-text-field
-            ></v-col>
-            <v-col cols="12" sm="6"
-              ><v-text-field
-                v-model="fields.surname"
-                :rules="fieldRules"
-                label="Nachname"
-                required
-                solo
-              ></v-text-field
-            ></v-col>
-          </v-row>
-          <v-row justify="center">
-            <v-col cols="5"
-              ><v-text-field
-                v-model="fields.street"
-                :rules="fieldRules"
-                label="Straße und Hausnummer"
-                required
-                solo
-              ></v-text-field
-            ></v-col>
-            <v-col cols="3"
-              ><v-text-field
-                v-model="fields.postalCode"
-                :rules="fieldRules"
-                label="PLZ"
-                required
-                solo
-              ></v-text-field
-            ></v-col>
-            <v-col cols="4"
-              ><v-text-field
-                v-model="fields.city"
-                :rules="fieldRules"
-                label="Stadt"
-                required
-                solo
-              ></v-text-field
-            ></v-col>
-          </v-row>
-          <v-row justify="center"> </v-row>
-          <v-row justify="center">
-            <v-col cols="6"
-              ><v-select
-                v-on:change="onSelect"
-                v-model="fields.country"
-                :rules="fieldRules"
-                label="Land"
-                :items="countries"
-                solo
-              ></v-select
-            ></v-col>
-            <v-col cols="6"
-              ><v-text-field
-                v-model="fields.phone"
-                :rules="fieldRules"
-                label="Telefon"
-                required
-                solo
-              ></v-text-field
-            ></v-col>
-          </v-row>
+          <v-row justify="center"
+            ><v-radio-group v-model="sameAsDeliveryAddress" row>
+              <v-radio label="Wie die Lieferadresse" :value="true"></v-radio>
+              <v-radio
+                label="Andere Adresse"
+                :value="false"
+              ></v-radio> </v-radio-group
+          ></v-row>
+
+          <template v-if="!sameAsDeliveryAddress">
+            <v-row justify="center">
+              <v-col cols="12" sm="6"
+                ><v-text-field
+                  v-model="fields.firstname"
+                  :rules="fieldRules"
+                  label="Vorname"
+                  required
+                  solo
+                ></v-text-field
+              ></v-col>
+              <v-col cols="12" sm="6"
+                ><v-text-field
+                  v-model="fields.surname"
+                  :rules="fieldRules"
+                  label="Nachname"
+                  required
+                  solo
+                ></v-text-field
+              ></v-col>
+            </v-row>
+            <v-row justify="center">
+              <v-col cols="5"
+                ><v-text-field
+                  v-model="fields.street"
+                  :rules="fieldRules"
+                  label="Straße und Hausnummer"
+                  required
+                  solo
+                ></v-text-field
+              ></v-col>
+              <v-col cols="3"
+                ><v-text-field
+                  v-model="fields.postalCode"
+                  :rules="fieldRules"
+                  label="PLZ"
+                  required
+                  solo
+                ></v-text-field
+              ></v-col>
+              <v-col cols="4"
+                ><v-text-field
+                  v-model="fields.city"
+                  :rules="fieldRules"
+                  label="Stadt"
+                  required
+                  solo
+                ></v-text-field
+              ></v-col>
+            </v-row>
+            <v-row justify="center"> </v-row>
+            <v-row justify="center">
+              <v-col cols="6"
+                ><v-select
+                  v-on:change="onSelect"
+                  v-model="fields.country"
+                  :rules="fieldRules"
+                  label="Land"
+                  :items="countries"
+                  solo
+                ></v-select
+              ></v-col>
+              <v-col cols="6"
+                ><v-text-field
+                  v-model="fields.phone"
+                  :rules="fieldRules"
+                  label="Telefon"
+                  required
+                  solo
+                ></v-text-field
+              ></v-col>
+            </v-row>
+          </template>
           <v-btn
-            :disabled="!valid"
-            color="success"
+            :disabled="!valid && !sameAsDeliveryAddress"
+            color="primary"
             class="mr-4"
             @click="createInvoiceAndPay"
           >
@@ -129,13 +139,13 @@
 
 <script lang="js">
 import PaymentService from "@/payment/services/payment.service.js"
-//import EmailService from "@/payment/services/email.service.js"
 import { loadScript } from "@paypal/paypal-js";
 export default {
   name: "Payment",
-  props: ["test"],
+  props: ["address"],
   data() {
     return {
+        sameAsDeliveryAddress: true,
         alert: false,
         valid: false,
         countries: ["Deutschland", "Frankreich", "Belgien", "Österreich"],
@@ -182,7 +192,6 @@ export default {
       onApprove: function(data, actions) {
         // This function captures the funds from the transaction.
         return actions.order.capture().then(async function(details) {
-          console.log(details);
           const invoice = me.createInvoiceWithPaypalData(details);
           const amount = me.createAmountWithPaypalData(details.purchase_units[0].amount);
           await PaymentService.createInvoiceAndPay(invoice, amount);
@@ -216,7 +225,6 @@ export default {
       const amount = this.createAmount();
       await PaymentService.createInvoiceAndPay(invoice, amount);
       this.alert = true;
-      // EmailService.sendEmail(invoice.recipient.emailAddress);
     },
     createAmount() {
       const amount = {
@@ -226,6 +234,7 @@ export default {
       return amount;
     },
     createInvoice() {
+
       const invoice = {
         invoiceDetails: {
           invoiceNumber: null,
@@ -235,24 +244,24 @@ export default {
           dueDate: new Date(),
         },
         recipient: {
-          firstName: this.fields.firstname,
-          surname: this.fields.surname,
+          firstName: this.address.first_name,
+          surname: this.address.last_name,
           address: {
-            street: this.fields.street,
-            postalCode: this.fields.postalCode,
-            city: this.fields.city,
+            street: this.address.street + " " + this.address.number,
+            postalCode: this.address.code,
+            city: this.address.city,
             countryCode: this.fields.countryCode,
           },
           emailAddress: this.fields.email,
           phoneNumber: this.fields.phone,
           shippingInfo: {
-            firstName: this.fields.firstname,
-            surname: this.fields.surname,
+            firstName: this.sameAsDeliveryAddress ? this.address.first_name : this.fields.firstname,
+            surname: this.sameAsDeliveryAddress ? this.address.last_name : this.fields.surname,
             address: {
-              street: this.fields.street,
-              postalCode: this.fields.postalCode,
-              city: this.fields.city,
-              countryCode: this.fields.countryCode
+              street: this.sameAsDeliveryAddress ? this.address.street + " " + this.address.number : this.fields.street,
+              postalCode: this.sameAsDeliveryAddress ? this.address.code : this.fields.postalCode,
+              city: this.sameAsDeliveryAddress ? this.address.city : this.fields.city,
+              countryCode: this.sameAsDeliveryAddress ? this.fields.countryCode : this.fields.countryCode
             }
           }
         },
