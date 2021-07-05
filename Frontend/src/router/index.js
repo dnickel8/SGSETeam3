@@ -1,6 +1,5 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "../views/Home.vue";
 import Cart from "../cartservice/views/Cart.vue";
 import WishList from "../cartservice/views/WishList";
 import Payment from "../payment/views/Payment.vue";
@@ -15,10 +14,26 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: "/",
-    name: "home",
-    component: Home,
+    name: "CatalogView",
+    component: Catalog,
     meta: {
       title: "Hauptseite",
+    },
+  },
+  {
+    path: "/catalogSearch",
+    name: "CatalogSearchView",
+    component: CatalogSearch,
+    meta: {
+      title: "Produktsuche",
+    },
+  },
+  {
+    path: "/article",
+    name: "Article",
+    component: Article,
+    meta: {
+      title: "Produktseite",
     },
   },
   {
@@ -60,21 +75,6 @@ const routes = [
     meta: {
       title: "Wunschliste",
     },
-  },
-  {
-    path: "/catalog",
-    name: "CatalogView",
-    component: Catalog,
-  },
-  {
-    path: "/catalogSearch",
-    name: "CatalogSearchView",
-    component: CatalogSearch,
-  },
-  {
-    path: "/article",
-    name: "Article",
-    component: Article,
   },
 ];
 
