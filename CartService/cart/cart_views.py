@@ -48,7 +48,7 @@ def get_articles(request, *args, **kwargs):
         articles = []
         for item_id in item_ids:
             article_info = redis_instance.hgetall(item_id)
-            article_info["article-id"] = item_id
+            article_info["articleid"] = item_id
             articles.append(article_info)
 
         # Build the response
