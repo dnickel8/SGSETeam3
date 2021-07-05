@@ -96,7 +96,7 @@ namespace SGSE.Services
             var smtpClient = new SmtpClient("smtp.gmail.com")
             {
                 Port = 587,
-                Credentials = new NetworkCredential("imnexa@gmail.com", "8hp/3J9X7?%Kbi&F+6z*"),
+                Credentials = new NetworkCredential("imnexa@gmail.com", "test"),
                 EnableSsl = true,
             };
 
