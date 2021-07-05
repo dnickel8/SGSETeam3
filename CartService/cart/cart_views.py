@@ -112,6 +112,12 @@ def add_article(request, *args, **kwargs):
         return Response(data=ast.literal_eval(response_500.format(e.__class__.__name__, e)), status=500)
 
 
+# Helper function that deletes an article from the shopping cart.
+def delete_single_article(pipeline, cart_key, article_id):
+    pipeline.zrem(cart_key, article_id)
+    pipeline.delete(article_id)
+
+
 # Deletes a shopping cart article.
 @api_view(['DELETE'])
 def delete_article(request, *args, **kwargs):
@@ -124,8 +130,9 @@ def delete_article(request, *args, **kwargs):
         article_id = kwargs["articleID"]
         cart_key = "user:" + user_id + ":cart"
 
-        redis_instance.zrem(cart_key, article_id)
-        redis_instance.delete(article_id)
+        pipeline = redis_instance.pipeline()
+        delete_single_article(pipeline, cart_key, article_id)
+        pipeline.execute()
 
         return Response(data=ast.literal_eval(response_200.format(article_id)), status=200)
 
@@ -151,8 +158,34 @@ def delete_articles(request, *args, **kwargs):
         # Iterate through the IDs and get the articles from the hash + delete the articles
         pipeline = redis_instance.pipeline()
         for item_id in item_ids:
-            pipeline.zrem(cart_key, item_id)
-            pipeline.delete(item_id)
+            delete_single_article(pipeline, cart_key, item_id)
+        pipeline.execute()
+
+        return Response(data=ast.literal_eval(response_200.format(count)), status=200)
+
+    except Exception as e:
+        return Response(data=ast.literal_eval(response_500.format(e.__class__.__name__, e)), status=500)
+
+
+# Deletes only the passed articles in the shopping cart.
+@api_view(['DELETE'])
+def delete_passed_articles(request, *args, **kwargs):
+
+    response_500 = "{{ 'message': 'Could not delete the articles.', 'exception-type': '{0}', 'exception': '{1}' }}"
+    response_200 = "{{ 'message': 'Successfully deleted the passed shopping cart articles.', 'count': '{0}' }}"
+
+    try:
+        user_id = kwargs["userID"]
+        cart_key = "user:" + user_id + ":cart"
+
+        request_data = json.loads(request.body)
+        article_ids = request_data["articles"]      # e.g. "articles": ["user:xyz:cart-item:2", "user:xyz:cart-item:5"]
+        count = len(article_ids)
+
+        # Iterate through the article_ids and delete the corresponding article
+        pipeline = redis_instance.pipeline()
+        for article_id in article_ids:
+            delete_single_article(pipeline, cart_key, article_id)
         pipeline.execute()
 
         return Response(data=ast.literal_eval(response_200.format(count)), status=200)

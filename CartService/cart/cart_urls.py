@@ -1,5 +1,7 @@
 from django.urls import path
 from rest_framework.urlpatterns import format_suffix_patterns
+
+import cart.cart_views
 from . import cart_views
 
 urlpatterns = [
@@ -8,7 +10,7 @@ urlpatterns = [
     path('addArticle/<userID>', cart_views.add_article, name="cart_add_article"),
     path('deleteArticle/<userID>/<articleID>', cart_views.delete_article, name="cart_delete_article"),
     path('deleteArticles/<userID>', cart_views.delete_articles, name="cart_delete_articles"),
-    # delete only these ids... TODO
+    path('deletePassedArticles/<userID>', cart_views.delete_passed_articles, name="cart_delete_passed_articles"),
     path('updateArticleQuantity', cart_views.update_article_quantity, name="cart_update_article_quantity"),
 ]
 
