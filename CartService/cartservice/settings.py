@@ -37,8 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    "corsheaders",
-    "cart",
+    'corsheaders',
+    'rest_framework',
+    'cart',
 ]
 
 MIDDLEWARE = [
@@ -131,3 +132,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ORIGIN_ALLOW_ALL = False
 CORS_ORIGIN_WHITELIST = ("http://localhost:8080",)
+
+# Redis
+
+REDIS_HOST = 'localhost'
+REDIS_PORT = 6379
