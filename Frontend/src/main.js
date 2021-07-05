@@ -23,23 +23,15 @@ const store = new Vuex.Store({
     }),
   ],
   state: {
-    exampleState: "",
-    token: Object,
+    orderAmount: "1.99",
+    items: [],
   },
   mutations: {
-    setExampleState(state, example) {
-      state.exampleState = example;
+    setOrderAmount(state, newOrderAmount) {
+      state.orderAmount = newOrderAmount;
     },
-    logout(state) {
-      state.token = Object();
-    },
-    login(state, token) {
-      state.token = token;
-    },
-  },
-  getters: {
-    token: (state) => {
-      return state.token;
+    setItems(state, items) {
+      state.items = items;
     },
   },
 });
