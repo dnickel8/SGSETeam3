@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
   push:
     paths:
-      - '/Frontend/**'
+      - 'Frontend/**'
 
 env:
   PROJECT_ID: ${{ secrets.GKE_PROJECT }}
