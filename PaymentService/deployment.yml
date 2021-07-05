@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: account-service
+  name: payment-service
 spec:
   selector:
-    app: account-deployment
+    app: payment-deployment
   type: LoadBalancer
   ports:
     - port: 80

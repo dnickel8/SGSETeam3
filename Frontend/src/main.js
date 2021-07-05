@@ -24,10 +24,22 @@ const store = new Vuex.Store({
   ],
   state: {
     exampleState: "",
+    token: Object,
   },
   mutations: {
     setExampleState(state, example) {
       state.exampleState = example;
+    },
+    logout(state) {
+      state.token = Object();
+    },
+    login(state, token) {
+      state.token = token;
+    },
+  },
+  getters: {
+    token: (state) => {
+      return state.token;
     },
   },
 });

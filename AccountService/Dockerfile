@@ -3,8 +3,10 @@ FROM jboss/keycloak:14.0.0
 ENV KEYCLOAK jboss/keycloak
 ENV KEYCLOAK_VERSION 14.0.0
 
-ENV KEYCLOAK_USER $secrets.KEYCLOAK_USER
-ENV KEYCLOAK_PASSWORD $secrets.KEYCLOAK_PASSWORD
+ENV KEYCLOAK_USER admin
+# $secrets.KEYCLOAK_USER
+ENV KEYCLOAK_PASSWORD admin
+# $secrets.KEYCLOAK_PASSWORD
 ENV POSTGRES_IP $secrets.GCP_POSTGRES_IP
 ENV POSTGRES_PASSWORD $secrets.GCP_POSTGRES_PASSWORD
 
@@ -38,6 +40,7 @@ ENV JAVA_OPTS -server \
 -Djava.awt.headless=true \ 
 -Djava.net.preferIPv4Stack=true \ 
 -Dkeycloak.migration.strategy=OVERWRITE_EXISTING \ 
--Dkeycloak.profile.feature.upload_scripts=enabled
+-Dkeycloak.profile.feature.upload_scripts=enabled \
+-Dkeycloak.import=/etc/core-realm.json
 
 EXPOSE 8080
