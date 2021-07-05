@@ -154,20 +154,18 @@
       </v-stepper-content>
 
       <v-stepper-content step="3">
-        <v-card class="mb-12" color="grey lighten-1" height="200px"></v-card>
-
-        <v-btn color="primary" @click="e1 = 1">
-          Kostenpflichtig bestellen
-        </v-btn>
-
-        <v-btn text @click="e1 = 2"> Zurück </v-btn>
+        <Payment @changeStep="onChangeStep" />
       </v-stepper-content>
     </v-stepper-items>
   </v-stepper>
 </template>
 
 <script>
+import Payment from "@/payment/components/Payment.vue";
 export default {
+  components: {
+    Payment,
+  },
   data() {
     return {
       e1: 1,
@@ -223,6 +221,10 @@ export default {
         total += product.price * product.count;
       });
       this.totalAmount = total;
+    },
+    onChangeStep(step) {
+      this.e1 = step;
+      console.log(this.e1);
     },
   },
   beforeMount() {
