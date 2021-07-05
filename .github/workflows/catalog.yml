@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
   push:
     paths:
-      - '/CatalogService/**'
+      - 'CatalogService/**'
 
 env:
   PROJECT_ID: ${{ secrets.GKE_PROJECT }}
