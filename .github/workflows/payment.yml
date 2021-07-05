@@ -6,6 +6,9 @@ name: Payment to GKE
 
 on:
   workflow_dispatch:
+  push:
+    paths:
+      - '/PaymentService/**'
 
 env:
   PROJECT_ID: ${{ secrets.GKE_PROJECT }}
