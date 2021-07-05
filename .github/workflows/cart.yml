@@ -6,6 +6,9 @@ name: Cart to GKE
 
 on:
   workflow_dispatch:
+  push:
+    paths:
+      - '/CartService/**'
 
 env:
   PROJECT_ID: ${{ secrets.GKE_PROJECT }}
