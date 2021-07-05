@@ -36,6 +36,9 @@ const store = new Vuex.Store({
     login(state, token) {
       state.token = token;
     },
+    setUserRole(state, role) {
+      state.userRole = role;
+    },
   },
   getters: {
     token: (state) => {

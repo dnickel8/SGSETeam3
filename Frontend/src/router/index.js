@@ -6,6 +6,9 @@ import WishList from "../cartservice/views/WishList";
 import Payment from "../views/Payment.vue";
 import Order from "../order-service/views/Order";
 import History from "../order-service/views/History";
+import Catalog from "../catalogService/views/Catalog.vue";
+import CatalogSearch from "../catalogService/views/CatalogSearch.vue";
+import Article from "../catalogService/views/Article.vue";
 
 Vue.use(VueRouter);
 
@@ -57,6 +60,21 @@ const routes = [
     meta: {
       title: "Wunschliste",
     },
+  },
+  {
+    path: "/catalog",
+    name: "CatalogView",
+    component: Catalog,
+  },
+  {
+    path: "/catalogSearch",
+    name: "CatalogSearchView",
+    component: CatalogSearch,
+  },
+  {
+    path: "/article",
+    name: "Article",
+    component: Article,
   },
 ];
 

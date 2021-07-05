@@ -9,7 +9,7 @@ import Payment from "@/payment/components/Payment.vue";
 export default {
   name: "PaymentView",
   components: {
-    Payment
+    Payment,
   },
 };
 </script>
