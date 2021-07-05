@@ -30,7 +30,7 @@ export default {
   methods: {
     login: function () {
       let initOptions = {
-        url: "http://35.246.228.139/auth", //TODO url anpassen
+        url: "http://35.246.228.139/auth", //TODO Url anpassen
         realm: "Onlineshop",
         clientId: "frontend",
         onLoad: "login-required",
