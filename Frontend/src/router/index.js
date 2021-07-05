@@ -2,8 +2,10 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import Cart from "../cartservice/views/Cart.vue";
+import WishList from "../cartservice/views/WishList";
 import Payment from "../views/Payment.vue";
-import WishList from "@/cartservice/views/WishList";
+import Order from "../order-service/views/Order";
+import History from "../order-service/views/History";
 
 Vue.use(VueRouter);
 
@@ -18,22 +20,26 @@ const routes = [
   },
   {
     path: "/order",
-    name: "Order",
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../order-service/views/Order.vue"),
+    name: "order",
+    component: Order,
+    meta: {
+      title: "Bestellvorgang",
+    },
   },
   {
     path: "/history",
-    name: "Order History",
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../order-service/views/History.vue"),
+    name: "orderhistory",
+    component: History,
+    meta: {
+      title: "Bestellungen",
+    },
   },
   {
     path: "/payment",
-    name: "PaymentView",
+    name: "payment",
     component: Payment,
     meta: {
-      title: "Bezahlung",
+      title: "Bezahlvorgang",
     },
   },
   {
