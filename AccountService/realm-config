@@ -641,18 +641,18 @@
     {
       "id": "417a10f5-5031-4c59-bca7-e7fe3d09b4c2",
       "clientId": "frontend",
-      "rootUrl": "http://127.0.0.1:8081",
-      "adminUrl": "http://127.0.0.1:8081",
+      "rootUrl": "http://127.0.0.1:8081", //TODO
+      "adminUrl": "http://127.0.0.1:8081", //TODO
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "secret": "**********",
       "redirectUris": [
-        "http://localhost:8081/*"
+        "http://localhost:8081/*" //TODO
       ],
       "webOrigins": [
-        "http://127.0.0.1:8081"
+        "http://127.0.0.1:8081" //TODO
       ],
       "notBefore": 0,
       "bearerOnly": false,
