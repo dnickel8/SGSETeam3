@@ -24,5 +24,6 @@ dependencies:
   - zlib=1.2.11=h62dcd97_4
   - pip:
         - django-cors-headers==3.7.0
-        - gunicorn==20.0.4
+        - djangorestframework==3.12.4
+        - redis
 prefix: C:\Users\lenna\anaconda3\envs\sgse_cart_service

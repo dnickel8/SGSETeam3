@@ -1,6 +1,6 @@
 ### Fehlerbehandlung
 - /placeOrder/
-	- 406 Data not acceptable
+	- 406: Data not acceptable
 	- 500: Could not handle query
 - /getOrders/{userId}
 	- 404: User not found
