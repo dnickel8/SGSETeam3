@@ -3,7 +3,7 @@ import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import Cart from "../cartservice/views/Cart.vue";
 import WishList from "../cartservice/views/WishList";
-import Payment from "../views/Payment.vue";
+import Payment from "../payment/views/Payment.vue";
 import Order from "../order-service/views/Order";
 import History from "../order-service/views/History";
 import Catalog from "../catalogService/views/Catalog.vue";
