@@ -35,47 +35,21 @@
         </div>
       </form>
     </v-toolbar>
-
-    <div class="row" style="margin-top: 1%; border: 1px solid black">
+    <div
+      v-for="(value, key, index) in kategorien"
+      :key="`${key}-${index}`"
+      class="row"
+      style="margin-top: 1%; border: 1px solid black"
+    >
       <div class="col-md-2">
         <center>
           <h2>
             <br /><br /><br />
-            Headset
+            {{ key }}
           </h2>
         </center>
       </div>
-      <div class="col-md-2" v-for="item in forSale" v-bind:key="item.name">
-        <v-card :id="item.id" v-on:click="clickMethod" elevation="2">
-          <img
-            :id="item.id"
-            v-on:click="clickMethod"
-            :src="item.image"
-            :alt="item.name"
-            class="card-img-top"
-            style="width: 100%; max-width: 600px"
-          />
-
-          <v-card-title :id="item.id" v-on:click="clickMethod">
-            {{ item.name }}</v-card-title
-          >
-          <v-card-text :id="item.id" v-on:click="clickMethod">
-            {{ item.price / 100 }}€</v-card-text
-          >
-        </v-card>
-      </div>
-    </div>
-
-    <div class="row" style="margin-top: 1%; border: 1px solid black">
-      <div class="col-md-2">
-        <center>
-          <h2>
-            <br /><br /><br />
-            Mikrofon
-          </h2>
-        </center>
-      </div>
-      <div class="col-md-2" v-for="item in forSale2" v-bind:key="item.name">
+      <div class="col-md-2" v-for="item in value" v-bind:key="item.name">
         <v-card :id="item.id" v-on:click="clickMethod" elevation="2">
           <img
             :id="item.id"
@@ -110,11 +84,13 @@ export default {
     forSale2: [
     ],
     searchterm: "",
+    kategorien: {},
     }
 
   },
   async created()
     {
+      console.log("created");
       try
       {
         const response = await CatalogService.getData();
@@ -127,22 +103,21 @@ export default {
           temp["price"] = article["data"]["price"];
           temp["image"] = await ArticleService.getPicture(article["data"]["pictures"][0]);
           temp["image"] = temp["image"]["data"]["data"];
-          console.log(temp);
-          if(article["data"]["kategorie"] == "Headset")
+
+          if(this.kategorien[article.data.kategorie] === undefined )
           {
-            this.forSale.push(temp);
+            this.kategorien[article.data.kategorie] = [];
           }
-          else
-          {
-            this.forSale2.push(temp);
-          }
+          this.kategorien[article.data.kategorie].push(temp);
         }
+        console.log(this.kategorien);
         this.test = response.data[0];
       }
       catch(e)
       {
         console.log(e);
       }
+      this.$forceUpdate();
     },
   methods: {
     clickMethod()
@@ -157,9 +132,3 @@ export default {
   }
 };
 </script>
-
-<style>
-h3 {
-  color: #000;
-}
-</style>

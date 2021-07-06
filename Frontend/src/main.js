@@ -27,6 +27,7 @@ const store = new Vuex.Store({
     token: Object,
     orderAmount: "1.99",
     items: [],
+    userRole: "",
   },
   mutations: {
     setExampleState(state, example) {
