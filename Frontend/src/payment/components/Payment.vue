@@ -142,7 +142,7 @@ import PaymentService from "@/payment/services/payment.service.js"
 import { loadScript } from "@paypal/paypal-js";
 export default {
   name: "Payment",
-  props: ["address"],
+  props: ["address", "items"],
   data() {
     return {
         sameAsDeliveryAddress: true,
@@ -272,7 +272,7 @@ export default {
             }
           }
         },
-        items: this.$store.state.items
+        items: createItems()
       }
 
       return invoice;
@@ -308,7 +308,7 @@ export default {
             }
           }
         },
-        items: this.$store.state.items
+        items: createItems()
       }
 
       return invoice;
@@ -319,6 +319,24 @@ export default {
         value: amount.value
       }
       return createdAmount;
+    },
+    createItems() {
+      const paymentItems = []
+      this.items.forEach(item => {
+        const paymentItem = {
+          name: item.name,
+          description: "",
+          quantity: item.count,
+          discount: item.discount || 0,
+          tax: item.tax || 0,
+          amount: {
+            currencyCode: "EUR",
+            value: item.price
+          }
+        };
+        paymentItems.push(paymentItem);
+      });
+      return paymentItems;
     },
     changeStep(stepNumber) {
       this.$emit("changeStep", stepNumber);

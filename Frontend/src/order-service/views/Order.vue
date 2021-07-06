@@ -154,7 +154,11 @@
       </v-stepper-content>
 
       <v-stepper-content step="3">
-        <Payment :address="address" @changeStep="onChangeStep" />
+        <Payment
+          :items="products"
+          :address="address"
+          @changeStep="onChangeStep"
+        />
       </v-stepper-content>
     </v-stepper-items>
   </v-stepper>
