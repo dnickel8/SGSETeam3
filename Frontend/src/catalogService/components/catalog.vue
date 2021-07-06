@@ -5,7 +5,7 @@
       <v-navigation-drawer app hide-overlay temporary />
 
       <v-toolbar-items d-flex>
-        <v-btn @click="$router.push('catalog')">Main Page</v-btn>
+        <v-btn @click="$router.push('/')">Main Page</v-btn>
         <v-btn
           v-if="$store.state.userRole == 'Admin'"
           @click="$router.push({ name: 'Article', query: { article: 'add' } })"
