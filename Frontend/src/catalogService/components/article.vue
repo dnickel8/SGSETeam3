@@ -286,8 +286,6 @@ export default {
             response = await ArticleService.getArticle(this.$route.query.article);
           }
           this.articleId = response["data"]["_id"]
-          console.log(response);
-          console.log(this.articleId);
           response = response["data"];
           this.article = response.data;
           if(this.edit)
@@ -336,8 +334,6 @@ export default {
   watch: {
     $route(to, from)
     {
-      console.log(to);
-      console.log(from);
       if(from["fullPath"] == "/article?article=add")
       {
         this.$router.go(this.$router.currentRoute)
@@ -384,9 +380,7 @@ export default {
     },
     searchMethod()
     {
-      console.log(this.searchterm)
       this.$router.push({name: 'CatalogSearchView', params: {search: event.target.id},  query: { search: this.searchterm } });
-      //this.$router.push({name: 'CatalogSearchView', params: {searchterm: this.searchterm}});
     },
     handleImages(files)
     {

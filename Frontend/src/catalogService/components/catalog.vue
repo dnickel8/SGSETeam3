@@ -90,7 +90,6 @@ export default {
   },
   async created()
     {
-      console.log("created");
       try
       {
         const response = await CatalogService.getData();
@@ -110,7 +109,6 @@ export default {
           }
           this.kategorien[article.data.kategorie].push(temp);
         }
-        console.log(this.kategorien);
         this.test = response.data[0];
       }
       catch(e)
