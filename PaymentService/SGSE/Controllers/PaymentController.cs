@@ -39,10 +39,10 @@ namespace SGSE.Controllers
 
         // POST api/<PaymentController>
         [HttpPost]
-        public async void Post([FromBody] InvoiceAndAmount invoiceAndAmount)
+        public async void Post([FromBody] InvoiceAndAmount invoiceAndAmount, bool payed)
         {
             var createdInvoice = await _service.CreateInvoice(invoiceAndAmount.Invoice);
-            await _service.MakePayment(createdInvoice.Id, invoiceAndAmount.Amount, createdInvoice.Recipient.EmailAddress);
+            await _service.MakePayment(createdInvoice.Id, invoiceAndAmount.Amount, createdInvoice.Recipient.EmailAddress, payed);
         }
 
         // PUT api/<PaymentController>/5
