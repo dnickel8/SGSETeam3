@@ -194,7 +194,7 @@ export default {
         return actions.order.capture().then(async function(details) {
           const invoice = me.createInvoiceWithPaypalData(details);
           const amount = me.createAmountWithPaypalData(details.purchase_units[0].amount);
-          await PaymentService.createInvoiceAndPay(invoice, amount);
+          await PaymentService.createInvoiceAndPay(invoice, amount, true);
           me.alert = true;
     });
     }
@@ -227,10 +227,9 @@ export default {
       }
     },
     async createInvoiceAndPay() {
-      console.log("test");
       const invoice = this.createInvoice();
       const amount = this.createAmount();
-      await PaymentService.createInvoiceAndPay(invoice, amount);
+      await PaymentService.createInvoiceAndPay(invoice, amount, false);
       this.alert = true;
 
     },
