@@ -6,6 +6,9 @@ name: Catalog to GKE
 
 on:
   workflow_dispatch:
+  push:
+    paths:
+      - 'CatalogService/**'
 
 env:
   PROJECT_ID: ${{ secrets.GKE_PROJECT }}

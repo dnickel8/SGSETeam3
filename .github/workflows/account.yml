@@ -6,6 +6,10 @@ name: Account to GKE
 
 on:
   workflow_dispatch:
+  push:
+    paths:
+      - 'AccountService/**'
+
 
 env:
   PROJECT_ID: ${{ secrets.GKE_PROJECT }}

@@ -6,6 +6,9 @@ name: Order to GKE
 
 on:
   workflow_dispatch:
+  push:
+    paths:
+      - 'OrderService/**'
 
 env:
   PROJECT_ID: ${{ secrets.GKE_PROJECT }}
