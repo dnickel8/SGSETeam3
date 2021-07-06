@@ -123,7 +123,7 @@
             </v-row>
           </template>
           <v-btn
-            :disabled="!valid && !sameAsDeliveryAddress"
+            :disabled="!valid || (!sameAsDeliveryAddress && checkEmailRules())"
             color="primary"
             class="mr-4"
             @click="createInvoiceAndPay"
@@ -201,6 +201,12 @@ export default {
     }).render("#paypal-buttons");
   },
   methods: {
+    checkEmailRules() {
+      if (this.emailRules[0] === true && this.emailRules[0] === true) {
+        return true;
+      }
+      return false;
+    },
     onSelect(newValue) {
       switch (newValue) {
         case "Deutschland":
@@ -221,6 +227,7 @@ export default {
       }
     },
     async createInvoiceAndPay() {
+      console.log("test");
       const invoice = this.createInvoice();
       const amount = this.createAmount();
       await PaymentService.createInvoiceAndPay(invoice, amount);
@@ -262,7 +269,7 @@ export default {
               street: this.sameAsDeliveryAddress ? this.address.street + " " + this.address.number : this.fields.street,
               postalCode: this.sameAsDeliveryAddress ? this.address.code : this.fields.postalCode,
               city: this.sameAsDeliveryAddress ? this.address.city : this.fields.city,
-              countryCode: this.sameAsDeliveryAddress ? this.fields.countryCode : this.fields.countryCode
+              countryCode: this.sameAsDeliveryAddress ? "DE" : this.fields.countryCode
             }
           }
         },

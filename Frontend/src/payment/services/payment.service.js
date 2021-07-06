@@ -4,10 +4,14 @@ class PaymentService {
   constructor() {}
 
   async createInvoiceAndPay(invoice, amount) {
-    return await axios.post("https://localhost:5001/api/Payment", {
-      invoice,
-      amount,
-    });
+    console.log(`${process.env.VUE_APP_PAYMENT_SERVICE_URL}/api/Payment`);
+    return await axios.post(
+      `${process.env.VUE_APP_PAYMENT_SERVICE_URL}/api/Payment`,
+      {
+        invoice,
+        amount,
+      }
+    );
   }
 }
 
