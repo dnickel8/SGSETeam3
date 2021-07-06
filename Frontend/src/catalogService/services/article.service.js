@@ -27,6 +27,16 @@ class ArticleService {
     });
   }
 
+  async changeArticle(articleJson, id) {
+    return await axios({
+      method: "put",
+      url: "http://localhost:3000/changeArticle/" + id + "/",
+      data: {
+        data: articleJson,
+      },
+    });
+  }
+
   async getPicture(id) {
     return await axios.get("http://localhost:3000/getPicture/" + id + "/");
   }
