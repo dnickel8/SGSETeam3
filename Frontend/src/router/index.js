@@ -2,7 +2,6 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Cart from "../cartservice/views/Cart.vue";
 import WishList from "../cartservice/views/WishList";
-import Payment from "../payment/views/Payment.vue";
 import Order from "../order-service/views/Order";
 import History from "../order-service/views/History";
 import Catalog from "../catalogService/views/Catalog.vue";
@@ -50,14 +49,6 @@ const routes = [
     component: History,
     meta: {
       title: "Bestellungen",
-    },
-  },
-  {
-    path: "/payment",
-    name: "payment",
-    component: Payment,
-    meta: {
-      title: "Bezahlvorgang",
     },
   },
   {
