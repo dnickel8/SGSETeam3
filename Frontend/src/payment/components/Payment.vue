@@ -225,6 +225,7 @@ export default {
       const amount = this.createAmount();
       await PaymentService.createInvoiceAndPay(invoice, amount);
       this.alert = true;
+
     },
     createAmount() {
       const amount = {
