@@ -158,9 +158,19 @@ export default {
           console.log(error);
         });
     },
+    getSelectedProducts() {
+      let tmpProducts = [];
+      for (let i = 0; i < this.products.length; ++i) {
+        let product = this.products[i];
+        if (product.checkbox_value) {
+          tmpProducts.push(product);
+        }
+      }
+      return tmpProducts;
+    },
     checkout: function () {
-      // TODO: Go to order service
-      this.$router.push({ name: "wishlist" });
+      this.$store.commit("setProducts", this.getSelectedProducts());
+      this.$router.push({ name: "order" });
     },
   },
   watch: {

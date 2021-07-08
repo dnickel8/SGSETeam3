@@ -30,6 +30,7 @@ const store = new Vuex.Store({
     userRole: "",
     userId: "",
     cart_article_count: 0,
+    products: [],
   },
   mutations: {
     setExampleState(state, example) {
@@ -58,6 +59,9 @@ const store = new Vuex.Store({
     },
     incrementCartArticleCount(state) {
       state.cart_article_count++;
+    },
+    setProducts(state, products) {
+      state.products = products;
     },
   },
   getters: {
