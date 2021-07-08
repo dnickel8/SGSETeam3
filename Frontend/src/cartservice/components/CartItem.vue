@@ -65,7 +65,7 @@ export default {
     };
   },
   watch: {
-    "product.articleCount": function (val) {
+    "product.article_count": function (val) {
       if (val === "" || val < 1) {
         this.product.article_count = 1;
       }

@@ -2,16 +2,16 @@
   <v-container fluid class="pa-0">
     <v-row align="center">
       <v-img
-        v-bind:src="product.imgSource"
+        v-bind:src="product.article_imagepath"
         :width="200"
         :height="140"
         contain
         class="ml-3 article-image-hack"
       ></v-img>
       <v-col class="pt-0">
-        <div class="text-h6 mb-1">{{ product.articleName }}</div>
-        <div>Verkäufer: {{ product.articleVendor }}</div>
-        <div>Preis: {{ product.articlePrice }} €</div>
+        <div class="text-h6 mb-1">{{ product.article_name }}</div>
+        <div>Verkäufer: {{ product.article_vendor }}</div>
+        <div>Preis: {{ product.article_price }} €</div>
         <v-row align="center" justify="start" class="ml-0 mt-2">
           <v-btn
             v-on:click="$emit('transfer-to-cart')"

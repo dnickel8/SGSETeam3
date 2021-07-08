@@ -69,17 +69,7 @@ export default {
       article_count: 0,
       total_amount: 0,
       user_id: "lol",
-      products: [
-        // {  // Test data
-        //   id: 0,
-        //   checkboxValue: true,
-        //   imgSource: "https://picsum.photos/id/11/500/300",
-        //   articleName: "Micro",
-        //   articleVendor: "Rode",
-        //   articleCount: 1,
-        //   articlePrice: 42,
-        // },
-      ],
+      products: [],
     };
   },
   methods: {
@@ -101,7 +91,7 @@ export default {
           tmpAmount += product.article_count * product.article_price;
         }
       }
-      return tmpAmount;
+      return +tmpAmount.toFixed(2);
     },
     clearAllSelections: function () {
       for (let i = 0; i < this.products.length; ++i) {
@@ -119,13 +109,49 @@ export default {
         articles[i]["article_price"] = parseFloat(articles[i]["article_price"]);
       }
     },
-    deleteArticle: function (article) {
-      // TODO: DB - delete article
-      this.products.splice(this.products.indexOf(article), 1);
+    deleteArticle: function (product) {
+      let url =
+        "http://localhost:8000/cart/deleteArticle/" +
+        this.user_id +
+        "/" +
+        product.article_id;
+      this.axios
+        .delete(url)
+        .then((response) => {
+          if (response.status === 200) {
+            this.products.splice(this.products.indexOf(product), 1);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
-    transferToWishlist: function (article) {
-      // TODO: DB - transfer article
-      this.products.splice(this.products.indexOf(article), 1);
+    transferToWishlist: function (product) {
+      let post_url = "http://localhost:8000/list/addArticle/" + this.user_id;
+      this.axios
+        .post(post_url, product)
+        .then((response) => {
+          if (response.status === 200) {
+            let delete_url =
+              "http://localhost:8000/cart/deleteArticle/" +
+              this.user_id +
+              "/" +
+              product.article_id;
+            this.axios
+              .delete(delete_url)
+              .then((response) => {
+                if (response.status === 200) {
+                  this.products.splice(this.products.indexOf(product), 1);
+                }
+              })
+              .catch((error) => {
+                console.log(error);
+              });
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
     checkout: function () {
       // TODO: Go to order service
@@ -160,9 +186,16 @@ export default {
     this.axios
       .get(url)
       .then((response) => {
-        let tmpArticles = response.data.articles;
-        this.changeReceivedArticleData(tmpArticles);
-        this.products = tmpArticles;
+        if (response.status === 200) {
+          let tmpArticles = response.data.articles;
+          this.changeReceivedArticleData(tmpArticles);
+          this.products = tmpArticles;
+          if (this.products.length === 0) {
+            this.showNoContentMessage = true;
+          }
+        } else {
+          console.log(response.data);
+        }
       })
       .catch((error) => {
         console.log(error);
