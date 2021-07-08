@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cart-db-deployment
+spec: 
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cart-db-deployment
+  template:
+    metadata:
+      labels:
+        app: cart-db-deployment
+    spec:
+      containers:
+        - name: app
+          image: gcr.io/PROJECT_ID/IMAGE:TAG
+          imagePullPolicy: Always
