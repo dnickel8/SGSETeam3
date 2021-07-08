@@ -111,7 +111,8 @@ export default {
     },
     deleteArticle: function (product) {
       let url =
-        "http://localhost:8000/cart/deleteArticle/" +
+        process.env.VUE_APP_CART_SERVICE_URL +
+        "/cart/deleteArticle/" +
         this.user_id +
         "/" +
         product.article_id;
@@ -127,13 +128,17 @@ export default {
         });
     },
     transferToWishlist: function (product) {
-      let post_url = "http://localhost:8000/list/addArticle/" + this.user_id;
+      let post_url =
+        process.env.VUE_APP_CART_SERVICE_URL +
+        "/list/addArticle/" +
+        this.user_id;
       this.axios
         .post(post_url, product)
         .then((response) => {
           if (response.status === 200) {
             let delete_url =
-              "http://localhost:8000/cart/deleteArticle/" +
+              process.env.VUE_APP_CART_SERVICE_URL +
+              "/cart/deleteArticle/" +
               this.user_id +
               "/" +
               product.article_id;
@@ -182,7 +187,10 @@ export default {
     },
   },
   mounted() {
-    let url = "http://localhost:8000/cart/getArticles/" + this.user_id;
+    let url =
+      process.env.VUE_APP_CART_SERVICE_URL +
+      "/cart/getArticles/" +
+      this.user_id;
     this.axios
       .get(url)
       .then((response) => {

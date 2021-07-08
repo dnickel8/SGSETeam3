@@ -66,7 +66,8 @@ export default {
   },
   methods: {
     updateArticleCount: function () {
-      let url = "http://localhost:8000/cart/updateArticleQuantity";
+      let url =
+        process.env.VUE_APP_CART_SERVICE_URL + "/cart/updateArticleQuantity";
 
       let body = {
         article_id: this.product.article_id,
