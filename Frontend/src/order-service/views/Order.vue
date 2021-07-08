@@ -154,20 +154,22 @@
       </v-stepper-content>
 
       <v-stepper-content step="3">
-        <v-card class="mb-12" color="grey lighten-1" height="200px"></v-card>
-
-        <v-btn color="primary" @click="e1 = 1">
-          Kostenpflichtig bestellen
-        </v-btn>
-
-        <v-btn text @click="e1 = 2"> Zurück </v-btn>
+        <Payment
+          :items="products"
+          :address="address"
+          @changeStep="onChangeStep"
+        />
       </v-stepper-content>
     </v-stepper-items>
   </v-stepper>
 </template>
 
 <script>
+import Payment from "@/payment/components/Payment.vue";
 export default {
+  components: {
+    Payment,
+  },
   data() {
     return {
       e1: 1,
@@ -195,7 +197,7 @@ export default {
         },
       ],
       address: {
-        fist_name: "",
+        first_name: "",
         last_name: "",
         street: "",
         number: "",
@@ -230,6 +232,9 @@ export default {
     removeProduct: function (product) {
       this.products = this.products.filter((item) => item.id !== product.id);
       console.log(product.name);
+    },
+    onChangeStep(step) {
+      this.e1 = step;
     },
   },
   beforeMount() {

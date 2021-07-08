@@ -14,13 +14,22 @@ class ArticleService {
         data: base64,
       },
     });
-    //return axios.post("http://localhost:3000/createPicture/");
   }
 
   async uploadArticle(articleJson) {
     return await axios({
       method: "post",
       url: "http://localhost:3000/createArticle/",
+      data: {
+        data: articleJson,
+      },
+    });
+  }
+
+  async changeArticle(articleJson, id) {
+    return await axios({
+      method: "put",
+      url: "http://localhost:3000/changeArticle/" + id + "/",
       data: {
         data: articleJson,
       },

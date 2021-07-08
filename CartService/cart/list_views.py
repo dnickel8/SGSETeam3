@@ -48,7 +48,7 @@ def get_articles(request, *args, **kwargs):
         articles = []
         for item_id in item_ids:
             article_info = redis_instance.hgetall(item_id)
-            article_info["articleid"] = item_id
+            article_info["article_id"] = item_id
             articles.append(article_info)
 
         # Build the response
@@ -80,11 +80,11 @@ def add_article(request, *args, **kwargs):
         # New article dictionary
         request_data = json.loads(request.body)
         new_article = {
-            "titel": request_data['title'],
-            "vendor": request_data['vendor'],
-            "price": request_data['price'],
-            "url": request_data['url'],
-            "imagepath": request_data['imagepath']
+            "article_name": request_data['article_name'],
+            "article_vendor": request_data['article_vendor'],
+            "article_price": request_data['article_price'],
+            "article_url": request_data['article_url'],
+            "article_imagepath": request_data['article_imagepath']
         }
 
         # Get max item (highest id) from the user's wishlist (sorted set)

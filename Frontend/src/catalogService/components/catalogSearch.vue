@@ -5,7 +5,7 @@
       <v-navigation-drawer app hide-overlay temporary />
 
       <v-toolbar-items d-flex>
-        <v-btn @click="$router.push('catalog')">Main Page</v-btn>
+        <v-btn @click="$router.push('/')">Main Page</v-btn>
       </v-toolbar-items>
 
       <v-spacer></v-spacer>
@@ -45,23 +45,53 @@
       <tr>
         <td width="20%">
           <center>
-            <p>Marke</p>
-            <div>
-              <input type="checkbox" id="Marke1" name="marke1" checked />
-              <label for="Marke1">Marke 1</label>
+            <div style="display: inline">
+              <p style="display: inline-block">&nbsp; Preis von: &nbsp;</p>
+              <input
+                v-bind:value="preisMin"
+                v-on:input="preisMin = $event.target.value"
+                style="
+                  display: inline-block;
+                  max-width: 50px;
+                  border-style: solid;
+                  border-width: 1px;
+                "
+              />
+              <p style="display: inline-block">€ &nbsp; bis:&nbsp;</p>
+              <input
+                v-bind:value="preisMax"
+                v-on:input="preisMax = $event.target.value"
+                style="
+                  display: inline-block;
+                  max-width: 50px;
+                  border-style: solid;
+                  border-width: 1px;
+                "
+              />
+              <p style="display: inline-block">€</p>
             </div>
-            <div>
-              <input type="checkbox" id="Marke2" name="Marke2" checked />
-              <label for="Marke2">Marke 2</label>
+            <h3>Hersteller</h3>
+            <div v-for="(value, key, index) in hersteller" :key="index">
+              <input
+                type="checkbox"
+                :id="key"
+                @change="checkboxHersteller($event)"
+              />
+              <label> {{ key }}</label>
             </div>
-            <div>
-              <input type="checkbox" id="Marke3" name="Marke3" checked />
-              <label for="Marke3">Marke 3</label>
+          </center>
+          <br />
+          <center>
+            <h3>Kategorie</h3>
+            <div v-for="(value, key, index) in kategorie" :key="index">
+              <input
+                type="checkbox"
+                :id="key"
+                @change="checkboxKategorie($event)"
+              />
+              <label> {{ key }}</label>
             </div>
-            <div>
-              <input type="checkbox" id="Marke4" name="Marke4" checked />
-              <label for="Marke4">Marke 4</label>
-            </div>
+            <v-btn style="margin: 2%" @click="update">Aktualisieren</v-btn>
           </center>
         </td>
         <td width="80%">
@@ -102,33 +132,17 @@ export default {
         forSale: [],
         searchterm: "",
         searchCounter: "",
+        hersteller: {},
+        kategorie: {},
+
+        allArticles: [],
+        preisMin: "",
+        preisMax: "",
     }
   },
   async created()
     {
-      let searchterm = this.$route.query.search;
-      try
-      {
-        var response = await CatalogService.getData();
-        for (let i = 0; i < response["data"].length; i++)
-        {
-          var article = response["data"][i];
-          var temp = {}
-          if (JSON.stringify(article).includes(searchterm))
-          {
-            temp["id"] = article["_id"];
-            temp["name"] = article["data"]["articlename"];
-            temp["price"] = article["data"]["price"];
-            temp["image"] = await ArticleService.getPicture(article["data"]["pictures"][0]);
-            temp["image"] = temp["image"]["data"]["data"];
-            this.forSale.push(temp);
-          }
-        }
-      }
-      catch(e)
-      {
-        console.log(e);
-      }
+      await this.watchMethod();
     },
   watch: {
     $route(to, from)
@@ -141,6 +155,7 @@ export default {
       }
       if(from["path"] == "/article")
       {
+        this.forSale = [];
         this.watchMethod();
       }
     }
@@ -151,6 +166,188 @@ export default {
     {
       this.$router.push({name: 'Article', params: {articleId: event.target.id},  query: { article: event.target.id } });
     },
+    checkboxHersteller()
+    {
+      if(this.hersteller[event.target.id] == true)
+      {
+        this.hersteller[event.target.id] = false;
+      }
+      else
+      {
+        this.hersteller[event.target.id] = true;
+      }
+    },
+    checkboxKategorie()
+    {
+      if(this.kategorie[event.target.id] == true)
+      {
+        this.kategorie[event.target.id] = false;
+      }
+      else
+      {
+        this.kategorie[event.target.id] = true;
+      }
+    },
+    async update()
+    {
+      //Preiseingabe überprüfen
+      var regex = new RegExp(/^(\d)+(,|\.){0,1}(\d){0,2}$/);
+      if(!(this.preisMin == "" || regex.test(this.preisMin)))
+      {
+        alert("Ungültige Eingabe für den Minimalpreis.");
+        return;
+      }
+      if(!(this.preisMax == "" || regex.test(this.preisMax)))
+      {
+        alert("Ungültige Eingabe für den Maximalpreis.");
+        return;
+      }
+
+      this.forSale = [];
+      let searchterm = this.$route.query.search;
+
+      let manufacturer = [];
+      let category = [];
+      for(var key in this.hersteller)
+      {
+        var value = this.hersteller[key];
+        if(value)
+        {
+          manufacturer.push(key);
+        }
+      }
+      for(key in this.kategorie)
+      {
+        value = this.kategorie[key];
+        if(value)
+        {
+          category.push(key);
+        }
+      }
+
+      var tempJson = {};
+      if(manufacturer.length != 0)
+      {
+        tempJson["hersteller"] = manufacturer;
+      }
+      if(category.length != 0)
+      {
+        tempJson["kategorie"] = category;
+      }
+      //Preise formatieren
+      if(this.preisMin != "")
+      {
+        let minPreis = "";
+        if(this.preisMin.includes("."))
+        {
+          var split = this.preisMin.split(".")
+          //1 Nachkommastelle
+          if(split[1].length == 1)
+          {
+            minPreis = this.preisMin + "0";
+          }
+          else if (split[1].length == 0)
+          {
+            minPreis = this.preisMin + "00";
+          }
+          else
+          {
+            minPreis = this.preisMin;
+          }
+        }
+        if(this.preisMin.includes(","))
+        {
+          var split4 = this.preisMin.split(",")
+          //1 Nachkommastelle
+          if(split4[1].length == 1)
+          {
+            minPreis = this.preisMin + "0";
+          }
+          else if (split4[1].length == 0)
+          {
+            minPreis = this.preisMin + "00";
+          }
+          else
+          {
+            minPreis = this.preisMin;
+          }
+        }
+        //keine Nachkommastelle
+        else
+        {
+          minPreis = this.preisMin + "00"
+        }
+        minPreis = minPreis.replace(".", "");
+        minPreis = minPreis.replace(",", "");
+        tempJson["preisMin"] = minPreis;
+      }
+      if(this.preisMax != "")
+      {
+        let maxPreis = "";
+        if(this.preisMax.includes("."))
+        {
+          var split2 = this.preisMax.split(".")
+          //1 Nachkommastelle
+          if(split2[1].length == 1)
+          {
+            maxPreis = this.preisMax + "0";
+          }
+          else if (split2[1].length == 0)
+          {
+            maxPreis = this.preisMax + "00";
+          }
+          else
+          {
+            maxPreis = this.preisMax;
+          }
+        }
+        if(this.preisMax.includes(","))
+        {
+          var split3 = this.preisMax.split(",")
+          //1 Nachkommastelle
+          if(split3[1].length == 1)
+          {
+            maxPreis = this.preisMax + "0";
+          }
+          else if (split3[1].length == 0)
+          {
+            maxPreis = this.preisMax + "00";
+          }
+          else
+          {
+            maxPreis = this.preisMax;
+          }
+        }
+        //keine Nachkommastelle
+        else
+        {
+          maxPreis = this.preisMax + "00"
+        }
+        maxPreis = maxPreis.replace(".", "");
+        maxPreis = maxPreis.replace(",", "");
+        tempJson["preisMax"] = maxPreis;
+      }
+      try
+      {
+        const response = await CatalogService.search(searchterm, tempJson);
+        this.allArticles = response;
+        for (let i = 0; i < response["data"].length; i++)
+        {
+          var article = response["data"][i];
+          var temp = {}
+          temp["id"] = article["_id"];
+          temp["name"] = article["data"]["articlename"];
+          temp["price"] = article["data"]["price"];
+          temp["image"] = await ArticleService.getPicture(article["data"]["pictures"][0]);
+          temp["image"] = temp["image"]["data"]["data"];
+          this.forSale.push(temp);
+        }
+      }
+      catch(e)
+      {
+        console.log(e);
+      }
+    },
     searchMethod()
     {
       this.searchCounter = this.searchCounter + 1;
@@ -158,23 +355,32 @@ export default {
     },
     async watchMethod()
     {
-      let searchterm = this.searchterm;
+      const manufacturer = await CatalogService.getManufacturer();
+      const category = await CatalogService.getCategory();
+      for(let i = 0; i < manufacturer["data"].length; i++)
+      {
+        this.hersteller[manufacturer["data"][i]] = false;
+      }
+      for(let i = 0; i < category["data"].length; i++)
+      {
+        this.kategorie[category["data"][i]] = false;
+      }
+
+      let searchterm = this.$route.query.search;
       try
       {
-        const response = await CatalogService.getData();
+        const response = await CatalogService.search(searchterm, "");
+        this.allArticles = response;
         for (let i = 0; i < response["data"].length; i++)
         {
           var article = response["data"][i];
           var temp = {}
-          if (JSON.stringify(article).includes(searchterm))
-          {
-            temp["id"] = article["_id"];
-            temp["name"] = article["data"]["articlename"];
-            temp["price"] = article["data"]["price"];
-            temp["image"] = await ArticleService.getPicture(article["data"]["pictures"][0]);
-            temp["image"] = temp["image"]["data"]["data"];
-            this.forSale.push(temp);
-          }
+          temp["id"] = article["_id"];
+          temp["name"] = article["data"]["articlename"];
+          temp["price"] = article["data"]["price"];
+          temp["image"] = await ArticleService.getPicture(article["data"]["pictures"][0]);
+          temp["image"] = temp["image"]["data"]["data"];
+          this.forSale.push(temp);
         }
       }
       catch(e)

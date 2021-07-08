@@ -1,14 +1,14 @@
 <template>
   <div class="grey lighten-5">
     <v-card elevation="2" class="ma-3 pa-4 card-width-hack">
-      <div class="text-h5 mb-4">Wunschliste</div>
+      <div class="text-h5 mb-4">Merkliste</div>
       <v-divider class="mb-5"></v-divider>
       <div v-if="showNoContentMessage" class="text-h6 mb-8">
         Sie haben noch keine Artikel hinzugefügt!
       </div>
       <wish-list-item
         v-for="product in products"
-        v-bind:key="product.id"
+        v-bind:key="product.article_id"
         v-bind:product="product"
         v-on:delete-article="deleteArticle(product)"
         v-on:transfer-to-cart="transferToCart(product)"
@@ -26,38 +26,105 @@ export default {
   data: function () {
     return {
       showNoContentMessage: false,
-      products: [
-        // TODO: Remove test data
-        {
-          id: 0,
-          checkboxValue: true,
-          imgSource: "https://picsum.photos/id/11/500/300",
-          articleName: "Micro",
-          articleVendor: "Rode",
-          articleCount: 1,
-          articlePrice: 42,
-        },
-        {
-          id: 1,
-          checkboxValue: true,
-          imgSource: "https://picsum.photos/id/11/500/300",
-          articleName: "Lautsprecher",
-          articleVendor: "Bose",
-          articleCount: 2,
-          articlePrice: 200,
-        },
-      ],
+      user_id: "lol",
+      products: [],
     };
   },
   methods: {
-    deleteArticle: function (article) {
-      // TODO: DB - delete article
-      this.products.splice(this.products.indexOf(article), 1);
+    changeReceivedArticleData: function (articles) {
+      for (let i = 0; i < articles.length; ++i) {
+        articles[i]["checkbox_value"] = true;
+        articles[i]["article_count"] = parseInt(
+          articles[i]["article_count"],
+          10
+        );
+        articles[i]["article_price"] = parseFloat(articles[i]["article_price"]);
+      }
     },
-    transferToCart: function (article) {
-      // TODO: DB - transfer article
-      this.products.splice(this.products.indexOf(article), 1);
+    deleteArticle: function (product) {
+      let url =
+        process.env.VUE_APP_CART_SERVICE_URL +
+        "/list/deleteArticle/" +
+        this.user_id +
+        "/" +
+        product.article_id;
+      this.axios
+        .delete(url)
+        .then((response) => {
+          if (response.status === 200) {
+            this.products.splice(this.products.indexOf(product), 1);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
+    transferToCart: function (product) {
+      let post_url =
+        process.env.VUE_APP_CART_SERVICE_URL +
+        "/cart/addArticle/" +
+        this.user_id;
+      this.axios
+        .post(post_url, product)
+        .then((response) => {
+          if (response.status === 200) {
+            let delete_url =
+              process.env.VUE_APP_CART_SERVICE_URL +
+              "/list/deleteArticle/" +
+              this.user_id +
+              "/" +
+              product.article_id;
+            this.axios
+              .delete(delete_url)
+              .then((response) => {
+                if (response.status === 200) {
+                  this.products.splice(this.products.indexOf(product), 1);
+
+                  // Update article count badge
+                  this.$store.commit("incrementCartArticleCount");
+                }
+              })
+              .catch((error) => {
+                console.log(error);
+              });
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+  },
+  watch: {
+    products: {
+      immediate: true,
+      handler: function () {
+        this.showNoContentMessage = this.products.length === 0;
+      },
+      deep: true,
+    },
+  },
+  mounted() {
+    let url =
+      process.env.VUE_APP_CART_SERVICE_URL +
+      "/list/getArticles/" +
+      this.user_id;
+    this.axios
+      .get(url)
+      .then((response) => {
+        if (response.status === 200) {
+          let tmpArticles = response.data.articles;
+          this.changeReceivedArticleData(tmpArticles);
+          this.products = tmpArticles;
+          if (this.products.length === 0) {
+            this.showNoContentMessage = true;
+          }
+        } else {
+          console.log(response.data);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   },
 };
 </script>

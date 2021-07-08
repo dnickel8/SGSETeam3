@@ -5,7 +5,7 @@
       <v-navigation-drawer app hide-overlay temporary />
 
       <v-toolbar-items d-flex>
-        <v-btn @click="$router.push('catalog')">Main Page</v-btn>
+        <v-btn @click="$router.push('/')">Main Page</v-btn>
         <v-btn
           v-if="
             $store.state.userRole == 'Admin' &&
@@ -20,9 +20,22 @@
           >Artikel löschen</v-btn
         >
         <v-btn
-          v-if="$store.state.userRole == 'Admin' && this.articleId.length > 20"
+          v-if="
+            $store.state.userRole == 'Admin' &&
+            this.articleId.length > 20 &&
+            this.edit == false
+          "
           @click="editArticle"
           >Artikel bearbeiten</v-btn
+        >
+        <v-btn
+          v-if="
+            $store.state.userRole == 'Admin' &&
+            this.articleId.length > 20 &&
+            this.edit == true
+          "
+          @click="editArticleSave"
+          >Änderungen speichern</v-btn
         >
       </v-toolbar-items>
 
@@ -242,7 +255,10 @@ export default {
         kategorie: "",
         imageIds: [],
         mutex: false,
-        imageCounter: 0
+        imageCounter: 0,
+
+        deleteImageIds: [],
+        newImages: [],
     }
 
   },
@@ -270,8 +286,6 @@ export default {
             response = await ArticleService.getArticle(this.$route.query.article);
           }
           this.articleId = response["data"]["_id"]
-          console.log(response);
-          console.log(this.articleId);
           response = response["data"];
           this.article = response.data;
           if(this.edit)
@@ -286,6 +300,8 @@ export default {
             }
             tempStr = tempStr.slice(0, -1);
             this.details = tempStr;
+            this.kategorie = this.article.kategorie;
+            this.hersteller = this.article.hersteller;
           }
           else
           {
@@ -324,7 +340,10 @@ export default {
       }
       if(this.$route.query.article == "edit")
       {
-        console.log("EDIT")
+        this.$router.go(this.$router.currentRoute)
+      }
+      if(from["query"]["article"] == "edit")
+      {
         this.$router.go(this.$router.currentRoute)
       }
     }
@@ -350,17 +369,29 @@ export default {
     },
     deleteImage()
     {
-      console.log("DELETE IMAGE");
+      let currentId = this.imageIds[this.imageCounter];
+      this.deleteImageIds.push(currentId);
+      this.images.splice(this.imageCounter, 1);
+      this.imageIds.splice(this.imageCounter, 1);
+      if(this.imageCounter > 0)
+      {
+        this.imageCounter -= 1;
+      }
     },
     searchMethod()
     {
-      console.log(this.searchterm)
       this.$router.push({name: 'CatalogSearchView', params: {search: event.target.id},  query: { search: this.searchterm } });
-      //this.$router.push({name: 'CatalogSearchView', params: {searchterm: this.searchterm}});
     },
     handleImages(files)
     {
-      this.images = files;
+      if(!this.edit)
+      {
+        this.images = files;
+      }
+      else
+      {
+        this.newImages = files;
+      }
     },
 
     async handleImages2(arr)
@@ -376,7 +407,6 @@ export default {
     {
       var attach = [];
       var reader = [];
-
       // loop through each of the files in q-uploader
       for (let i = 0; i < files.length; i++)
       {
@@ -411,10 +441,9 @@ export default {
     {
       this.description = "\n" + this.description;
       this.imageIds = [];
-      //this.images = [];
       var articleJson = {};
       articleJson["articlename"] = this.articlename;
-      articleJson["price"] = this.price;
+      articleJson["price"] = Number(this.price);
       articleJson["description"] = this.description;
       articleJson["hersteller"] = this.hersteller;
       articleJson["kategorie"] = this.kategorie;
@@ -432,14 +461,50 @@ export default {
       }
       articleJson["details"] = detailsJson;
       var base64Array = await this.encodeToBase64(this.images);
-      //console.log(test);
       await this.handleImages2(base64Array);
       articleJson["pictures"] = this.imageIds;
       const response = await ArticleService.uploadArticle(articleJson);
-      //if (response["data"] != "")
-      //{
       this.$router.push({name: 'Article', params: {articleId: event.target.id},  query: { article: response["data"] } });
-      //}
+    },
+    async editArticleSave()
+    {
+      var articleJson = {};
+      for(let imageId of this.deleteImageIds)
+      {
+        var result = await ArticleService.deletePicture(imageId);
+        if(result.status != 200)
+        {
+          console.err(result.data);
+          return;
+        }
+      }
+      if(this.newImages.length > 0)
+      {
+        var base64Array = await this.encodeToBase64(this.newImages);
+        await this.handleImages2(base64Array);
+      }
+      this.description = "\n" + this.description;
+      articleJson["pictures"] = this.imageIds;
+      articleJson["articlename"] = this.articlename;
+      articleJson["price"] = Number(this.price);
+      articleJson["description"] = this.description;
+      articleJson["hersteller"] = this.hersteller;
+      articleJson["kategorie"] = this.kategorie;
+      var detailsJson = []
+      var detailsSplit = this.details.split("\n");
+      for (const line in detailsSplit)
+      {
+        var current = {}
+        var keyValue = detailsSplit[line].split(":");
+        var key = keyValue[0];
+        var value = keyValue[1];
+        current["key"] = key;
+        current["value"] = value;
+        detailsJson.push(current);
+      }
+      articleJson["details"] = detailsJson;
+      await ArticleService.changeArticle(articleJson, this.articleId);
+      this.$router.push({name: 'Article', params: {articleId: event.target.id},  query: { article: this.articleId } });
     },
     async uploadImage(data)
     {
@@ -463,17 +528,3 @@ export default {
   }
 };
 </script>
-
-<style>
-h3 {
-  color: #000;
-}
-
-.text {
-  float: left;
-}
-.pictures {
-  float: right;
-  padding-left: 50px;
-}
-</style>

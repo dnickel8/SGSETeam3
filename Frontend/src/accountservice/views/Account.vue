@@ -30,7 +30,7 @@ export default {
   methods: {
     login: function () {
       let initOptions = {
-        url: "http://127.0.0.1:8080/auth", //TODO url anpassen
+        url: "http://35.246.228.139/auth", //TODO Url anpassen
         realm: "Onlineshop",
         clientId: "frontend",
         onLoad: "login-required",
@@ -56,7 +56,7 @@ export default {
     logout: function () {
       window.location.replace(
         //TODO url anpassen
-        "http://localhost:8080/auth/realms/Onlineshop/protocol/openid-connect/logout?redirect_uri=http://localhost:8081/account/"
+        "http://35.246.228.139/auth/realms/Onlineshop/protocol/openid-connect/logout?redirect_uri=http://localhost:8081/account/"
       );
       this.$store.commit("logout");
       console.log(this.$store.state.token);

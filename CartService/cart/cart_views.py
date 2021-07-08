@@ -22,9 +22,14 @@ def get_article_count(request, *args, **kwargs):
 
         # Get all article IDs from the user's shopping cart
         item_ids = redis_instance.zrange(cart_key, 0, -1)
-        count = len(item_ids)
 
-        return Response(data=ast.literal_eval(response_200.format(count)), status=200)
+        # Iterate through articles and sum up the article counts
+        counter = 0
+        for item_id in item_ids:
+            article_count = int(redis_instance.hget(item_id, "article_count"))
+            counter += article_count
+
+        return Response(data=ast.literal_eval(response_200.format(counter)), status=200)
 
     except Exception as e:
         return Response(data=ast.literal_eval(response_500.format(e.__class__.__name__, e)), status=500)
@@ -48,7 +53,7 @@ def get_articles(request, *args, **kwargs):
         articles = []
         for item_id in item_ids:
             article_info = redis_instance.hgetall(item_id)
-            article_info["articleid"] = item_id
+            article_info["article_id"] = item_id
             articles.append(article_info)
 
         # Build the response
@@ -80,12 +85,12 @@ def add_article(request, *args, **kwargs):
         # New article dictionary
         request_data = json.loads(request.body)
         new_article = {
-            "titel": request_data['title'],
-            "vendor": request_data['vendor'],
-            "price": request_data['price'],
-            "url": request_data['url'],
-            "imagepath": request_data['imagepath'],
-            "count": 1
+            "article_name": request_data['article_name'],
+            "article_vendor": request_data['article_vendor'],
+            "article_price": request_data['article_price'],
+            "article_url": request_data['article_url'],
+            "article_imagepath": request_data['article_imagepath'],
+            "article_count": 1
         }
 
         # Get max item (highest id) from the user's shopping cart (sorted set)
@@ -204,11 +209,11 @@ def update_article_quantity(request, *args, **kwargs):
     try:
         # Extract new quantity from JSON
         request_data = json.loads(request.body)
-        article_id = request_data['articleid']
-        new_quantity = request_data['quantity']
+        article_id = request_data['article_id']
+        new_quantity = request_data['new_quantity']
 
         # Update hash
-        redis_instance.hset(article_id, "count", new_quantity)
+        redis_instance.hset(article_id, "article_count", new_quantity)
 
         return Response(ast.literal_eval(response_200.format(article_id, new_quantity)), status=200)
 
