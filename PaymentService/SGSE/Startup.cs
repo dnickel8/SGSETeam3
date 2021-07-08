@@ -1,3 +1,4 @@
+using Autofac;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -8,6 +9,7 @@ using Microsoft.OpenApi.Models;
 using SGSE.Models;
 using SGSE.Repositories;
 using SGSE.Services;
+using System.Reflection;
 
 namespace SGSE
 {
@@ -34,9 +36,6 @@ namespace SGSE
 
             services.AddSingleton<IPaymentDatabaseSettings>(sp =>
                 sp.GetRequiredService<IOptions<PaymentDatabaseSettings>>().Value);
-
-            services.AddScoped<IPaymentRepository, PaymentRepository>();
-            services.AddScoped<IPaymentService, PaymentService>();
 
             // Allowing CORS for all domains and methods for the purpose of the sample
             // In production, modify this with the actual domains you want to allow
@@ -77,6 +76,16 @@ namespace SGSE
             {
                 endpoints.MapControllers();
             });
+        }
+
+        public void ConfigureContainer(ContainerBuilder builder)
+        {
+            builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
+                .Where(t => t.Name.EndsWith("Repository"))
+                .AsImplementedInterfaces();
+            builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
+                .Where(t => t.Name.EndsWith("Service"))
+                .AsImplementedInterfaces();
         }
     }
 }

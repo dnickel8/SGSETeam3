@@ -48,41 +48,6 @@ namespace SGSE.Services
             return invoice;
         }
 
-        public string GetPaypalAccessToken()
-        {
-            WebRequest request = WebRequest.Create("https://api-m.sandbox.paypal.com/v1/oauth2/token");
-            request.Method = "POST";
-            var username = "ASchRjlk4vOH0uRd5BwQ3Lt408sw_7wydEShg63KSyxkA5tVrIWRyJhSWZc8Ig8TFXRVRVEan3d6Ufe4";
-            var password = "EPzvTyrJLKDOdyUwNh18IHA03vC8-55IM-hqoirJ9uIOu8_dFQrD_AaglbTOs70k9LUPv353Dll4h75f";
-            string encoded = Convert.ToBase64String(Encoding.GetEncoding("ISO-8859-1")
-                                           .GetBytes(username + ":" + password));
-            request.Headers.Add("Authorization", "Basic " + encoded);
-            request.Headers.Add("Accept", "application/json");
-            request.ContentType = "application/x-www-form-urlencoded";
-            string postData = "grant_type=client_credentials";
-            byte[] byteArray = Encoding.UTF8.GetBytes(postData);
-            request.ContentLength = byteArray.Length;
-            // Get the request stream.
-            Stream dataStream = request.GetRequestStream();
-            // Write the data to the request stream.
-            dataStream.Write(byteArray, 0, byteArray.Length);
-            // Close the Stream object.
-            dataStream.Close();
-            // Get the response.
-            WebResponse response = request.GetResponse();
-            // Display the status.
-            // Get the stream associated with the response.
-            Stream receiveStream = response.GetResponseStream();
-            // Pipes the stream to a higher level stream reader with the required encoding format.
-            StreamReader readStream = new(receiveStream, Encoding.UTF8);
-            var res = readStream.ReadToEnd();
-            readStream.Close();
-            receiveStream.Close();
-            response.Close();
-            JObject json = JObject.Parse(res);
-            return (string) json["access_token"];
-        }
-
         public async Task MakePayment(string invoiceId, Amount amount, string email, bool payed)
         {
             var payment = new Payment()
@@ -113,10 +78,9 @@ namespace SGSE.Services
             smtpClient.Send(mailMessage);    */
         }
 
-        public async Task<ReplaceOneResult> Update(string id, Invoice invoice)
+        public async Task Update(string id, Invoice invoice)
         {
-            var result = await _repository.Update(id, invoice);
-            return result;
+            await _repository.Update(id, invoice);
         }
     }
 }
