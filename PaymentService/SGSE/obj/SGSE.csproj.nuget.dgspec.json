@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\workplace\\FHProjekteEtc\\SGSE\\SGSE\\SGSE.csproj": {}
+    "D:\\workplace\\SGSETeam3\\PaymentService\\SGSE\\SGSE.csproj": {}
   },
   "projects": {
-    "D:\\workplace\\FHProjekteEtc\\SGSE\\SGSE\\SGSE.csproj": {
+    "D:\\workplace\\SGSETeam3\\PaymentService\\SGSE\\SGSE.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\workplace\\FHProjekteEtc\\SGSE\\SGSE\\SGSE.csproj",
+        "projectUniqueName": "D:\\workplace\\SGSETeam3\\PaymentService\\SGSE\\SGSE.csproj",
         "projectName": "SGSE",
-        "projectPath": "D:\\workplace\\FHProjekteEtc\\SGSE\\SGSE\\SGSE.csproj",
+        "projectPath": "D:\\workplace\\SGSETeam3\\PaymentService\\SGSE\\SGSE.csproj",
         "packagesPath": "C:\\Users\\Michael\\.nuget\\packages\\",
-        "outputPath": "D:\\workplace\\FHProjekteEtc\\SGSE\\SGSE\\obj\\",
+        "outputPath": "D:\\workplace\\SGSETeam3\\PaymentService\\SGSE\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Michael\\AppData\\Roaming\\NuGet\\NuGet.Config",

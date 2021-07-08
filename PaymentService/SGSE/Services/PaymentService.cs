@@ -83,17 +83,17 @@ namespace SGSE.Services
             return (string) json["access_token"];
         }
 
-        public async Task MakePayment(string invoiceId, Amount amount, string email)
+        public async Task MakePayment(string invoiceId, Amount amount, string email, bool payed)
         {
             var payment = new Payment()
             {
                 Amount = amount,
                 InvoiceId = invoiceId,
-                Status = "UNBEZAHLT"
+                Status = payed ? "BEZAHLT" : "UNBEZAHLT"
             };
             await _repository.CreatePayment(payment);
 
-            var smtpClient = new SmtpClient("smtp.gmail.com")
+            /* var smtpClient = new SmtpClient("smtp.gmail.com")
             {
                 Port = 587,
                 Credentials = new NetworkCredential("imnexa@gmail.com", "test"),
@@ -110,7 +110,7 @@ namespace SGSE.Services
 
             mailMessage.To.Add(email);
 
-            smtpClient.Send(mailMessage);
+            smtpClient.Send(mailMessage);    */
         }
 
         public async Task<ReplaceOneResult> Update(string id, Invoice invoice)

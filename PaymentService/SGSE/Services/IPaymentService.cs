@@ -12,7 +12,7 @@ namespace SGSE.Services
         Task<List<Invoice>> GetAll();
         Task<Invoice> GetById(string id);
         Task<Invoice> CreateInvoice(Invoice invoice);
-        Task MakePayment(string invoiceId, Amount amount, string email);
+        Task MakePayment(string invoiceId, Amount amount, string email, bool payed);
         string GetPaypalAccessToken();
 
         Task<ReplaceOneResult> Update(string id, Invoice invoice);
