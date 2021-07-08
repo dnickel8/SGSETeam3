@@ -23,7 +23,7 @@ namespace SGSE.Controllers
 
         // GET: api/<PaymentController>
         [HttpGet]
-        public async Task<ActionResult<List<Invoice>>> Get()
+        public async Task<ActionResult<List<Invoice>>> getAllInvoicesForUser()
         {
             var invoices = await _service.GetAll();
             return invoices;
@@ -31,7 +31,7 @@ namespace SGSE.Controllers
 
         // GET api/<PaymentController>/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Invoice>> Get(string id)
+        public async Task<ActionResult<Invoice>> GetInvoiceForUser(string id)
         {
             var invoice = await _service.GetById(id);
             return invoice;
@@ -39,7 +39,7 @@ namespace SGSE.Controllers
 
         // POST api/<PaymentController>
         [HttpPost]
-        public async void Post([FromBody] InvoiceAndAmount invoiceAndAmount, bool payed)
+        public async void createInvoiceAndPay([FromBody] InvoiceAndAmount invoiceAndAmount, bool payed)
         {
             var createdInvoice = await _service.CreateInvoice(invoiceAndAmount.Invoice);
             await _service.MakePayment(createdInvoice.Id, invoiceAndAmount.Amount, createdInvoice.Recipient.EmailAddress, payed);
