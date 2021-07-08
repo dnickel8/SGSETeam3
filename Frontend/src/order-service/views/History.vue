@@ -54,8 +54,10 @@ export default {
       });
     },
     async getOrders() {
+      let url =
+        process.env.VUE_APP_ORDER_SERVICE_URL + "/api/v1/getOrders/123/";
       await axios
-        .get("http://127.0.0.1:8000/api/v1/getOrders/123/")
+        .get(url)
         .then((response) => {
           this.orders = JSON.parse(response.data);
           console.log(response.data);

@@ -140,7 +140,7 @@
               </v-row>
             </v-col>
             <strong>{{ product.price }}€</strong>
-            <v-btn text> Entfernen </v-btn>
+            <v-btn text @click="removeProduct(product)"> Entfernen </v-btn>
           </v-card>
         </div>
 
@@ -175,18 +175,21 @@ export default {
       e1: 1,
       products: [
         {
+          id: "1",
           name: "Mikrofon",
           image: "https://picsum.photos/50/50",
           count: 1,
           price: 100,
         },
         {
+          id: "2",
           name: "Mikrofonarm",
           image: "https://picsum.photos/50/50",
           count: 1,
           price: 22,
         },
         {
+          id: "3",
           name: "Kabel",
           image: "https://picsum.photos/50/50",
           count: 2,
@@ -215,7 +218,7 @@ export default {
         (value) => (value && value.length >= 3) || "Min. 3 Zeichen",
         (value) => !isNaN(value) || "Bitte Zahlen verwenden",
       ],
-      totalAmount: "test",
+      totalAmount: "",
     };
   },
   methods: {
@@ -225,6 +228,10 @@ export default {
         total += product.price * product.count;
       });
       this.totalAmount = total;
+    },
+    removeProduct: function (product) {
+      this.products = this.products.filter((item) => item.id !== product.id);
+      console.log(product.name);
     },
     onChangeStep(step) {
       this.e1 = step;
