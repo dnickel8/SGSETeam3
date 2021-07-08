@@ -14,7 +14,6 @@ const asyncMiddleware = fn =>
 
 async function getArticle()
 {
-  console.log(typeof(articleId));
   const client = new MongoClient(uri);
   returnArr = [];
   try
@@ -54,14 +53,11 @@ async function getArticle()
 
 router.get('/', asyncMiddleware(async (req, res, next) =>
  {
-    console.log(req.params.id)
     var result = await getArticle();
 
-    console.log("Status: " + result);
     if(result[0] == 200)
     {
       var dokument = result[1];
-      console.log(dokument);
       res.status(200);
       res.json(dokument);
     }
