@@ -22,7 +22,7 @@
           </div>
           <cart-item
             v-for="product in products"
-            v-bind:key="product.id"
+            v-bind:key="product.article_id"
             v-bind:product="product"
             v-on:delete-article="deleteArticle(product)"
             v-on:transfer-to-wishlist="transferToWishlist(product)"
@@ -68,26 +68,17 @@ export default {
       disableCheckoutButton: false,
       article_count: 0,
       total_amount: 0,
+      user_id: "lol",
       products: [
-        // TODO: Remove test data
-        {
-          id: 0,
-          checkboxValue: true,
-          imgSource: "https://picsum.photos/id/11/500/300",
-          articleName: "Micro",
-          articleVendor: "Rode",
-          articleCount: 1,
-          articlePrice: 42,
-        },
-        {
-          id: 1,
-          checkboxValue: true,
-          imgSource: "https://picsum.photos/id/11/500/300",
-          articleName: "Lautsprecher",
-          articleVendor: "Bose",
-          articleCount: 2,
-          articlePrice: 200,
-        },
+        // {  // Test data
+        //   id: 0,
+        //   checkboxValue: true,
+        //   imgSource: "https://picsum.photos/id/11/500/300",
+        //   articleName: "Micro",
+        //   articleVendor: "Rode",
+        //   articleCount: 1,
+        //   articlePrice: 42,
+        // },
       ],
     };
   },
@@ -96,8 +87,8 @@ export default {
       let counter = 0;
       for (let i = 0; i < this.products.length; ++i) {
         let product = this.products[i];
-        if (product.checkboxValue) {
-          counter += parseInt(product.articleCount, 10);
+        if (product.checkbox_value) {
+          counter += parseInt(product.article_count, 10);
         }
       }
       return counter;
@@ -106,8 +97,8 @@ export default {
       let tmpAmount = 0;
       for (let i = 0; i < this.products.length; ++i) {
         let product = this.products[i];
-        if (product.checkboxValue) {
-          tmpAmount += product.articleCount * product.articlePrice;
+        if (product.checkbox_value) {
+          tmpAmount += product.article_count * product.article_price;
         }
       }
       return tmpAmount;
@@ -115,7 +106,17 @@ export default {
     clearAllSelections: function () {
       for (let i = 0; i < this.products.length; ++i) {
         let product = this.products[i];
-        product.checkboxValue = false;
+        product.checkbox_value = false;
+      }
+    },
+    changeReceivedArticleData: function (articles) {
+      for (let i = 0; i < articles.length; ++i) {
+        articles[i]["checkbox_value"] = true;
+        articles[i]["article_count"] = parseInt(
+          articles[i]["article_count"],
+          10
+        );
+        articles[i]["article_price"] = parseFloat(articles[i]["article_price"]);
       }
     },
     deleteArticle: function (article) {
@@ -153,6 +154,19 @@ export default {
       },
       deep: true,
     },
+  },
+  mounted() {
+    let url = "http://localhost:8000/cart/getArticles/" + this.user_id;
+    this.axios
+      .get(url)
+      .then((response) => {
+        let tmpArticles = response.data.articles;
+        this.changeReceivedArticleData(tmpArticles);
+        this.products = tmpArticles;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   },
 };
 </script>

@@ -1,20 +1,20 @@
 <template>
   <v-container fluid class="pa-0">
     <v-row align="center">
-      <v-checkbox v-model="product.checkboxValue" class="ml-3"></v-checkbox>
+      <v-checkbox v-model="product.checkbox_value" class="ml-3"></v-checkbox>
       <v-img
-        v-bind:src="product.imgSource"
+        v-bind:src="product.article_imagepath"
         :width="200"
         :height="140"
         contain
         class="ml-3 article-image-hack"
       ></v-img>
       <v-col class="pt-0">
-        <div class="text-h6 mb-1">{{ product.articleName }}</div>
-        <div>Verkäufer: {{ product.articleVendor }}</div>
+        <div class="text-h6 mb-1">{{ product.article_name }}</div>
+        <div>Verkäufer: {{ product.article_vendor }}</div>
         <v-row align="center" justify="start" class="ml-0 mt-4">
           <v-text-field
-            v-model="product.articleCount"
+            v-model="product.article_count"
             :rules="rules_number_input"
             min="1"
             max="999"
@@ -44,7 +44,7 @@
           </v-btn>
         </v-row>
       </v-col>
-      <div class="text-h6 mb-4 mr-6 ml-3">{{ product.articlePrice }} €</div>
+      <div class="text-h6 mb-4 mr-6 ml-3">{{ product.article_price }} €</div>
     </v-row>
     <v-divider class="my-5"></v-divider>
   </v-container>
@@ -67,10 +67,10 @@ export default {
   watch: {
     "product.articleCount": function (val) {
       if (val === "" || val < 1) {
-        this.product.articleCount = 1;
+        this.product.article_count = 1;
       }
       if (val > 999) {
-        this.product.articleCount = 999;
+        this.product.article_count = 999;
       }
     },
   },
