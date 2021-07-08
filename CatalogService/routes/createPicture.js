@@ -25,17 +25,6 @@ async function insert(document)
     await client.connect();
     const database = client.db("SGSE");
 
-    //idNr = await database.collection("SGSE_PICTURE_TEST").find({}).sort("id",-1).limit(1).toArray();
-    //if(idNr != "")
-    //{
-    //  idNr = idNr[0]["id"];
-    //  idNr += 1;
-    //}
-    //else
-    //{
-    //  idNr = 1;
-    //}
-    //document["id"] = idNr;
     await database.collection("SGSE_PICTURE").insertOne(document, function(err, res)
     {
       if (err)
@@ -64,7 +53,6 @@ router.post('/', asyncMiddleware(async (req, res, next) =>
     
     var result = await insert(req.body);
 
-    console.log("Status: " + result);
     if(result != "-1")
     {
       res.status(200);

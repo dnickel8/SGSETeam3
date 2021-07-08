@@ -301,7 +301,7 @@ export default {
             tempStr = tempStr.slice(0, -1);
             this.details = tempStr;
             this.kategorie = this.article.kategorie;
-            this.hersteller = this.article.kategorie;
+            this.hersteller = this.article.hersteller;
           }
           else
           {
@@ -443,7 +443,7 @@ export default {
       this.imageIds = [];
       var articleJson = {};
       articleJson["articlename"] = this.articlename;
-      articleJson["price"] = this.price;
+      articleJson["price"] = Number(this.price);
       articleJson["description"] = this.description;
       articleJson["hersteller"] = this.hersteller;
       articleJson["kategorie"] = this.kategorie;
@@ -486,7 +486,7 @@ export default {
       this.description = "\n" + this.description;
       articleJson["pictures"] = this.imageIds;
       articleJson["articlename"] = this.articlename;
-      articleJson["price"] = this.price;
+      articleJson["price"] = Number(this.price);
       articleJson["description"] = this.description;
       articleJson["hersteller"] = this.hersteller;
       articleJson["kategorie"] = this.kategorie;
