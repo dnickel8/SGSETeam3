@@ -79,6 +79,9 @@ export default {
               .then((response) => {
                 if (response.status === 200) {
                   this.products.splice(this.products.indexOf(product), 1);
+
+                  // Update article count badge
+                  this.$store.commit("incrementCartArticleCount");
                 }
               })
               .catch((error) => {

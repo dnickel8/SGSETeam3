@@ -182,6 +182,9 @@ export default {
           this.showNoContentMessage = false;
           this.disableCheckoutButton = this.article_count < 1;
         }
+
+        // Update article count badge
+        this.$store.commit("setCartArticleCount", this.article_count);
       },
       deep: true,
     },
