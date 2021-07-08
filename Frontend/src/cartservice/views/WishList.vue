@@ -104,6 +104,13 @@ export default {
     },
   },
   mounted() {
+    // Get userID
+    let id = this.$store.state.userId;
+    if (id !== "") {
+      this.user_id = id;
+    }
+
+    // Get products from redis database
     let url =
       process.env.VUE_APP_CART_SERVICE_URL +
       "/list/getArticles/" +
