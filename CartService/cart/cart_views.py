@@ -22,9 +22,14 @@ def get_article_count(request, *args, **kwargs):
 
         # Get all article IDs from the user's shopping cart
         item_ids = redis_instance.zrange(cart_key, 0, -1)
-        count = len(item_ids)
 
-        return Response(data=ast.literal_eval(response_200.format(count)), status=200)
+        # Iterate through articles and sum up the article counts
+        counter = 0
+        for item_id in item_ids:
+            article_count = int(redis_instance.hget(item_id, "article_count"))
+            counter += article_count
+
+        return Response(data=ast.literal_eval(response_200.format(counter)), status=200)
 
     except Exception as e:
         return Response(data=ast.literal_eval(response_500.format(e.__class__.__name__, e)), status=500)
