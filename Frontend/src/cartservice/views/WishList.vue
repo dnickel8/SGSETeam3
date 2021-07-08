@@ -86,6 +86,15 @@ export default {
         });
     },
   },
+  watch: {
+    products: {
+      immediate: true,
+      handler: function () {
+        this.showNoContentMessage = this.products.length === 0;
+      },
+      deep: true,
+    },
+  },
   mounted() {
     let url = "http://localhost:8000/list/getArticles/" + this.user_id;
     this.axios

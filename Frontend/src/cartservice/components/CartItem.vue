@@ -64,6 +64,23 @@ export default {
       ],
     };
   },
+  methods: {
+    updateArticleCount: function () {
+      let url = "http://localhost:8000/cart/updateArticleQuantity";
+
+      let body = {
+        article_id: this.product.article_id,
+        new_quantity: this.product.article_count,
+      };
+
+      this.axios
+        .put(url, body)
+        .then()
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+  },
   watch: {
     "product.article_count": function (val) {
       if (val === "" || val < 1) {
@@ -72,6 +89,7 @@ export default {
       if (val > 999) {
         this.product.article_count = 999;
       }
+      this.updateArticleCount();
     },
   },
 };
