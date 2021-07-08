@@ -28,6 +28,7 @@ const store = new Vuex.Store({
     orderAmount: "1.99",
     items: [],
     userRole: "",
+    userId: "",
   },
   mutations: {
     setExampleState(state, example) {
@@ -47,6 +48,9 @@ const store = new Vuex.Store({
     },
     setItems(state, items) {
       state.items = items;
+    },
+    setUserId(state, userId) {
+      state.userId = userId;
     },
   },
   getters: {

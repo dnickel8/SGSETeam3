@@ -139,6 +139,7 @@
 
 <script lang="js">
 import PaymentService from "@/payment/services/payment.service.js"
+import OrderService from "@/payment/services/order.service.js"
 import { loadScript } from "@paypal/paypal-js";
 export default {
   name: "Payment",
@@ -195,7 +196,11 @@ export default {
           const invoice = me.createInvoiceWithPaypalData(details);
           const amount = me.createAmountWithPaypalData(details.purchase_units[0].amount);
           await PaymentService.createInvoiceAndPay(invoice, amount, true);
-          me.alert = true;
+          this.alert = true;
+          const order = this.createOrder(invoice, amount, "PayPal");
+          await OrderService.placeOrder(order);
+
+
     });
     }
     }).render("#paypal-buttons");
@@ -230,8 +235,42 @@ export default {
       const invoice = this.createInvoice();
       const amount = this.createAmount();
       await PaymentService.createInvoiceAndPay(invoice, amount, false);
+      const order = this.createOrder(invoice, amount, "Rechnung");
+      await OrderService.placeOrder(order);
       this.alert = true;
 
+
+    },
+    createOrder(invoice, amount, shippingMethod) {
+      const order = {
+        date: invoice.invoiceDetails.invoiceDate,
+        user: {
+          id: this.$store.state.userId
+        },
+        products: this.items,
+        address: {
+          firstName: this.address.first_name,
+          lastName: this.address.last_name,
+          street: this.address.street,
+          number:  this.address.number,
+          postCode: this.address.code,
+          city: this.address.city
+        },
+        shippingAddress: {
+          firstName: invoice.invoiceDetails.recipient.shippingInfo.firstName,
+          lastName: invoice.invoiceDetails.recipient.shippingInfo.surname,
+          street: invoice.invoiceDetails.recipient.shippingInfo.address.street.split(' ')[0],
+          number:  invoice.invoiceDetails.recipient.shippingInfo.address.street.split(' ')[1],
+          postCode: invoice.invoiceDetails.recipient.shippingInfo.address.postalCode,
+          city: invoice.invoiceDetails.recipient.shippingInfo.address.city
+        },
+        shippingMethod: {
+          name: shippingMethod,
+          description: shippingMethod,
+          price: amount.value
+        }
+      }
+      return order;
     },
     createAmount() {
       const amount = {
@@ -272,7 +311,7 @@ export default {
             }
           }
         },
-        items: createItems()
+        items: this.createItems()
       }
 
       return invoice;
@@ -308,7 +347,7 @@ export default {
             }
           }
         },
-        items: createItems()
+        items: this.createItems()
       }
 
       return invoice;
