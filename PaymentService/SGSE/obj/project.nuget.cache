@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "dxqNoppqPedKFnRXTeP79hHgBzrPpJ1gzCk0SseQxK28eFOWbydWtKwDo3MA3i8IOq1NdvNtiIjyRz4EPX597A==",
+  "dgSpecHash": "ppzcta7C3buYhG0YVOcHA3BqjFgIjeQu4YSQJAZ8iVW206Uq/leXs65rdgzVWmbU6JYFUqsdt3Gkg7hGUfaVfw==",
   "success": true,
-  "projectFilePath": "D:\\workplace\\FHProjekteEtc\\SGSE\\SGSE\\SGSE.csproj",
+  "projectFilePath": "D:\\workplace\\SGSETeam3\\PaymentService\\SGSE\\SGSE.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Michael\\.nuget\\packages\\dnsclient\\1.4.0\\dnsclient.1.4.0.nupkg.sha512",
     "C:\\Users\\Michael\\.nuget\\packages\\microsoft.extensions.apidescription.server\\3.0.0\\microsoft.extensions.apidescription.server.3.0.0.nupkg.sha512",
