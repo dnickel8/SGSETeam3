@@ -7,6 +7,7 @@ import History from "../order-service/views/History";
 import Catalog from "../catalogService/views/Catalog.vue";
 import CatalogSearch from "../catalogService/views/CatalogSearch.vue";
 import Article from "../catalogService/views/Article.vue";
+import Account from "../accountservice/views/Account.vue";
 
 Vue.use(VueRouter);
 
@@ -65,6 +66,14 @@ const routes = [
     name: "wishlist",
     meta: {
       title: "Wunschliste",
+    },
+  },
+  {
+    path: "/account",
+    component: Account,
+    name: "account",
+    meta: {
+      title: "Benutzermanagement",
     },
   },
 ];

@@ -13,8 +13,6 @@ namespace SGSE.Services
         Task<Invoice> GetById(string id);
         Task<Invoice> CreateInvoice(Invoice invoice);
         Task MakePayment(string invoiceId, Amount amount, string email, bool payed);
-        string GetPaypalAccessToken();
-
-        Task<ReplaceOneResult> Update(string id, Invoice invoice);
+        Task Update(string id, Invoice invoice);
     }
 }

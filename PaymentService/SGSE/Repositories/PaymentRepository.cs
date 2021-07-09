@@ -14,15 +14,11 @@ namespace SGSE.Repositories
 
         public PaymentRepository(IInvoiceDatabaseSettings invoiceSettings, IPaymentDatabaseSettings paymentSettings)
         {
-            var invoiceClient = new MongoClient(invoiceSettings.ConnectionString);
-            var invoiceDatabase = invoiceClient.GetDatabase(invoiceSettings.DatabaseName);
+            var client = new MongoClient(invoiceSettings.ConnectionString);
+            var database = client.GetDatabase(invoiceSettings.DatabaseName);
 
-            _invoices = invoiceDatabase.GetCollection<Invoice>(invoiceSettings.InvoiceCollectionName);
-
-            var paymentClient = new MongoClient(paymentSettings.ConnectionString);
-            var paymentDatabase = paymentClient.GetDatabase(paymentSettings.DatabaseName);
-
-            _payments = paymentDatabase.GetCollection<Payment>(paymentSettings.PaymentCollectionName);
+            _invoices = database.GetCollection<Invoice>(invoiceSettings.InvoiceCollectionName);
+            _payments = database.GetCollection<Payment>(paymentSettings.PaymentCollectionName);
         }
 
         public async Task<List<Invoice>> GetAll() =>
@@ -38,10 +34,10 @@ namespace SGSE.Repositories
             return invoice;
         }
 
-        public async Task<ReplaceOneResult> Update(string id, Invoice InvoiceIn)
+        public async Task Update(string id, Invoice InvoiceIn)
         {
-            var result = await _invoices.ReplaceOneAsync(Invoice => Invoice.Id == id, InvoiceIn);
-            return result;
+            await _invoices.ReplaceOneAsync(Invoice => Invoice.Id == id, InvoiceIn);
+            
         }
 
         public async Task<Payment> CreatePayment(Payment payment)
