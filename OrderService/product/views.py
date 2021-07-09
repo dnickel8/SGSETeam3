@@ -10,7 +10,6 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
 
-
 client = MongoClient("mongodb+srv://mongo:123@cluster0.raszr.mongodb.net/micro-shop?retryWrites=true&w=majority")
 db = client['micro-shop']
 collection = db["order"]
