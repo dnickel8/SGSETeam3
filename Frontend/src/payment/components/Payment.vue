@@ -356,7 +356,7 @@ export default {
     },
     createArticlesToDelete() {
       const articles = []
-      items.forEach((element, index) => {
+      this.items.forEach((element, index) => {
         articles.push(`user:${this.$store.state.userId}:cart-item:${index}`)
       });
 
