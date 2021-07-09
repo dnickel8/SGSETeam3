@@ -7,33 +7,26 @@ import Vuex from "vuex";
 import createPersistedState from "vuex-persistedstate";
 import vuetify from "./plugins/vuetify";
 import Cookies from "js-cookie";
-import VueKeycloakJs from "@dsb-norge/vue-keycloak-js";
+import VueKeycloak from "@dsb-norge/vue-keycloak-js";
 
 Vue.config.productionTip = false;
 Vue.use(VueAxios, axios);
 Vue.use(Vuex);
-Vue.use(VueKeycloakJs, {
+Vue.use(VueKeycloak, {
   init: {
     // Use 'login-required' to always require authentication
     // If using 'login-required', there is no need for the router guards in router.js
     onLoad: "check-sso",
   },
   logout: {
-    redirectUri: "http://localhost:8081/",
+    redirectUri: `${process.env.VUE_APP_FRONTEND_URL}/`,
   },
   config: {
-    url: "http://localhost:8080/auth",
+    url: `${process.env.VUE_APP_ACCOUNT_SERVICE_URL}/auth`,
     clientId: "vue-app",
     realm: "vue",
   },
-  onReady: () => {
-    new Vue({
-      router,
-      store,
-      vuetify,
-      render: (h) => h(App),
-    }).$mount("#app");
-  },
+  onReady: () => {},
 });
 
 const store = new Vuex.Store({
@@ -94,3 +87,10 @@ const store = new Vuex.Store({
     },
   },
 });
+
+new Vue({
+  router,
+  store,
+  vuetify,
+  render: (h) => h(App),
+}).$mount("#app");

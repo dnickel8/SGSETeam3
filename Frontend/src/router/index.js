@@ -42,6 +42,7 @@ const routes = [
     component: Order,
     meta: {
       title: "Bestellvorgang",
+      requiresAuth: true,
     },
   },
   {
@@ -88,6 +89,25 @@ router.afterEach((to) => {
   Vue.nextTick(() => {
     document.title = to.meta.title || DEFAULT_TITLE;
   });
+});
+
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+router.beforeEach(async (to, from, next) => {
+  if (to.matched.some((record) => record.meta.requiresAuth)) {
+    while (router.app.$keycloak.createLoginUrl === null) {
+      await sleep(100);
+    }
+    if (router.app.$keycloak.authenticated) {
+      next();
+    } else {
+      router.app.$keycloak.login();
+    }
+  } else {
+    next();
+  }
 });
 
 export default router;
