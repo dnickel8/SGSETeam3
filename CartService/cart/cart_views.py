@@ -219,3 +219,9 @@ def update_article_quantity(request, *args, **kwargs):
 
     except Exception as e:
         return Response(data=ast.literal_eval(response_500.format(e.__class__.__name__, e)), status=500)
+
+
+# Test
+@api_view(['GET'])
+def get_test(request, *args, **kwargs):
+    return Response(data=ast.literal_eval("{'message': 'OK'}"), status=200)
