@@ -45,16 +45,10 @@ export default {
         .init({ onLoad: initOptions.onLoad })
         .then((auth) => {
           if (!auth) {
-            console.log(auth);
-            console.log(this.keycloak.tokenParsed);
-            console.log(this.keycloak.token);
             this.$store.commit("login", this.keycloak.token);
             this.$store.commit("setAuth", this.keycloak.authenticated);
             //window.location.reload();
           } else {
-            console.log(auth);
-            console.log(this.keycloak.tokenParsed);
-            console.log(this.keycloak.token);
             this.$store.commit("login", this.keycloak.token);
             Vue.$log.info("Authenticated");
             this.$store.commit("setAuth", this.keycloak.authenticated);
@@ -73,7 +67,6 @@ export default {
       );*/
       this.$store.commit("logout");
       this.$$store.commit("setAuth", this.keycloak.authenticated);
-      console.log(this.$store.state.token);
     },
   },
 };
