@@ -14,6 +14,7 @@ namespace SGSE.Repositories
 
         public PaymentRepository(IInvoiceDatabaseSettings invoiceSettings, IPaymentDatabaseSettings paymentSettings)
         {
+            Console.WriteLine(invoiceSettings.ConnectionString);
             var client = new MongoClient(invoiceSettings.ConnectionString);
             var database = client.GetDatabase(invoiceSettings.DatabaseName);
 

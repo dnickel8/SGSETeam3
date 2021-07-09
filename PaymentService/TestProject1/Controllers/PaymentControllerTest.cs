@@ -81,7 +81,7 @@ namespace Tests.Controllers
         }
 
         [Fact]
-        public async Task createInvoiceAndPay_ReturnsSuccess()
+        public void CreateInvoiceAndPay_ReturnsSuccess()
         {
             using var context = AutoMock.GetLoose();
             // Arrange
@@ -103,7 +103,6 @@ namespace Tests.Controllers
                 Invoice = invoice,
                 Amount = new Amount()
                 {
-                    Id = "1",
                     CurrencyCode = "EUR",
                     Value = 10.99f
                 }
