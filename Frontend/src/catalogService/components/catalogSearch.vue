@@ -1,11 +1,21 @@
 <template>
   <div>
-    <v-toolbar id="navbar" dense elevation="1" white>
+    <v-toolbar
+      v-if="$store.state.userRole == 'Admin'"
+      id="navbar"
+      dense
+      elevation="1"
+      white
+    >
       <v-app-bar-nav-icon class="hidden-md-and-up"></v-app-bar-nav-icon>
       <v-navigation-drawer app hide-overlay temporary />
 
       <v-toolbar-items d-flex>
-        <v-btn @click="$router.push('/')">Main Page</v-btn>
+        <v-btn
+          v-if="$store.state.userRole == 'Admin'"
+          @click="$router.push({ name: 'Article', query: { article: 'add' } })"
+          >Artikel hinzufügen</v-btn
+        >
       </v-toolbar-items>
 
       <v-spacer></v-spacer>
@@ -23,7 +33,7 @@
         <td colspan="2"></td>
       </tr>
       <tr>
-        <td width="20%">
+        <td width="30%">
           <center>
             <div style="display: inline">
               <p style="display: inline-block">&nbsp; Preis von: &nbsp;</p>
@@ -74,7 +84,7 @@
             <v-btn style="margin: 2%" @click="update">Aktualisieren</v-btn>
           </center>
         </td>
-        <td width="80%">
+        <td width="70%">
           <div class="row" style="margin-top: 1%">
             <div class="col-md-2" v-for="item in forSale" v-bind:key="item.id">
               <v-card :id="item.id" v-on:click="clickMethod" elevation="2">

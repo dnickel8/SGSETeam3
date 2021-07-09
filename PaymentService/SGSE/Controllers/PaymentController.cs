@@ -23,6 +23,13 @@ namespace SGSE.Controllers
 
         // GET: api/<PaymentController>
         [HttpGet]
+        [Route("/test")]
+        public string Test()
+        {
+            return "test";
+        }
+
+        [HttpGet()]
         public async Task<ActionResult<List<Invoice>>> getAllInvoicesForUser()
         {
             var invoices = await _service.GetAll();

@@ -10,7 +10,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
 
-myclient = MongoClient("mongodb://localhost:27017")
+myclient = MongoClient("mongodb://172.17.0.2:27017")
 db = myclient["micro-shop"]
 collection = db["order"]
 

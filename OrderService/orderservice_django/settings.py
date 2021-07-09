@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-96t*m&-!_&52(w5_2s0lq$0@g5kco*q0gt0dha4hs67ih_f@q+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['34.107.43.139']
 
 
 # Application definition
@@ -85,11 +85,13 @@ WSGI_APPLICATION = 'orderservice_django.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-DATABASES = {
+DATABASE = {
     'default': {
         'ENGINE': 'djongo',
         'NAME': 'micro-shop',
-        'HOST': 'mongodb://localhost:27017'
+        'CLIENT': {
+            'host': 'mongodb://localhost:27017',
+        }
     }
 }
 
