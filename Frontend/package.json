@@ -8,6 +8,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@dsb-norge/vue-keycloak-js": "^2.0.1-beta",
     "@paypal/paypal-js": "^4.0.1",
     "axios": "^0.21.1",
     "bulma": "^0.9.2",
