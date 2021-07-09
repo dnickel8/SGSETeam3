@@ -260,8 +260,7 @@ export default {
       }
       if (!this.addArticle)
       {
-        try
-        {
+
           var response = "";
           if(this.edit)
           {
@@ -307,11 +306,7 @@ export default {
             const response = await ArticleService.getPicture(id);
             this.images.push(response["data"]["data"]);
           }
-        }
-        catch(e)
-        {
-          console.log(e);
-        }
+
       }
   },
   components: {
@@ -503,8 +498,8 @@ export default {
       json["article_url"] = "http://35.246.128.219:3000/getArticle/" + this.articleId;
       json["article_imagepath"] = "http://35.246.128.219:3000/getPicture/" + this.imageIds[0];
       var userId = this.$store.state.userId;
-      var response = await ArticleService.addToCart(userId, json);
-      console.log(response);
+      await ArticleService.addToCart(userId, json);
+
       // Update article count badge
       this.$store.commit("incrementCartArticleCount");
     },

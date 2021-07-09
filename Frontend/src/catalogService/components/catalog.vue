@@ -74,8 +74,7 @@ export default {
   },
   async created()
     {
-      try
-      {
+
         const response = await CatalogService.getData();
         for (let i = 0; i < response["data"].length; i++)
         {
@@ -94,11 +93,8 @@ export default {
           this.kategorien[article.data.kategorie].push(temp);
         }
         this.test = response.data[0];
-      }
-      catch(e)
-      {
-        console.log(e);
-      }
+
+
       this.$forceUpdate();
     },
   methods: {

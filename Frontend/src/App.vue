@@ -32,9 +32,28 @@
         <v-btn v-on:click="openHistory" class="ma-2" text icon>
           <v-icon large>mdi-clock</v-icon>
         </v-btn>
-        <v-btn v-on:click="openUserSettings" class="ma-2" text icon>
-          <v-icon large>mdi-account</v-icon>
-        </v-btn>
+        <v-menu offset-y>
+          <template v-slot:activator="{ on, attrs }"
+            ><v-btn v-on="on" v-bind="attrs" class="ma-2" text icon>
+              <v-icon large>mdi-account</v-icon>
+            </v-btn>
+          </template>
+          <v-list>
+            <v-list-item
+              v-if="$keycloak.authenticated"
+              @click="openAccount"
+              link
+            >
+              <v-list-item-title>Account</v-list-item-title>
+            </v-list-item>
+            <v-list-item v-if="!$keycloak.authenticated" @click="login" link>
+              <v-list-item-title>Login</v-list-item-title>
+            </v-list-item>
+            <v-list-item v-if="$keycloak.authenticated" @click="logout" link>
+              <v-list-item-title>Logout</v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
       </div>
     </v-app-bar>
 
@@ -66,8 +85,14 @@ export default {
     openHistory: function () {
       this.$router.push({ path: "history" });
     },
-    openUserSettings: function () {
-      // TODO: login + logout + orders
+    openAccount() {
+      this.$router.push({ name: "account" });
+    },
+    login() {
+      this.$keycloak.login();
+    },
+    logout() {
+      this.$keycloak.logoutFn();
     },
     searchMethod() {
       this.$router.push({
@@ -90,7 +115,16 @@ export default {
       return this.$store.state.cart_article_count > 0;
     },
   },
-  mounted() {
+  async mounted() {
+    if (
+      this.$keycloak.realmAccess &&
+      this.$keycloak.realmAccess.roles.indexOf("admin") > -1
+    ) {
+      this.$store.state.userRole = "Admin";
+    } else {
+      this.$store.state.userRole = "User";
+    }
+    this.$store.state.userId = this.$keycloak.subject;
     // Get cart article count to update badge
     let url =
       process.env.VUE_APP_CART_SERVICE_URL +
@@ -101,13 +135,9 @@ export default {
       .then((response) => {
         if (response.status === 200) {
           this.$store.commit("setCartArticleCount", response.data.count);
-        } else {
-          console.log(response.data);
         }
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch(() => {});
   },
 };
 </script>

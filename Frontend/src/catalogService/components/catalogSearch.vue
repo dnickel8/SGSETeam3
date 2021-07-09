@@ -316,8 +316,7 @@ export default {
         maxPreis = maxPreis.replace(",", "");
         tempJson["preisMax"] = maxPreis;
       }
-      try
-      {
+
         const response = await CatalogService.search(searchterm, tempJson);
         this.allArticles = response;
         for (let i = 0; i < response["data"].length; i++)
@@ -331,11 +330,6 @@ export default {
           temp["image"] = temp["image"]["data"]["data"];
           this.forSale.push(temp);
         }
-      }
-      catch(e)
-      {
-        console.log(e);
-      }
     },
     async watchMethod()
     {
@@ -351,8 +345,7 @@ export default {
       }
 
       let searchterm = this.$route.query.search;
-      try
-      {
+
         const response = await CatalogService.search(searchterm, "");
         this.allArticles = response;
         for (let i = 0; i < response["data"].length; i++)
@@ -367,11 +360,7 @@ export default {
           this.forSale.push(temp);
         }
       }
-      catch(e)
-      {
-        console.log(e);
-      }
+
     },
-  }
-};
+  };
 </script>
