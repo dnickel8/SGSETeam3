@@ -28,7 +28,7 @@ async function deletePicture(pictureId)
     if (err)
     {
       console.log(err);
-      code = 500
+      code = 500;
     }
     else
     {
