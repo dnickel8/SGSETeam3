@@ -24,7 +24,7 @@ const store = new Vuex.Store({
   ],
   state: {
     exampleState: "",
-    token: Object,
+    token: {},
     orderAmount: "1.99",
     items: [],
     userRole: "",
