@@ -250,7 +250,6 @@ export default {
     },
     removeProduct: function (product) {
       this.products = this.products.filter((item) => item.id !== product.id);
-      console.log(product.name);
     },
     onChangeStep(step) {
       this.e1 = step;

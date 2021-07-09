@@ -77,9 +77,7 @@ export default {
       this.axios
         .put(url, body)
         .then()
-        .catch((error) => {
-          console.log(error);
-        });
+        .catch(() => {});
     },
   },
   watch: {

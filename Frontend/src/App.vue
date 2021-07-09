@@ -64,7 +64,6 @@
 </template>
 
 <script>
-import Cookies from "js-cookie";
 export default {
   name: "App",
   data: function () {
@@ -126,8 +125,6 @@ export default {
       this.$store.state.userRole = "User";
     }
     this.$store.state.userId = this.$keycloak.subject;
-    console.log(this.$store.state);
-    console.log(Cookies.get());
     // Get cart article count to update badge
     let url =
       process.env.VUE_APP_CART_SERVICE_URL +
@@ -138,13 +135,9 @@ export default {
       .then((response) => {
         if (response.status === 200) {
           this.$store.commit("setCartArticleCount", response.data.count);
-        } else {
-          console.log(response.data);
         }
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch(() => {});
   },
 };
 </script>
