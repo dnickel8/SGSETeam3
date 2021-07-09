@@ -39,6 +39,7 @@ import axios from "axios";
 export default {
   data() {
     return {
+      user_id: 123,
       e1: 1,
       orders: [],
     };
@@ -54,8 +55,12 @@ export default {
       });
     },
     async getOrders() {
+      let url =
+        process.env.VUE_APP_ORDER_SERVICE_URL +
+        "/api/v1/getOrders/" +
+        this.user_id;
       await axios
-        .get("http://127.0.0.1:8000/api/v1/getOrders/123/")
+        .get(url)
         .then((response) => {
           this.orders = JSON.parse(response.data);
           console.log(response.data);
@@ -68,6 +73,12 @@ export default {
   },
   beforeMount() {
     this.getOrders();
+
+    // Get userID
+    let user_id = this.$store.state.userId;
+    if (user_id !== "") {
+      this.user_id = user_id;
+    }
   },
 };
 </script>

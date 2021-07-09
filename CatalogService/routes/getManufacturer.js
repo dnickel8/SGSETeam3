@@ -13,38 +13,21 @@ const asyncMiddleware = fn =>
       .catch(next);
   };
 
-async function getArticle(articleId)
+async function getManufacturer()
 {
-  console.log(typeof(articleId));
   const client = new MongoClient(uri);
   returnArr = [];
   try
   {
     await client.connect();
     const database = client.db("SGSE");
-    var query =  { "_id" : new ObjectId(articleId) };
     
-    database.collection("SGSE_ARTICLE").find(query).toArray(function(err, result) {
-    if (err)
-    {
-      console.log(err);
-      returnArr = [500 , ""];
-    }
-    else
-    {
-      if(result.length == 0)
-      {
-        returnArr = [404 , ""];
-      }
-      else
-      {
-        returnArr = [200, result[0]];
-      }
-    }
-    })
+    var manufacturer = await database.collection("SGSE_ARTICLE").distinct("data.hersteller", {})
+    returnArr = [200 , manufacturer];
   }
-  catch
+  catch(e)
   {
+    console.log(e);
     if(articleId.length <= 23 && articleId.length > 0)
     {
       returnArr = [404 , ""];
@@ -61,9 +44,9 @@ async function getArticle(articleId)
   return returnArr;
 }
 
-router.get('/:id', asyncMiddleware(async (req, res, next) =>
+router.get('/', asyncMiddleware(async (req, res, next) =>
  {
-    var result = await getArticle(req.params.id);
+    var result = await getManufacturer();
 
     if(result[0] == 200)
     {

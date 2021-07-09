@@ -24,11 +24,13 @@ const store = new Vuex.Store({
   ],
   state: {
     exampleState: "",
-    token: Object,
+    token: {},
     orderAmount: "1.99",
     items: [],
     userRole: "",
     userId: "",
+    cart_article_count: 0,
+    products: [],
   },
   mutations: {
     setExampleState(state, example) {
@@ -51,6 +53,15 @@ const store = new Vuex.Store({
     },
     setUserId(state, userId) {
       state.userId = userId;
+    },
+    setCartArticleCount(state, count) {
+      state.cart_article_count = count;
+    },
+    incrementCartArticleCount(state) {
+      state.cart_article_count++;
+    },
+    setProducts(state, products) {
+      state.products = products;
     },
   },
   getters: {

@@ -88,10 +88,8 @@ WSGI_APPLICATION = 'orderservice_django.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'djongo',
-        'NAME': 'shop',
-        'HOST': 'mongodb://localhost:27017',
-        'USER': 'admin',
-        'PASSWORD': '123',
+        'NAME': 'micro-shop',
+        'HOST': 'mongodb://localhost:27017'
     }
 }
 

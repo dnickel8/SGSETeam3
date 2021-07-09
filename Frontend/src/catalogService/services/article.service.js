@@ -14,7 +14,6 @@ class ArticleService {
         data: base64,
       },
     });
-    //return axios.post("http://localhost:3000/createPicture/");
   }
 
   async uploadArticle(articleJson) {
