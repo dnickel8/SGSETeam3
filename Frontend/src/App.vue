@@ -32,7 +32,7 @@
         <v-btn v-on:click="openHistory" class="ma-2" text icon>
           <v-icon large>mdi-clock</v-icon>
         </v-btn>
-        <v-menu offset-y>
+        <v-menu v-if="$keycloak.ready" offset-y>
           <template v-slot:activator="{ on, attrs }"
             ><v-btn v-on="on" v-bind="attrs" class="ma-2" text icon>
               <v-icon large>mdi-account</v-icon>
@@ -116,15 +116,6 @@ export default {
     },
   },
   async mounted() {
-    if (
-      this.$keycloak.realmAccess &&
-      this.$keycloak.realmAccess.roles.indexOf("admin") > -1
-    ) {
-      this.$store.state.userRole = "Admin";
-    } else {
-      this.$store.state.userRole = "User";
-    }
-    this.$store.state.userId = this.$keycloak.subject;
     // Get cart article count to update badge
     let url =
       process.env.VUE_APP_CART_SERVICE_URL +
@@ -138,6 +129,17 @@ export default {
         }
       })
       .catch(() => {});
+  },
+  updated() {
+    if (
+      this.$keycloak.realmAccess &&
+      this.$keycloak.realmAccess.roles.indexOf("admin") > -1
+    ) {
+      this.$store.state.userRole = "Admin";
+    } else {
+      this.$store.state.userRole = "User";
+    }
+    this.$store.state.userId = this.$keycloak.subject;
   },
 };
 </script>
