@@ -28,6 +28,9 @@
         <v-btn v-on:click="openWishlist" class="ma-2" text icon>
           <v-icon large>mdi-format-list-bulleted</v-icon>
         </v-btn>
+        <v-btn v-on:click="openHistory" class="ma-2" text icon>
+          <v-icon large>mdi-clock</v-icon>
+        </v-btn>
         <v-btn v-on:click="openUserSettings" class="ma-2" text icon>
           <v-icon large>mdi-account</v-icon>
         </v-btn>
@@ -58,6 +61,9 @@ export default {
     },
     openWishlist: function () {
       this.$router.push({ name: "wishlist" });
+    },
+    openHistory: function () {
+      this.$router.push({ path: "history" });
     },
     openUserSettings: function () {
       // TODO: login + logout + orders

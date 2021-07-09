@@ -49,7 +49,7 @@
                     <v-text-field
                       label="Vorname"
                       :rules="rules_text"
-                      v-model="address.fist_name"
+                      v-model="address.first_name"
                       solo
                     ></v-text-field>
                   </v-col>
@@ -108,7 +108,9 @@
           </v-row>
         </v-container>
 
-        <v-btn color="primary" @click="e1 = 2"> Weiter </v-btn>
+        <v-btn color="primary" :disabled="!isAdressValid" @click="e1 = 2">
+          Weiter
+        </v-btn>
 
         <v-btn text> Zurück </v-btn>
       </v-stepper-content>
@@ -219,15 +221,32 @@ export default {
         (value) => !isNaN(value) || "Bitte Zahlen verwenden",
       ],
       totalAmount: "",
+      isAdressValid: false,
     };
   },
   methods: {
     calculateTotalAmount: function () {
       let total = 0;
       this.products.forEach((product) => {
+        if (product.count < 1) {
+          product.count = 1;
+        }
         total += product.price * product.count;
       });
       this.totalAmount = total;
+    },
+    validateAdress: function () {
+      if (
+        this.address.first_name.length >= 3 &&
+        this.address.last_name.length >= 3 &&
+        this.address.street.length >= 3 &&
+        this.address.code.length >= 3 &&
+        this.address.city.length >= 3 &&
+        !isNaN(this.address.number) &&
+        !isNaN(this.address.code)
+      ) {
+        this.isAdressValid = true;
+      }
     },
     removeProduct: function (product) {
       this.products = this.products.filter((item) => item.id !== product.id);
@@ -245,6 +264,12 @@ export default {
       immediate: true,
       handler: function () {
         this.calculateTotalAmount();
+      },
+      deep: true,
+    },
+    address: {
+      handler: function () {
+        this.validateAdress();
       },
       deep: true,
     },

@@ -27,26 +27,38 @@ import Keycloak from "keycloak-js";
 import Vue from "vue";
 export default {
   name: "Account",
+  data: function () {
+    return {
+      keycloak: {},
+    };
+  },
   methods: {
     login: function () {
       let initOptions = {
-        url: "http://35.246.228.139/auth", //TODO Url anpassen
+        url: process.env.VUE_APP_ACCOUNT_SERVICE_URL + "/auth",
         realm: "Onlineshop",
         clientId: "frontend",
         onLoad: "login-required",
       };
-      let keycloak = Keycloak(initOptions);
-      keycloak
+      this.keycloak = Keycloak(initOptions);
+      this.keycloak
         .init({ onLoad: initOptions.onLoad })
         .then((auth) => {
           if (!auth) {
-            this.$store.commit("login", keycloak.token);
-            this.$store.commit("setAuth", false);
-            window.location.reload();
+            console.log(auth);
+            console.log(this.keycloak.tokenParsed);
+            console.log(this.keycloak.token);
+            this.$store.commit("login", this.keycloak.token);
+            this.$store.commit("setAuth", this.keycloak.authenticated);
+            //window.location.reload();
           } else {
-            this.$store.commit("login", keycloak.token);
+            console.log(auth);
+            console.log(this.keycloak.tokenParsed);
+            console.log(this.keycloak.token);
+            this.$store.commit("login", this.keycloak.token);
             Vue.$log.info("Authenticated");
-            this.$store.commit("setAuth", true);
+            this.$store.commit("setAuth", this.keycloak.authenticated);
+            this.$store.commit("setUserId", this.keycloak.subject);
           }
         })
         .catch(() => {
@@ -54,11 +66,13 @@ export default {
         });
     },
     logout: function () {
-      window.location.replace(
+      this.keycloak.logout(process.env.VUE_APP_URL + "/account/");
+      /*window.location.replace(
         //TODO url anpassen
-        "http://35.246.228.139/auth/realms/Onlineshop/protocol/openid-connect/logout?redirect_uri=http://localhost:8081/account/"
-      );
+        process.env.VUE_APP_ACCOUNT_SERVICE_URL + "/auth/realms/Onlineshop/protocol/openid-connect/logout?redirect_uri=http://localhost:8081/account/"
+      );*/
       this.$store.commit("logout");
+      this.$$store.commit("setAuth", this.keycloak.authenticated);
       console.log(this.$store.state.token);
     },
   },
