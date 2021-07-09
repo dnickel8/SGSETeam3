@@ -119,3 +119,8 @@ def placeOrder(request):
 
     collection.insert_one(request.data)
     return Response('ok')
+
+@api_view(['DELETE'])
+def deleteOrder(request, order_id):
+    collection.delete_one({'_id': ObjectId(order_id)})
+    return Response('ok')
