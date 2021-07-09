@@ -10,8 +10,8 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
 
-myclient = MongoClient("mongodb://172.17.0.2:27017")
-db = myclient["micro-shop"]
+client = MongoClient("mongodb+srv://mongo:123@cluster0.raszr.mongodb.net/micro-shop?retryWrites=true&w=majority")
+db = client['micro-shop']
 collection = db["order"]
 
 class GetOrders(APIView):
