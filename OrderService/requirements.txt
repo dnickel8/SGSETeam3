@@ -1,4 +1,5 @@
 asgiref==3.3.4
+attrs==21.2.0
 certifi==2021.5.30
 cffi==1.14.5
 chardet==4.0.0
@@ -17,12 +18,14 @@ djoser==2.1.0
 idna==2.10
 itypes==1.2.0
 Jinja2==3.0.1
+jsonschema==3.2.0
 MarkupSafe==2.0.1
 oauthlib==3.1.1
 Pillow==8.2.0
 pycparser==2.20
 PyJWT==2.1.0
 pymongo==3.11.4
+pyrsistent==0.18.0
 python3-openid==3.2.0
 pytz==2021.1
 requests==2.25.1

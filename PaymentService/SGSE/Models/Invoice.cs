@@ -16,6 +16,6 @@ namespace SGSE.Models
         public string Id { get; set; }
         public InvoiceDetails InvoiceDetails { get; set; }
         public Recipient Recipient { get; set; }
-        public Item[] Items { get; set; }
+        public List<Item> Items { get; set; }
     }
 }

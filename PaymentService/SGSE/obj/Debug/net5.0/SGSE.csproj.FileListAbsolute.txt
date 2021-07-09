@@ -131,3 +131,5 @@ D:\workplace\SGSETeam3\PaymentService\SGSE\obj\Debug\net5.0\SGSE.dll
 D:\workplace\SGSETeam3\PaymentService\SGSE\obj\Debug\net5.0\ref\SGSE.dll
 D:\workplace\SGSETeam3\PaymentService\SGSE\obj\Debug\net5.0\SGSE.pdb
 D:\workplace\SGSETeam3\PaymentService\SGSE\obj\Debug\net5.0\SGSE.genruntimeconfig.cache
+D:\workplace\SGSETeam3\PaymentService\SGSE\bin\Debug\net5.0\Autofac.dll
+D:\workplace\SGSETeam3\PaymentService\SGSE\bin\Debug\net5.0\Autofac.Extensions.DependencyInjection.dll
