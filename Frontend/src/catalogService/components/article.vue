@@ -1,11 +1,16 @@
 <template>
   <div>
-    <v-toolbar id="navbar" dense elevation="1" white>
+    <v-toolbar
+      v-if="$store.state.userRole == 'Admin'"
+      id="navbar"
+      dense
+      elevation="1"
+      white
+    >
       <v-app-bar-nav-icon class="hidden-md-and-up"></v-app-bar-nav-icon>
       <v-navigation-drawer app hide-overlay temporary />
 
       <v-toolbar-items d-flex>
-        <v-btn @click="$router.push('/')">Main Page</v-btn>
         <v-btn
           v-if="
             $store.state.userRole == 'Admin' &&
@@ -40,26 +45,6 @@
       </v-toolbar-items>
 
       <v-spacer></v-spacer>
-      <form class="searchbar">
-        <div class="searchbar-input">
-          <div>
-            <input
-              type="search"
-              placeholder="Search in items"
-              black
-              v-model="searchterm"
-              style="display: none"
-            />
-            <input
-              placeholder="Search in items"
-              v-bind:value="searchterm"
-              v-on:keyup.enter="searchMethod"
-              v-on:input="searchterm = $event.target.value"
-              black
-            />
-          </div>
-        </div>
-      </form>
     </v-toolbar>
 
     <table
@@ -183,7 +168,9 @@
                 <v-btn @click="imageRight">Rechts</v-btn>
 
                 <h2>{{ price / 100 }}€</h2>
-                <v-btn style="margin-top: 10px">In den Warenkorb legen</v-btn>
+                <v-btn @click="addToCart" style="margin-top: 10px"
+                  >In den Warenkorb legen</v-btn
+                >
               </div>
             </div>
           </center>
@@ -242,7 +229,6 @@ export default {
         article: "",
         articleId: -1,
         details: "",
-        searchterm: "",
         articleNr: "",
         addArticle: false,
         edit: false,
@@ -272,7 +258,7 @@ export default {
       {
         this.edit = true;
       }
-      if (!this.addArticle)//else
+      if (!this.addArticle)
       {
         try
         {
@@ -288,6 +274,7 @@ export default {
           this.articleId = response["data"]["_id"]
           response = response["data"];
           this.article = response.data;
+          this.hersteller = this.article.hersteller;
           if(this.edit)
           {
             var tempStr = "";
@@ -301,7 +288,6 @@ export default {
             tempStr = tempStr.slice(0, -1);
             this.details = tempStr;
             this.kategorie = this.article.kategorie;
-            this.hersteller = this.article.hersteller;
           }
           else
           {
@@ -377,10 +363,6 @@ export default {
       {
         this.imageCounter -= 1;
       }
-    },
-    searchMethod()
-    {
-      this.$router.push({name: 'CatalogSearchView', params: {search: event.target.id},  query: { search: this.searchterm } });
     },
     handleImages(files)
     {
@@ -511,6 +493,20 @@ export default {
       const response = await ArticleService.uploadImage(data);
       this.imageIds.push(response["data"]);
       return response["data"];
+    },
+    async addToCart()
+    {
+      var json = {};
+      json["article_name"] = this.articlename;
+      json["article_vendor"] = this.hersteller;
+      json["article_price"] = parseFloat(this.price)/100;
+      json["article_url"] = "http://35.246.128.219:3000/getArticle/" + this.articleId;
+      json["article_imagepath"] = "http://35.246.128.219:3000/getPicture/" + this.imageIds[0];
+      var userId = this.$store.state.userId;
+      var response = await ArticleService.addToCart(userId, json);
+      console.log(response);
+      // Update article count badge
+      this.$store.commit("incrementCartArticleCount");
     },
     async deleteArticle()
     {
