@@ -61,7 +61,7 @@ jobs:
         docker push "gcr.io/$PROJECT_ID/$IMAGE:$TAG"
         
     - name: Run Docker
-      run: docker run --name MyRedis -d -v gcr.io/$PROJECT_ID/$IMAGE:/data -p 6379:6379 redis --appendonly yes
+      run: docker run --name MyRedis -d -v gcr.io/$PROJECT_ID/$IMAGE:/data -p 6379:6379 gcr.io/$PROJECT_ID/$IMAGE:$TAG --appendonly yes
     
     # Set up kustomize
     - name: Set up Kustomize
