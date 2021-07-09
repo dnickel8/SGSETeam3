@@ -13,6 +13,7 @@
         label="Search"
         single-line
         hide-details
+        v-on:keyup.enter="searchMethod"
       ></v-text-field>
 
       <div class="ml-4 d-flex align-center">
@@ -67,6 +68,12 @@ export default {
     },
     openUserSettings: function () {
       // TODO: login + logout + orders
+    },
+    searchMethod() {
+      this.$router.push({
+        name: "CatalogSearchView",
+        query: { search: this.search },
+      });
     },
   },
   computed: {

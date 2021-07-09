@@ -40,26 +40,6 @@
       </v-toolbar-items>
 
       <v-spacer></v-spacer>
-      <form class="searchbar">
-        <div class="searchbar-input">
-          <div>
-            <input
-              type="search"
-              placeholder="Search in items"
-              black
-              v-model="searchterm"
-              style="display: none"
-            />
-            <input
-              placeholder="Search in items"
-              v-bind:value="searchterm"
-              v-on:keyup.enter="searchMethod"
-              v-on:input="searchterm = $event.target.value"
-              black
-            />
-          </div>
-        </div>
-      </form>
     </v-toolbar>
 
     <table
@@ -244,7 +224,6 @@ export default {
         article: "",
         articleId: -1,
         details: "",
-        searchterm: "",
         articleNr: "",
         addArticle: false,
         edit: false,
@@ -379,10 +358,6 @@ export default {
       {
         this.imageCounter -= 1;
       }
-    },
-    searchMethod()
-    {
-      this.$router.push({name: 'CatalogSearchView', params: {search: event.target.id},  query: { search: this.searchterm } });
     },
     handleImages(files)
     {

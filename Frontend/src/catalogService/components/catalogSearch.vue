@@ -9,26 +9,6 @@
       </v-toolbar-items>
 
       <v-spacer></v-spacer>
-      <form class="searchbar">
-        <div class="searchbar-input">
-          <div>
-            <input
-              type="search"
-              placeholder="Search in items"
-              black
-              v-model="searchterm"
-              style="display: none"
-            />
-            <input
-              placeholder="Search in items"
-              v-bind:value="searchterm"
-              v-on:keyup.enter="searchMethod"
-              v-on:input="searchterm = $event.target.value"
-              black
-            />
-          </div>
-        </div>
-      </form>
     </v-toolbar>
 
     <table
@@ -131,7 +111,6 @@ export default {
     return {
         forSale: [],
         searchterm: "",
-        searchCounter: "",
         hersteller: {},
         kategorie: {},
 
@@ -348,11 +327,6 @@ export default {
         console.log(e);
       }
     },
-    searchMethod()
-    {
-      this.searchCounter = this.searchCounter + 1;
-      this.$router.push({ query: { search: this.searchterm } }).catch(()=>{})
-    },
     async watchMethod()
     {
       const manufacturer = await CatalogService.getManufacturer();
@@ -391,9 +365,3 @@ export default {
   }
 };
 </script>
-
-<style>
-h3 {
-  color: #000;
-}
-</style>

@@ -14,26 +14,6 @@
       </v-toolbar-items>
 
       <v-spacer></v-spacer>
-      <form class="searchbar">
-        <div class="searchbar-input">
-          <div>
-            <input
-              type="search"
-              placeholder="Search in items"
-              black
-              v-model="searchterm"
-              style="display: none"
-            />
-            <input
-              placeholder="Search in items"
-              v-bind:value="searchterm"
-              v-on:keyup.enter="searchMethod"
-              v-on:input="searchterm = $event.target.value"
-              black
-            />
-          </div>
-        </div>
-      </form>
     </v-toolbar>
     <div
       v-for="(value, key, index) in kategorien"
@@ -83,7 +63,6 @@ export default {
     ],
     forSale2: [
     ],
-    searchterm: "",
     kategorien: {},
     }
 
@@ -122,11 +101,6 @@ export default {
     {
       this.$router.push({name: 'Article', params: {articleId: event.target.id},  query: { article: event.target.id } });
     },
-    searchMethod()
-    {
-      this.$router.push({name: 'CatalogSearchView', params: {searchterm: this.searchterm},  query: { search: this.searchterm } });
-    },
-
   }
 };
 </script>
