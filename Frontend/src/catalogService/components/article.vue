@@ -183,7 +183,9 @@
                 <v-btn @click="imageRight">Rechts</v-btn>
 
                 <h2>{{ price / 100 }}€</h2>
-                <v-btn style="margin-top: 10px">In den Warenkorb legen</v-btn>
+                <v-btn @click="addToCart" style="margin-top: 10px"
+                  >In den Warenkorb legen</v-btn
+                >
               </div>
             </div>
           </center>
@@ -288,6 +290,7 @@ export default {
           this.articleId = response["data"]["_id"]
           response = response["data"];
           this.article = response.data;
+          this.hersteller = this.article.hersteller;
           if(this.edit)
           {
             var tempStr = "";
@@ -301,7 +304,6 @@ export default {
             tempStr = tempStr.slice(0, -1);
             this.details = tempStr;
             this.kategorie = this.article.kategorie;
-            this.hersteller = this.article.hersteller;
           }
           else
           {
@@ -511,6 +513,20 @@ export default {
       const response = await ArticleService.uploadImage(data);
       this.imageIds.push(response["data"]);
       return response["data"];
+    },
+    async addToCart()
+    {
+      var json = {};
+      json["article_name"] = this.articlename;
+      json["article_vendor"] = this.hersteller;
+      json["article_price"] = parseFloat(this.price)/100;
+      json["article_url"] = "http://35.246.128.219:3000/getArticle/" + this.articleId;
+      json["article_imagepath"] = "http://35.246.128.219:3000/getPicture/" + this.imageIds[0];
+      var userId = this.$store.state.userId;
+      var response = await ArticleService.addToCart(userId, json);
+      console.log(response);
+      // Update article count badge
+      this.$store.commit("incrementCartArticleCount");
     },
     async deleteArticle()
     {

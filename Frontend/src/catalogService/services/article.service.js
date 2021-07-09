@@ -51,6 +51,14 @@ class ArticleService {
       "http://localhost:3000/deleteArticle/" + id + "/"
     );
   }
+
+  async addToCart(userId, bodyData) {
+    return await axios({
+      method: "post",
+      url: "http://35.198.171.180:8000/cart/addArticle/" + userId + "/",
+      data: bodyData,
+    });
+  }
 }
 
 export default new ArticleService();
