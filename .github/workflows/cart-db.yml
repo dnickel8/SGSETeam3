@@ -53,7 +53,7 @@ jobs:
       run: docker pull redis
       
     - name: Rename Docker Image
-      run: docker rename redis:latest gcr.io/$PROJECT_ID/$IMAGE:$TAG
+      run: docker tag redis:latest gcr.io/$PROJECT_ID/$IMAGE:$TAG
     
     # Push the Docker image to Google Container Registry
     - name: Publish Docker Image to GCR
