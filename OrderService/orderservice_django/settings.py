@@ -90,7 +90,7 @@ DATABASE = {
         'ENGINE': 'djongo',
         'NAME': 'micro-shop',
         'CLIENT': {
-            'host': 'mongodb://localhost:27017',
+            'host': 'mongodb+srv://mongo:123@cluster0.raszr.mongodb.net/micro-shop?retryWrites=true&w=majority',
         }
     }
 }
