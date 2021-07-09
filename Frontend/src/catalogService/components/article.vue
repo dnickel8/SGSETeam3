@@ -224,7 +224,6 @@ export default {
         article: "",
         articleId: -1,
         details: "",
-        searchterm: "",
         articleNr: "",
         addArticle: false,
         edit: false,
@@ -359,10 +358,6 @@ export default {
       {
         this.imageCounter -= 1;
       }
-    },
-    searchMethod()
-    {
-      this.$router.push({name: 'CatalogSearchView', params: {search: event.target.id},  query: { search: this.searchterm } });
     },
     handleImages(files)
     {

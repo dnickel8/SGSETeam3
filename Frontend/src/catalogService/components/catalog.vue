@@ -63,7 +63,6 @@ export default {
     ],
     forSale2: [
     ],
-    searchterm: "",
     kategorien: {},
     }
 
@@ -102,11 +101,6 @@ export default {
     {
       this.$router.push({name: 'Article', params: {articleId: event.target.id},  query: { article: event.target.id } });
     },
-    searchMethod()
-    {
-      this.$router.push({name: 'CatalogSearchView', params: {searchterm: this.searchterm},  query: { search: this.searchterm } });
-    },
-
   }
 };
 </script>

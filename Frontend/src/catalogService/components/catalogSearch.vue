@@ -111,7 +111,6 @@ export default {
     return {
         forSale: [],
         searchterm: "",
-        searchCounter: "",
         hersteller: {},
         kategorie: {},
 
@@ -328,11 +327,6 @@ export default {
         console.log(e);
       }
     },
-    searchMethod()
-    {
-      this.searchCounter = this.searchCounter + 1;
-      this.$router.push({ query: { search: this.searchterm } }).catch(()=>{})
-    },
     async watchMethod()
     {
       const manufacturer = await CatalogService.getManufacturer();
@@ -371,9 +365,3 @@ export default {
   }
 };
 </script>
-
-<style>
-h3 {
-  color: #000;
-}
-</style>
