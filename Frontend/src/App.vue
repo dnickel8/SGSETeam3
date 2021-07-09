@@ -116,9 +116,12 @@ export default {
     },
   },
   mounted() {
-    console.log(this.$keycloak);
+    if (this.$keycloak.realmAccess.roles.indexOf("admin") > -1) {
+      this.$store.state.userRole = "Admin";
+    } else {
+      this.$store.state.userRole = "User";
+    }
     this.$store.userId = this.$keycloak.subject;
-    console.log(this.$store.userId);
     // Get cart article count to update badge
     let url =
       process.env.VUE_APP_CART_SERVICE_URL +
