@@ -1,11 +1,16 @@
 <template>
   <div>
-    <v-toolbar id="navbar" dense elevation="1" white>
+    <v-toolbar
+      v-if="$store.state.userRole == 'Admin'"
+      id="navbar"
+      dense
+      elevation="1"
+      white
+    >
       <v-app-bar-nav-icon class="hidden-md-and-up"></v-app-bar-nav-icon>
       <v-navigation-drawer app hide-overlay temporary />
 
       <v-toolbar-items d-flex>
-        <v-btn @click="$router.push('/')">Main Page</v-btn>
         <v-btn
           v-if="$store.state.userRole == 'Admin'"
           @click="$router.push({ name: 'Article', query: { article: 'add' } })"
