@@ -63,12 +63,10 @@ export default {
         .get(url)
         .then((response) => {
           this.orders = JSON.parse(response.data);
-          console.log(response.data);
+
           this.calculateTotalAmount();
         })
-        .catch((error) => {
-          console.log(error);
-        });
+        .catch(() => {});
     },
   },
   beforeMount() {

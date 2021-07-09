@@ -55,9 +55,7 @@ export default {
             this.products.splice(this.products.indexOf(product), 1);
           }
         })
-        .catch((error) => {
-          console.log(error);
-        });
+        .catch(() => {});
     },
     transferToCart: function (product) {
       let post_url =
@@ -84,14 +82,10 @@ export default {
                   this.$store.commit("incrementCartArticleCount");
                 }
               })
-              .catch((error) => {
-                console.log(error);
-              });
+              .catch(() => {});
           }
         })
-        .catch((error) => {
-          console.log(error);
-        });
+        .catch(() => {});
     },
   },
   watch: {
@@ -125,13 +119,9 @@ export default {
           if (this.products.length === 0) {
             this.showNoContentMessage = true;
           }
-        } else {
-          console.log(response.data);
         }
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch(() => {});
   },
 };
 </script>

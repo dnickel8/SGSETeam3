@@ -115,13 +115,16 @@ export default {
       return this.$store.state.cart_article_count > 0;
     },
   },
-  mounted() {
-    if (this.$keycloak.realmAccess.roles.indexOf("admin") > -1) {
+  async mounted() {
+    if (
+      this.$keycloak.realmAccess &&
+      this.$keycloak.realmAccess.roles.indexOf("admin") > -1
+    ) {
       this.$store.state.userRole = "Admin";
     } else {
       this.$store.state.userRole = "User";
     }
-    this.$store.userId = this.$keycloak.subject;
+    this.$store.state.userId = this.$keycloak.subject;
     // Get cart article count to update badge
     let url =
       process.env.VUE_APP_CART_SERVICE_URL +
@@ -132,13 +135,9 @@ export default {
       .then((response) => {
         if (response.status === 200) {
           this.$store.commit("setCartArticleCount", response.data.count);
-        } else {
-          console.log(response.data);
         }
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch(() => {});
   },
 };
 </script>
