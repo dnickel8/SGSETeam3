@@ -135,5 +135,5 @@ CORS_ORIGIN_WHITELIST = ("http://localhost:8080",)
 
 # Redis
 
-REDIS_HOST = 'localhost'
+REDIS_HOST = '10.178.195.91'
 REDIS_PORT = 6379
