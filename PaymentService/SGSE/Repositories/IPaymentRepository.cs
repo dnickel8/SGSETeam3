@@ -12,7 +12,7 @@ namespace SGSE.Repositories
         Task<List<Invoice>> GetAll();
         Task<Invoice> GetById(string id);
         Task<Invoice> Create(Invoice invoice);
-        Task<ReplaceOneResult> Update(string id, Invoice invoice);
+        Task Update(string id, Invoice invoice);
         Task<Payment> CreatePayment(Payment payment);
     }
 }
