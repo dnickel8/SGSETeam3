@@ -4,7 +4,6 @@ var router = express.Router();
 const utils = require("../utils");
 
 const uri = utils.database;
-//const uri = "mongodb://localhost:27017/";
 
 const asyncMiddleware = fn =>
   (req, res, next) => 
@@ -15,6 +14,10 @@ const asyncMiddleware = fn =>
 
 async function insert(document)
 {
+  if(!document["data"] || !document["data"]["price"] || !document["data"]["articlename"] || !document["data"]["description"] || !document["data"]["details"] || !document["data"]["pictures"])
+  {
+    return -2;
+  }
   const client = new MongoClient(uri);
   let success = "-1";
   try
@@ -50,7 +53,11 @@ router.post('/', asyncMiddleware(async (req, res, next) =>
     
     var result = await insert(req.body);
 
-    if(result != "-1")
+    if (result == -2)
+    {
+      res.status(400).end('Invalid Data');
+    }
+    else if(result != "-1")
     {
       res.status(200);
       res.json(result);
