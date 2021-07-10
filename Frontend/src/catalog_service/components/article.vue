@@ -214,7 +214,7 @@
 
 <script lang="js">
 //<b-table striped hover :items="items"></b-table>
-import ArticleService from "@/catalogService/services/article.service.js"
+import ArticleService from "@/catalog_service/services/article.service.js"
 import UploadImages from "vue-upload-drop-images"
 export default {
   name: "Article",
@@ -501,7 +501,7 @@ export default {
         await ArticleService.deletePicture(pictureId);
       }
       await ArticleService.deleteArticle(this.articleId);
-      this.$router.push({name: "CatalogView"});
+      this.$router.push({name: "Catalog"});
     },
     async editArticle()
     {

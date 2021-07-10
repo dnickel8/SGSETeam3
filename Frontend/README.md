@@ -1,4 +1,4 @@
-# micro-shop
+# MicroShop
 
 ## Project setup
 ```

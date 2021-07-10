@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import WishListItem from "@/cartservice/components/WishListItem";
+import WishListItem from "@/cart_service/components/WishListItem";
 
 export default {
   name: "WishList",

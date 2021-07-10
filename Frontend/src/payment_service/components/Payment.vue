@@ -138,9 +138,9 @@
 </template>
 
 <script lang="js">
-import PaymentService from "@/payment/services/payment.service.js"
-import OrderService from "@/payment/services/order.service.js"
-import CartService from "@/payment/services/cart.service.js"
+import PaymentService from "@/payment_service/services/payment.service.js"
+import OrderService from "@/payment_service/services/order.service.js"
+import CartService from "@/payment_service/services/cart.service.js"
 import { loadScript } from "@paypal/paypal-js";
 export default {
   name: "Payment",
@@ -199,7 +199,7 @@ export default {
           await PaymentService.createInvoiceAndPay(invoice, amount, true);
           this.alert = true;
           await this.placeOrderAndDeleteArticlesInCart(invoice, amount, "PayPal");
-          this.$router.push({ name: "orderhistory" });
+          this.$router.push({ name: "OrderHistory" });
     });
     }
     }).render("#paypal-buttons");
@@ -236,7 +236,7 @@ export default {
       await PaymentService.createInvoiceAndPay(invoice, amount, false);
       this.alert = true;
       await this.placeOrderAndDeleteArticlesInCart(invoice, amount, "Rechnung");
-      this.$router.push({ name: "orderhistory" });
+      this.$router.push({ name: "OrderHistory" });
 
 
     },

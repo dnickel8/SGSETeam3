@@ -167,7 +167,7 @@
 </template>
 
 <script>
-import Payment from "@/payment/components/Payment.vue";
+import Payment from "@/payment_service/components/Payment.vue";
 export default {
   components: {
     Payment,

@@ -1,28 +1,33 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Cart from "../cartservice/views/Cart.vue";
-import WishList from "../cartservice/views/WishList";
-import Order from "../order-service/views/Order";
-import History from "../order-service/views/History";
-import Catalog from "../catalogService/views/Catalog.vue";
-import CatalogSearch from "../catalogService/views/CatalogSearch.vue";
-import Article from "../catalogService/views/Article.vue";
-import Account from "../accountservice/views/Account.vue";
+
+import Cart from "../cart_service/views/Cart.vue";
+import WishList from "../cart_service/views/WishList";
+import Order from "../order_service/views/Order";
+import History from "../order_service/views/History";
+import Catalog from "../catalog_service/views/Catalog.vue";
+import CatalogSearch from "../catalog_service/views/CatalogSearch.vue";
+import Article from "../catalog_service/views/Article.vue";
+import Account from "../account_service/views/Account.vue";
 
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: "/",
-    name: "CatalogView",
+    redirect: "/catalog",
+  },
+  {
+    path: "/catalog",
+    name: "Catalog",
     component: Catalog,
     meta: {
-      title: "Hauptseite",
+      title: "Produkte",
     },
   },
   {
-    path: "/catalogSearch",
-    name: "CatalogSearchView",
+    path: "/catalog/search",
+    name: "CatalogSearch",
     component: CatalogSearch,
     meta: {
       title: "Produktsuche",
@@ -38,7 +43,7 @@ const routes = [
   },
   {
     path: "/order",
-    name: "order",
+    name: "Order",
     component: Order,
     meta: {
       title: "Bestellvorgang",
@@ -47,7 +52,7 @@ const routes = [
   },
   {
     path: "/history",
-    name: "orderhistory",
+    name: "OrderHistory",
     component: History,
     meta: {
       title: "Bestellungen",
@@ -56,8 +61,8 @@ const routes = [
   },
   {
     path: "/cart",
+    name: "Cart",
     component: Cart,
-    name: "cart",
     meta: {
       title: "Warenkorb",
       requiresAuth: true,
@@ -65,19 +70,19 @@ const routes = [
   },
   {
     path: "/wishlist",
+    name: "Wishlist",
     component: WishList,
-    name: "wishlist",
     meta: {
-      title: "Wunschliste",
+      title: "Merkliste",
       requiresAuth: true,
     },
   },
   {
     path: "/account",
+    name: "Account",
     component: Account,
-    name: "account",
     meta: {
-      title: "Benutzermanagement",
+      title: "Mein Konto",
       requiresAuth: true,
     },
   },

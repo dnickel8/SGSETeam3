@@ -3,7 +3,7 @@
     <div style="width: 100%">
       <v-row class="d-flex justify-center mb-6">
         <v-card>
-          <v-card-title>Benutzerprofil</v-card-title>
+          <v-card-title>Mein Konto</v-card-title>
           <v-card-text>
             <LoggedInUser :userProfile="userProfile" />
           </v-card-text>
@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import LoggedInUser from "@/accountservice/components/LoggedInUser.vue";
+import LoggedInUser from "@/account_service/components/LoggedInUser.vue";
 
 export default {
   name: "Account",

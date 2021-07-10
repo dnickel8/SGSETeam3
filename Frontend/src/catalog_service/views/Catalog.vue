@@ -4,7 +4,7 @@
 
 <script>
 // @ is an alias to /src
-import Catalog from "@/catalogService/components/catalog.vue";
+import Catalog from "@/catalog_service/components/catalog.vue";
 
 export default {
   name: "CatalogView",

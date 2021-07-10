@@ -57,7 +57,7 @@
 </template>
 
 <script>
-import CartItem from "@/cartservice/components/CartItem";
+import CartItem from "@/cart_service/components/CartItem";
 
 export default {
   name: "Cart",
@@ -164,7 +164,7 @@ export default {
     },
     checkout: function () {
       this.$store.commit("setProducts", this.getSelectedProducts());
-      this.$router.push({ name: "order" });
+      this.$router.push({ name: "Order" });
     },
   },
   watch: {

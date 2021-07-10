@@ -58,8 +58,8 @@
 </template>
 
 <script lang="js">
-import CatalogService from "@/catalogService/services/catalog.service.js"
-import ArticleService from "@/catalogService/services/article.service.js"
+import CatalogService from "@/catalog_service/services/catalog.service.js"
+import ArticleService from "@/catalog_service/services/article.service.js"
 export default {
   name: "Catalog",
   data() {
