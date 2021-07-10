@@ -51,6 +51,7 @@ const routes = [
     component: History,
     meta: {
       title: "Bestellungen",
+      requiresAuth: true,
     },
   },
   {
@@ -59,6 +60,7 @@ const routes = [
     name: "cart",
     meta: {
       title: "Warenkorb",
+      requiresAuth: true,
     },
   },
   {
@@ -67,6 +69,7 @@ const routes = [
     name: "wishlist",
     meta: {
       title: "Wunschliste",
+      requiresAuth: true,
     },
   },
   {
@@ -75,6 +78,7 @@ const routes = [
     name: "account",
     meta: {
       title: "Benutzermanagement",
+      requiresAuth: true,
     },
   },
 ];
