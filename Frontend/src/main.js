@@ -7,16 +7,16 @@ import Vuex from "vuex";
 import createPersistedState from "vuex-persistedstate";
 import vuetify from "./plugins/vuetify";
 import Cookies from "js-cookie";
-import VueKeycloak from "@dsb-norge/vue-keycloak-js";
+import VueKeyCloak from "@dsb-norge/vue-keycloak-js";
 
 Vue.config.productionTip = false;
 Vue.use(VueAxios, axios);
 Vue.use(Vuex);
-Vue.use(VueKeycloak, {
+Vue.use(VueKeyCloak, {
   init: {
     // Use 'login-required' to always require authentication
     // If using 'login-required', there is no need for the router guards in router.js
-    onLoad: "check-sso",
+    onLoad: "login-required",
   },
   logout: {
     redirectUri: `${process.env.VUE_APP_FRONTEND_URL}/`,
