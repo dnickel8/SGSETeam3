@@ -68,7 +68,7 @@ export default {
       disableCheckoutButton: false,
       article_count: 0,
       total_amount: 0,
-      user_id: "lol",
+      user_id: "",
       products: [],
     };
   },
@@ -195,10 +195,7 @@ export default {
   },
   mounted() {
     // Get userID
-    let id = this.$store.state.userId;
-    if (id !== "") {
-      this.user_id = id;
-    }
+    this.user_id = this.$store.state.userId;
 
     // Get products from redis database
     let url =

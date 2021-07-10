@@ -26,7 +26,7 @@ export default {
   data: function () {
     return {
       showNoContentMessage: false,
-      user_id: "lol",
+      user_id: "",
       products: [],
     };
   },
@@ -99,10 +99,7 @@ export default {
   },
   mounted() {
     // Get userID
-    let id = this.$store.state.userId;
-    if (id !== "") {
-      this.user_id = id;
-    }
+    this.user_id = this.$store.state.userId;
 
     // Get products from redis database
     let url =
