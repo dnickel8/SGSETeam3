@@ -147,7 +147,7 @@ export default {
       return this.$store.state.userId;
     },
   },
-  async mounted() {
+  mounted() {
     if (this.$keycloak.authenticated) {
       // Get keycloak role
       if (
