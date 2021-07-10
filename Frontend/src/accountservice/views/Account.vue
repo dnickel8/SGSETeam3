@@ -1,21 +1,17 @@
 <template>
   <v-container fill-height fluid>
-    <div style="width: 100%" justify="center" align="center">
+    <div style="width: 100%">
       <v-row class="d-flex justify-center mb-6">
-        <v-card
-          ><v-card-title>User Profil</v-card-title>
-          <v-card-text
-            ><LoggedInUser :userProfile="userProfile" />
+        <v-card>
+          <v-card-title>Benutzerprofil</v-card-title>
+          <v-card-text>
+            <LoggedInUser :userProfile="userProfile" />
           </v-card-text>
-          <v-card-actions
-            ><v-btn
-              @click="logout"
-              v-if="$keycloak.authenticated"
-              color="amber"
-            >
+          <v-card-actions>
+            <v-btn @click="logout" v-if="$keycloak.authenticated" color="amber">
               Logout
-            </v-btn></v-card-actions
-          >
+            </v-btn>
+          </v-card-actions>
         </v-card>
       </v-row>
     </div>
@@ -24,6 +20,7 @@
 
 <script>
 import LoggedInUser from "@/accountservice/components/LoggedInUser.vue";
+
 export default {
   name: "Account",
   components: {

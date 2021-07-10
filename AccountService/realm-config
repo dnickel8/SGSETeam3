@@ -26,7 +26,7 @@
   "oauth2DeviceCodeLifespan": 600,
   "oauth2DevicePollingInterval": 5,
   "enabled": true,
-  "sslRequired": "external",
+  "sslRequired": "none",
   "registrationAllowed": true,
   "registrationEmailAsUsername": false,
   "rememberMe": false,
@@ -738,17 +738,19 @@
     {
       "id": "b8760730-7874-4a1d-b690-ce6c1bce2258",
       "clientId": "vue-app",
-      "rootUrl": "http://localhost:8080",
-      "adminUrl": "http://localhost:8080",
+      "rootUrl": "http://35.234.121.230",
+      "adminUrl": "http://35.234.121.230",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "redirectUris": [
-        "http://localhost:8080/*"
+        "http://localhost:8081/*",
+        "http://localhost:8080/*",
+        "http://35.234.121.230/*"
       ],
       "webOrigins": [
-        "http://localhost:8080"
+        "+"
       ],
       "notBefore": 0,
       "bearerOnly": false,
