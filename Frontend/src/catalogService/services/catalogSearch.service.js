@@ -4,18 +4,23 @@ class CatalogSearchService {
   constructor() {}
 
   async getData() {
-    return await axios.get("http://localhost:3000/getAll");
+    return await axios.get(`${process.env.VUE_APP_CATALOG_SERVICE_URL}/getAll`);
   }
   async getCategory() {
-    return await axios.get("http://localhost:3000/getCategory");
+    return await axios.get(
+      `${process.env.VUE_APP_CATALOG_SERVICE_URL}/getCategory`
+    );
   }
   async getManufacturer() {
-    return await axios.get("http://localhost:3000/getManufacturer");
+    return await axios.get(
+      `${process.env.VUE_APP_CATALOG_SERVICE_URL}/getManufacturer`
+    );
   }
   async search(searchterm, bodyData) {
     return await axios({
       method: "post",
-      url: "http://localhost:3000/search/" + searchterm + "/",
+      url:
+        `${process.env.VUE_APP_CATALOG_SERVICE_URL}/search/` + searchterm + "/",
       data: {
         data: bodyData,
       },
