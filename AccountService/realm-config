@@ -1,6 +1,7 @@
 {
   "id": "vue",
   "realm": "vue",
+  "displayNameHtml": "<b>MicroShop</b>",
   "notBefore": 0,
   "defaultSignatureAlgorithm": "RS256",
   "revokeRefreshToken": false,
