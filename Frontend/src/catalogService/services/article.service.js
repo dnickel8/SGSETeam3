@@ -4,12 +4,14 @@ class ArticleService {
   constructor() {}
 
   async getArticle(id) {
-    return await axios.get("http://localhost:3000/getArticle/" + id + "/");
+    return await axios.get(
+      `${process.env.VUE_APP_CATALOG_SERVICE_URL}/getArticle/` + id + "/"
+    );
   }
   async uploadImage(base64) {
     return await axios({
       method: "post",
-      url: "http://localhost:3000/createPicture/",
+      url: `${process.env.VUE_APP_CATALOG_SERVICE_URL}/createPicture/`,
       data: {
         data: base64,
       },
@@ -19,7 +21,7 @@ class ArticleService {
   async uploadArticle(articleJson) {
     return await axios({
       method: "post",
-      url: "http://localhost:3000/createArticle/",
+      url: `${process.env.VUE_APP_CATALOG_SERVICE_URL}/createArticle/`,
       data: {
         data: articleJson,
       },
@@ -29,7 +31,8 @@ class ArticleService {
   async changeArticle(articleJson, id) {
     return await axios({
       method: "put",
-      url: "http://localhost:3000/changeArticle/" + id + "/",
+      url:
+        `${process.env.VUE_APP_CATALOG_SERVICE_URL}/changeArticle/` + id + "/",
       data: {
         data: articleJson,
       },
@@ -37,25 +40,30 @@ class ArticleService {
   }
 
   async getPicture(id) {
-    return await axios.get("http://localhost:3000/getPicture/" + id + "/");
+    return await axios.get(
+      `${process.env.VUE_APP_CATALOG_SERVICE_URL}/getPicture/` + id + "/"
+    );
   }
 
   async deletePicture(id) {
     return await axios.delete(
-      "http://localhost:3000/deletePicture/" + id + "/"
+      `${process.env.VUE_APP_CATALOG_SERVICE_URL}/deletePicture/` + id + "/"
     );
   }
 
   async deleteArticle(id) {
     return await axios.delete(
-      "http://localhost:3000/deleteArticle/" + id + "/"
+      `${process.env.VUE_APP_CATALOG_SERVICE_URL}/deleteArticle/` + id + "/"
     );
   }
 
   async addToCart(userId, bodyData) {
     return await axios({
       method: "post",
-      url: "http://35.198.171.180:8000/cart/addArticle/" + userId + "/",
+      url:
+        `${process.env.VUE_APP_CART_SERVICE_URL}/cart/addArticle/` +
+        userId +
+        "/",
       data: bodyData,
     });
   }

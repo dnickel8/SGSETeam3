@@ -4,7 +4,7 @@ class CatalogService {
   constructor() {}
 
   async getData() {
-    return await axios.get("http://localhost:3000/getAll");
+    return await axios.get(`${process.env.VUE_APP_CATALOG_SERVICE_URL}/getAll`);
   }
 }
 
