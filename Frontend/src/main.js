@@ -16,7 +16,7 @@ Vue.use(VueKeyCloak, {
   init: {
     // Use 'login-required' to always require authentication
     // If using 'login-required', there is no need for the router guards in router.js
-    onLoad: "login-required",
+    onLoad: "check-sso",
   },
   logout: {
     redirectUri: `${process.env.VUE_APP_FRONTEND_URL}/`,
