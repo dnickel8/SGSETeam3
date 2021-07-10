@@ -92,7 +92,6 @@ export default {
   name: "App",
   data: function () {
     return {
-      user_id: "",
       search: "",
     };
   },
@@ -144,32 +143,39 @@ export default {
     article_count_display() {
       return this.$store.state.cart_article_count > 0;
     },
+    userID() {
+      return this.$store.state.userId;
+    },
   },
   async mounted() {
-    // Get cart article count to update badge
-    let url =
-      process.env.VUE_APP_CART_SERVICE_URL +
-      "/cart/getArticleCount/" +
-      this.user_id;
-    this.axios
-      .get(url)
-      .then((response) => {
-        if (response.status === 200) {
-          this.$store.commit("setCartArticleCount", response.data.count);
-        }
-      })
-      .catch(() => {});
-  },
-  updated() {
-    if (
-      this.$keycloak.realmAccess &&
-      this.$keycloak.realmAccess.roles.indexOf("admin") > -1
-    ) {
-      this.$store.state.userRole = "Admin";
-    } else {
-      this.$store.state.userRole = "User";
+    if (this.$keycloak.authenticated) {
+      // Get keycloak role
+      if (
+        this.$keycloak.realmAccess &&
+        this.$keycloak.realmAccess.roles.indexOf("admin") > -1
+      ) {
+        this.$store.state.userRole = "Admin";
+      } else {
+        this.$store.state.userRole = "User";
+      }
+
+      // Get keycloak userID
+      this.$store.state.userId = this.$keycloak.subject;
+
+      // Get cart article count to update badge
+      let url =
+        process.env.VUE_APP_CART_SERVICE_URL +
+        "/cart/getArticleCount/" +
+        this.userID;
+      this.axios
+        .get(url)
+        .then((response) => {
+          if (response.status === 200) {
+            this.$store.commit("setCartArticleCount", response.data.count);
+          }
+        })
+        .catch(() => {});
     }
-    this.$store.state.userId = this.$keycloak.subject;
   },
 };
 </script>
