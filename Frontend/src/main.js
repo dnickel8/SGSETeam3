@@ -27,6 +27,9 @@ Vue.use(VueKeycloak, {
     realm: "vue",
   },
   onReady: () => {},
+  onInitError: (error) => {
+    console.error(error);
+  },
 });
 
 const store = new Vuex.Store({
