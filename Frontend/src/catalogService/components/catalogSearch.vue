@@ -37,26 +37,14 @@
           <center>
             <div style="display: inline">
               <p style="display: inline-block">&nbsp; Preis von: &nbsp;</p>
-              <input
-                v-bind:value="preisMin"
-                v-on:input="preisMin = $event.target.value"
-                style="
-                  display: inline-block;
-                  max-width: 50px;
-                  border-style: solid;
-                  border-width: 1px;
-                "
+              <v-text-field
+                v-model="preisMin"
+                style="display: inline-block; max-width: 50px; max-height: 10px"
               />
               <p style="display: inline-block">€ &nbsp; bis:&nbsp;</p>
-              <input
-                v-bind:value="preisMax"
-                v-on:input="preisMax = $event.target.value"
-                style="
-                  display: inline-block;
-                  max-width: 50px;
-                  border-style: solid;
-                  border-width: 1px;
-                "
+              <v-text-field
+                v-model="preisMax"
+                style="display: inline-block; max-width: 50px; max-height: 10px"
               />
               <p style="display: inline-block">€</p>
             </div>
@@ -346,21 +334,20 @@ export default {
 
       let searchterm = this.$route.query.search;
 
-        const response = await CatalogService.search(searchterm, "");
-        this.allArticles = response;
-        for (let i = 0; i < response["data"].length; i++)
-        {
-          var article = response["data"][i];
-          var temp = {}
-          temp["id"] = article["_id"];
-          temp["name"] = article["data"]["articlename"];
-          temp["price"] = article["data"]["price"];
-          temp["image"] = await ArticleService.getPicture(article["data"]["pictures"][0]);
-          temp["image"] = temp["image"]["data"]["data"];
-          this.forSale.push(temp);
-        }
+      const response = await CatalogService.search(searchterm, "");
+      this.allArticles = response;
+      for (let i = 0; i < response["data"].length; i++)
+      {
+        var article = response["data"][i];
+        var temp = {}
+        temp["id"] = article["_id"];
+        temp["name"] = article["data"]["articlename"];
+        temp["price"] = article["data"]["price"];
+        temp["image"] = await ArticleService.getPicture(article["data"]["pictures"][0]);
+        temp["image"] = temp["image"]["data"]["data"];
+        this.forSale.push(temp);
       }
-
-    },
-  };
+    }
+  },
+};
 </script>

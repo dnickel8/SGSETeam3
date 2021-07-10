@@ -61,22 +61,24 @@
       <tr>
         <td width="50%">
           <center>
-            <textarea
+            <v-textarea
               v-if="this.addArticle"
               placeholder="Produktbeschreibung"
-              style="width: 80%; height: 300px; border: solid 1px black"
-              v-bind:value="description"
-              v-on:input="description = $event.target.value"
+              style="width: 80%"
+              v-model="description"
+              rows="10"
+              solo
             >
-            </textarea>
-            <textarea
+            </v-textarea>
+            <v-textarea
               v-else-if="this.edit"
               placeholder="Produktbeschreibung"
-              style="width: 80%; height: 300px; border: solid 1px black"
-              v-bind:value="description"
-              v-on:input="description = $event.target.value"
+              style="width: 80%"
+              v-model="description"
+              rows="10"
+              solo
             >
-            </textarea>
+            </v-textarea>
 
             <div v-else>
               <h1>{{ articlename }}</h1>
@@ -92,61 +94,53 @@
           <center>
             <div v-if="this.addArticle">
               <UploadImages style="width: 60%" @changed="handleImages" />
-              <input
+              <v-text-field
+                v-model="articlename"
                 placeholder="Artikelname"
-                style="margin: 10px; border: solid 1px black"
-                v-bind:value="articlename"
-                v-on:input="articlename = $event.target.value"
+                style="display: inline-block; margin: 10px; max-height: 10px"
               />
-              <input
+              <v-text-field
+                v-model="price"
                 placeholder="Preis (9,99€ = 999)"
-                style="margin: 10px; border: solid 1px black"
-                v-bind:value="price"
-                v-on:input="price = $event.target.value"
+                style="display: inline-block; margin: 10px; max-height: 10px"
               />
-              <input
+              <v-text-field
+                v-model="hersteller"
                 placeholder="Hersteller"
-                style="margin: 10px; border: solid 1px black"
-                v-bind:value="hersteller"
-                v-on:input="hersteller = $event.target.value"
+                style="display: inline-block; margin: 10px; max-height: 10px"
               />
-              <input
+              <v-text-field
+                v-model="kategorie"
                 placeholder="Kategorie"
-                style="margin: 10px; border: solid 1px black"
-                v-bind:value="kategorie"
-                v-on:input="kategorie = $event.target.value"
+                style="display: inline-block; margin: 10px; max-height: 10px"
               />
             </div>
             <div v-else-if="this.edit">
               <UploadImages style="width: 60%" @changed="handleImages" />
-              <input
+              <v-text-field
+                v-model="articlename"
                 placeholder="Artikelname"
-                style="margin: 10px; border: solid 1px black"
-                v-bind:value="articlename"
-                v-on:input="articlename = $event.target.value"
+                style="display: inline-block; margin: 10px; max-height: 10px"
               />
-              <input
+              <v-text-field
+                v-model="price"
                 placeholder="Preis (9,99€ = 999)"
-                style="margin: 10px; border: solid 1px black"
-                v-bind:value="price"
-                v-on:input="price = $event.target.value"
+                style="display: inline-block; margin: 10px; max-height: 10px"
               />
-              <input
+              <v-text-field
+                v-model="hersteller"
                 placeholder="Hersteller"
-                style="margin: 10px; border: solid 1px black"
-                v-bind:value="hersteller"
-                v-on:input="hersteller = $event.target.value"
+                style="display: inline-block; margin: 10px; max-height: 10px"
               />
-              <input
+              <v-text-field
+                v-model="kategorie"
                 placeholder="Kategorie"
-                style="margin: 10px; border: solid 1px black"
-                v-bind:value="kategorie"
-                v-on:input="kategorie = $event.target.value"
+                style="display: inline-block; margin: 10px; max-height: 10px"
               />
               <div>
                 <img
                   v-bind:src="images[imageCounter]"
-                  style="width: 100%; max-width: 500px"
+                  style="width: 100%; max-width: 500px; margin-top: 30px"
                 />
               </div>
               <div style="margin: 4%">
@@ -179,22 +173,22 @@
     </table>
 
     <center>
-      <textarea
+      <v-textarea
         v-if="this.addArticle"
+        v-model="details"
         placeholder="Details"
-        style="width: 80%; height: 300px; border: solid 1px black"
-        v-bind:value="details"
-        v-on:input="details = $event.target.value"
-      >
-      </textarea>
-      <textarea
+        style="width: 80%; height: 300px; margin-top: 30px"
+        solo
+        rows="11"
+      />
+      <v-textarea
         v-else-if="this.edit"
+        v-model="details"
         placeholder="Details"
-        style="width: 80%; height: 300px; border: solid 1px black"
-        v-bind:value="details"
-        v-on:input="details = $event.target.value"
-      >
-      </textarea>
+        style="width: 80%; height: 300px; margin-top: 30px"
+        solo
+        rows="11"
+      />
       <div v-else style="margin-bottom: 4%">
         <table
           border="1"
@@ -330,10 +324,6 @@ export default {
     }
   },
   methods: {
-    clickMethod()
-    {
-      this.$router.push('about');
-    },
     imageLeft()
     {
       if(this.imageCounter - 1 >= 0)
@@ -359,6 +349,7 @@ export default {
         this.imageCounter -= 1;
       }
     },
+    //save image files to array
     handleImages(files)
     {
       if(!this.edit)
@@ -371,7 +362,7 @@ export default {
       }
     },
 
-    async handleImages2(arr)
+    async uploadAllImages(arr)
     {
       for(var data of arr)
       {
@@ -384,7 +375,7 @@ export default {
     {
       var attach = [];
       var reader = [];
-      // loop through each of the files in q-uploader
+      // loop through each of the files
       for (let i = 0; i < files.length; i++)
       {
         attach[i] = await this.singleFileToBase64(i, files, reader)
@@ -438,7 +429,7 @@ export default {
       }
       articleJson["details"] = detailsJson;
       var base64Array = await this.encodeToBase64(this.images);
-      await this.handleImages2(base64Array);
+      await this.uploadAllImages(base64Array);
       articleJson["pictures"] = this.imageIds;
       const response = await ArticleService.uploadArticle(articleJson);
       this.$router.push({name: 'Article', params: {articleId: event.target.id},  query: { article: response["data"] } });
@@ -458,7 +449,7 @@ export default {
       if(this.newImages.length > 0)
       {
         var base64Array = await this.encodeToBase64(this.newImages);
-        await this.handleImages2(base64Array);
+        await this.uploadAllImages(base64Array);
       }
       this.description = "\n" + this.description;
       articleJson["pictures"] = this.imageIds;

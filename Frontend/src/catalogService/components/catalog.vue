@@ -90,7 +90,10 @@ export default {
           {
             this.kategorien[article.data.kategorie] = [];
           }
-          this.kategorien[article.data.kategorie].push(temp);
+          if(this.kategorien[article.data.kategorie].length < 5)
+          {
+            this.kategorien[article.data.kategorie].push(temp);
+          }
         }
         this.test = response.data[0];
 
