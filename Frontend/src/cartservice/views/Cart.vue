@@ -202,19 +202,17 @@ export default {
       process.env.VUE_APP_CART_SERVICE_URL +
       "/cart/getArticles/" +
       this.user_id;
-    this.axios
-      .get(url)
-      .then((response) => {
-        if (response.status === 200) {
-          let tmpArticles = response.data.articles;
-          this.changeReceivedArticleData(tmpArticles);
-          this.products = tmpArticles;
-          if (this.products.length === 0) {
-            this.showNoContentMessage = true;
-          }
+
+    this.axios.get(url).then((response) => {
+      if (response.status === 200) {
+        let tmpArticles = response.data.articles;
+        this.changeReceivedArticleData(tmpArticles);
+        this.products = tmpArticles;
+        if (this.products.length === 0) {
+          this.showNoContentMessage = true;
         }
-      })
-      .catch(() => {});
+      }
+    });
   },
 };
 </script>

@@ -17,7 +17,13 @@
       ></v-text-field>
 
       <div class="ml-4 d-flex align-center">
-        <v-btn v-on:click="openCart" class="ma-2" text icon>
+        <v-btn
+          v-on:click="openCart"
+          class="ma-2"
+          text
+          icon
+          :disabled="authenticated"
+        >
           <v-badge
             color="amber"
             :content="article_count_number"
@@ -26,10 +32,22 @@
             <v-icon large>mdi-cart-outline</v-icon>
           </v-badge>
         </v-btn>
-        <v-btn v-on:click="openWishlist" class="ma-2" text icon>
+        <v-btn
+          v-on:click="openWishlist"
+          class="ma-2"
+          text
+          icon
+          :disabled="authenticated"
+        >
           <v-icon large>mdi-format-list-bulleted</v-icon>
         </v-btn>
-        <v-btn v-on:click="openHistory" class="ma-2" text icon>
+        <v-btn
+          v-on:click="openHistory"
+          class="ma-2"
+          text
+          icon
+          :disabled="authenticated"
+        >
           <v-icon large>mdi-clock</v-icon>
         </v-btn>
         <v-menu v-if="$keycloak.ready" offset-y>
@@ -68,7 +86,7 @@ export default {
   name: "App",
   data: function () {
     return {
-      user_id: "lol",
+      user_id: "",
       search: "",
     };
   },
@@ -102,6 +120,9 @@ export default {
     },
   },
   computed: {
+    authenticated() {
+      return this.$store.getters.isAuthenticated;
+    },
     article_count_number() {
       let max = 999;
       let count = this.$store.state.cart_article_count;
