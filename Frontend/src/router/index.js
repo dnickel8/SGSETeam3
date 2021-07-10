@@ -15,10 +15,6 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: "/",
-    redirect: "/catalog",
-  },
-  {
-    path: "/catalog",
     name: "Catalog",
     component: Catalog,
     meta: {
