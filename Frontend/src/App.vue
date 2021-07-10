@@ -113,7 +113,13 @@ export default {
       this.$router.push({ name: "Account" });
     },
     login() {
-      this.$keycloak.login();
+      this.$keycloak.login().then((login) => {
+        if (login) {
+          this.search = "JA";
+        } else {
+          this.search = "NEIN";
+        }
+      });
     },
     logout() {
       this.$keycloak.logoutFn();
