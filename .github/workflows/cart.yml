@@ -62,11 +62,6 @@ jobs:
     - name: Publish Docker Image to GCR
       run: |-
         docker push "gcr.io/$PROJECT_ID/$IMAGE:$TAG"
-        
-    
-    # Run test
-    - name: Run Test
-      run: gcloud docker exec gcr.io/$PROJECT_ID/$IMAGE:$TAG manage.py
 
     # Set up kustomize
     - name: Set up Kustomize
