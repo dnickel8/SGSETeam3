@@ -750,9 +750,7 @@
         "http://35.234.121.230/*"
       ],
       "webOrigins": [
-        "http://localhost:8081/*",
-        "http://localhost:8080/*",
-        "http://35.234.121.230/*"
+        "+"
       ],
       "notBefore": 0,
       "bearerOnly": false,
