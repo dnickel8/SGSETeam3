@@ -1,7 +1,7 @@
 import Vue from "vue";
+import App from "./App.vue";
 import VueAxios from "vue-axios";
 import axios from "axios";
-import App from "./App.vue";
 import router from "./router";
 import Vuex from "vuex";
 import createPersistedState from "vuex-persistedstate";
@@ -14,8 +14,6 @@ Vue.use(VueAxios, axios);
 Vue.use(Vuex);
 Vue.use(VueKeyCloak, {
   init: {
-    // Use 'login-required' to always require authentication
-    // If using 'login-required', there is no need for the router guards in router.js
     onLoad: "check-sso",
   },
   logout: {
@@ -40,7 +38,6 @@ const store = new Vuex.Store({
     }),
   ],
   state: {
-    exampleState: "",
     token: {},
     orderAmount: "1.99",
     items: [],
@@ -50,9 +47,6 @@ const store = new Vuex.Store({
     products: [],
   },
   mutations: {
-    setExampleState(state, example) {
-      state.exampleState = example;
-    },
     logout(state) {
       state.token = Object();
     },
@@ -84,9 +78,6 @@ const store = new Vuex.Store({
   getters: {
     token: (state) => {
       return state.token;
-    },
-    isAuthenticated: (state) => {
-      return state.token && state.userId && state.userRole;
     },
   },
 });

@@ -19,10 +19,10 @@
       <div class="ml-4 d-flex align-center">
         <v-btn
           v-on:click="openCart"
+          v-if="$keycloak.authenticated"
           class="ma-2"
           text
           icon
-          :disabled="authenticated"
         >
           <v-badge
             color="amber"
@@ -32,43 +32,49 @@
             <v-icon large>mdi-cart-outline</v-icon>
           </v-badge>
         </v-btn>
+
         <v-btn
           v-on:click="openWishlist"
+          v-if="$keycloak.authenticated"
           class="ma-2"
           text
           icon
-          :disabled="authenticated"
         >
           <v-icon large>mdi-format-list-bulleted</v-icon>
         </v-btn>
+
         <v-btn
           v-on:click="openHistory"
+          v-if="$keycloak.authenticated"
           class="ma-2"
           text
           icon
-          :disabled="authenticated"
         >
           <v-icon large>mdi-clock</v-icon>
         </v-btn>
-        <v-menu v-if="$keycloak.ready" offset-y>
-          <template v-slot:activator="{ on, attrs }"
-            ><v-btn v-on="on" v-bind="attrs" class="ma-2" text icon>
+
+        <v-menu offset-y>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn v-on="on" v-bind="attrs" class="ma-2" text icon>
               <v-icon large>mdi-account</v-icon>
             </v-btn>
           </template>
-          <v-list>
+
+          <v-list v-if="$keycloak.ready">
             <v-list-item
               v-if="$keycloak.authenticated"
               @click="openAccount"
               link
             >
-              <v-list-item-title>Account</v-list-item-title>
+              <v-list-item-title>Mein Konto</v-list-item-title>
             </v-list-item>
+
             <v-list-item v-if="!$keycloak.authenticated" @click="login" link>
-              <v-list-item-title>Login</v-list-item-title>
+              <v-list-item-title>Anmelden</v-list-item-title>
             </v-list-item>
-            <v-list-item v-if="$keycloak.authenticated" @click="logout" link>
-              <v-list-item-title>Logout</v-list-item-title>
+
+            <v-list-item v-else @click="logout" link>
+              <v-list-item-title>Abmelden</v-list-item-title>
             </v-list-item>
           </v-list>
         </v-menu>
@@ -92,19 +98,19 @@ export default {
   },
   methods: {
     openHome: function () {
-      this.$router.push({ name: "CatalogView" });
+      this.$router.push({ name: "Catalog" });
     },
     openCart: function () {
-      this.$router.push({ name: "cart" });
+      this.$router.push({ name: "Cart" });
     },
     openWishlist: function () {
-      this.$router.push({ name: "wishlist" });
+      this.$router.push({ name: "Wishlist" });
     },
     openHistory: function () {
-      this.$router.push({ path: "history" });
+      this.$router.push({ path: "OrderHistory" });
     },
     openAccount() {
-      this.$router.push({ name: "account" });
+      this.$router.push({ name: "Account" });
     },
     login() {
       this.$keycloak.login();
@@ -114,15 +120,12 @@ export default {
     },
     searchMethod() {
       this.$router.push({
-        name: "CatalogSearchView",
+        name: "CatalogSearch",
         query: { search: this.search },
       });
     },
   },
   computed: {
-    authenticated() {
-      return this.$store.getters.isAuthenticated;
-    },
     article_count_number() {
       let max = 999;
       let count = this.$store.state.cart_article_count;
