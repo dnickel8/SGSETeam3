@@ -163,6 +163,7 @@
           :items="products"
           :address="address"
           @changeStep="onChangeStep"
+          :totalAmount="totalAmount"
         />
       </v-stepper-content>
     </v-stepper-items>
