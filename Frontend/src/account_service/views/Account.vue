@@ -34,6 +34,8 @@ export default {
   methods: {
     async logout() {
       await this.$keycloak.logoutFn();
+      this.$store.commit("setUserId", "");
+      this.$store.commit("setUserRole", "User");
     },
   },
   async mounted() {
