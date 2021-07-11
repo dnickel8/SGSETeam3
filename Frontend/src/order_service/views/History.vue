@@ -75,7 +75,6 @@ export default {
         .then((response) => {
           if (response.status === 200) {
             this.orders = JSON.parse(response.data);
-            console.log(this.orders);
             if (this.orders.length !== 0) {
               this.showNoContentMessage = false;
               this.calculateTotalAmount();
