@@ -15,9 +15,10 @@ Vue.use(Vuex);
 Vue.use(VueKeyCloak, {
   init: {
     onLoad: "check-sso",
+    redirectUri: process.env.VUE_APP_FRONTEND_URL,
   },
   logout: {
-    redirectUri: `${process.env.VUE_APP_FRONTEND_URL}`,
+    redirectUri: process.env.VUE_APP_FRONTEND_URL,
   },
   config: {
     url: `${process.env.VUE_APP_ACCOUNT_SERVICE_URL}/auth`,
