@@ -223,7 +223,6 @@ export default {
       return amount;
     },
     createInvoice() {
-
       const invoice = {
         invoiceDetails: {
           invoiceNumber: null,
@@ -325,8 +324,8 @@ export default {
     },
     createArticlesToDelete() {
       const articles = []
-      this.items.forEach((element, index) => {
-        articles.push(`user:${this.$store.state.userId}:cart-item:${index}`)
+      this.items.forEach((element) => {
+        articles.push(`user:${this.$store.state.userId}:${element.article_name}:${element.article_id}`)
       });
 
       return articles;
