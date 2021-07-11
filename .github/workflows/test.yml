@@ -61,10 +61,6 @@ jobs:
       run: |-
         docker push "gcr.io/$PROJECT_ID/$IMAGE:$TAG"
         
-    
-    # Run test
-    - name: Run Test
-      run: docker exec gcr.io/turing-variety-317113/cart-image:latest manage.py
 
     # Set up kustomize
     - name: Set up Kustomize
@@ -80,3 +76,7 @@ jobs:
         ./kustomize build . | kubectl apply -f -
         kubectl rollout status deployment/$DEPLOYMENT_NAME
         kubectl get services -o wide
+        
+    # Run test
+    - name: Run Test
+      run: docker exec gcr.io/turing-variety-317113/cart-image:latest manage.py
