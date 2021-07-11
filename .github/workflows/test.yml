@@ -79,4 +79,4 @@ jobs:
         
     # Run test
     - name: Run Test
-      run: kubectl exec -it cart-deployment-79d8b48f-vgkp7 --python manage.py test
+      run: kubectl exec -it cart-deployment-79d8b48f-vgkp7 -- python manage.py test
