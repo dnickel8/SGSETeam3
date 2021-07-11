@@ -238,12 +238,12 @@ export default {
     onChangeStep: function (step) {
       this.e1 = step;
     },
-    getImage: function (image_url) {
-      return this.axios.get(image_url);
+    async getImage(image_url) {
+      return await this.axios.get(image_url);
     },
-    getAllImages: function () {
+    async getAllImages() {
       for (let i = 0; i < this.products.length; ++i) {
-        let image = this.getImage(this.products[i].article_imagepath);
+        let image = await this.getImage(this.products[i].article_imagepath);
         if (image) {
           this.products[i].article_imagepath = image.data.data;
         } else {
@@ -267,9 +267,9 @@ export default {
       deep: true,
     },
   },
-  mounted() {
+  async mounted() {
     this.products = this.$store.state.products;
-    this.getAllImages();
+    await this.getAllImages();
     this.calculateTotalAmount();
   },
 };
