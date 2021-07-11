@@ -18,6 +18,7 @@ env:
   IMAGE: cart-image
   TAG: latest
   DIRECTORY: CartService
+  POD: default
 
 jobs:
   setup-build-publish-deploy:
@@ -79,10 +80,8 @@ jobs:
         
     # get pod
     - name: Get Pod
-      run: ${{ POD }}=$(kubectl get pod -l app=DEPLOYMENT_NAME -o name)
-      
-    - run: echo $POD
+      run: ${{ env.POD }}=$(kubectl get pod -l app=DEPLOYMENT_NAME -o name)
     
     # Run test
     - name: Run Test
-      run: kubectl exec -it ${{ POD }} -- python manage.py test
+      run: kubectl exec -it ${{ env.POD }} -- python manage.py test
