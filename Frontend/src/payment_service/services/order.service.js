@@ -5,7 +5,7 @@ class OrderService {
 
   async placeOrder(order) {
     return await axios.post(
-      `${process.env.VUE_APP_ORDER_SERVICE_URL}/placeOrder/`,
+      `${process.env.VUE_APP_ORDER_SERVICE_URL}/api/v1/placeOrder/`,
       order
     );
   }
@@ -26,19 +26,12 @@ class OrderService {
         city: address.city,
       },
       shippingAddress: {
-        firstName: invoice.invoiceDetails.recipient.shippingInfo.firstName,
-        lastName: invoice.invoiceDetails.recipient.shippingInfo.surname,
-        street:
-          invoice.invoiceDetails.recipient.shippingInfo.address.street.split(
-            " "
-          )[0],
-        number:
-          invoice.invoiceDetails.recipient.shippingInfo.address.street.split(
-            " "
-          )[1],
-        postCode:
-          invoice.invoiceDetails.recipient.shippingInfo.address.postalCode,
-        city: invoice.invoiceDetails.recipient.shippingInfo.address.city,
+        firstName: invoice.recipient.shippingInfo.firstName,
+        lastName: invoice.recipient.shippingInfo.surname,
+        street: invoice.recipient.shippingInfo.address.street.split(" ")[0],
+        number: invoice.recipient.shippingInfo.address.street.split(" ")[1],
+        postCode: invoice.recipient.shippingInfo.address.postalCode,
+        city: invoice.recipient.shippingInfo.address.city,
       },
       shippingMethod: {
         name: shippingMethod,
