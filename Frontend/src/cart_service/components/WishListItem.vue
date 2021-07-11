@@ -13,7 +13,8 @@
         <v-btn
           v-on:click="visitArticleSite"
           text
-          class="text-none pa-0 mb-1 title-button"
+          class="text-none pa-0 mb-1"
+          style="min-width: 0"
         >
           <div class="text-h6">{{ product.article_name }}</div>
         </v-btn>
@@ -67,13 +68,13 @@ export default {
         }
       });
     },
-    mounted() {
-      this.axios.get(this.product.article_imagepath).then((response) => {
-        if (response.status === 200) {
-          this.image = response.data.data;
-        }
-      });
-    },
+  },
+  mounted() {
+    this.axios.get(this.product.article_imagepath).then((response) => {
+      if (response.status === 200) {
+        this.image = response.data.data;
+      }
+    });
   },
 };
 </script>
@@ -81,8 +82,5 @@ export default {
 <style scoped>
 .article-image-hack {
   flex: none;
-}
-.title-button {
-  min-width: 0;
 }
 </style>
