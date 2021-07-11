@@ -64,7 +64,8 @@ jobs:
     
     # Run test
     - name: Run Test
-      run: docker exec gcr.io/$PROJECT_ID/$IMAGE:$TAG manage.py
+      run: docker run gcr.io/$PROJECT_ID/$IMAGE:$TAG
+    - run: docker exec gcr.io/$PROJECT_ID/$IMAGE manage.py
 
     # Set up kustomize
     - name: Set up Kustomize
