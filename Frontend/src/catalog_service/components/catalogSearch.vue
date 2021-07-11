@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-toolbar
-      v-if="$store.state.userRole == 'Admin'"
+      v-if="$store.state.userRole === 'Admin'"
       id="navbar"
       dense
       elevation="1"
@@ -12,7 +12,7 @@
 
       <v-toolbar-items d-flex>
         <v-btn
-          v-if="$store.state.userRole == 'Admin'"
+          v-if="$store.state.userRole === 'Admin'"
           @click="$router.push({ name: 'Article', query: { article: 'add' } })"
           >Artikel hinzufügen</v-btn
         >
@@ -74,23 +74,21 @@
         </td>
         <td width="70%">
           <div class="row" style="margin-top: 1%">
-            <div class="col-md-2" v-for="item in forSale" v-bind:key="item.id">
-              <v-card :id="item.id" v-on:click="clickMethod" elevation="2">
-                <img
-                  :id="item.id"
-                  v-on:click="clickMethod"
+            <div class="col-md-3" v-for="item in forSale" v-bind:key="item.id">
+              <v-card
+                v-on:click="clickMethod(item.id)"
+                elevation="2"
+                style="height: 370px; width: 233px"
+              >
+                <v-img
                   :src="item.image"
                   :alt="item.name"
-                  class="card-img-top"
-                  style="width: 100%; max-width: 600px"
-                />
-
-                <v-card-title :id="item.id" v-on:click="clickMethod">
-                  {{ item.name }}</v-card-title
-                >
-                <v-card-text :id="item.id" v-on:click="clickMethod">
-                  {{ item.price / 100 }}€</v-card-text
-                >
+                  :aspect-ratio="1"
+                  contain
+                  class=""
+                ></v-img>
+                <v-card-title> {{ item.name }}</v-card-title>
+                <v-card-text> {{ item.price / 100 }}€</v-card-text>
               </v-card>
             </div>
           </div>
@@ -103,6 +101,7 @@
 <script lang="js">
 import CatalogService from "@/catalog_service/services/catalogSearch.service.js"
 import ArticleService from "@/catalog_service/services/article.service.js"
+
 export default {
   name: "CatalogSearch",
   data() {
@@ -124,13 +123,13 @@ export default {
   watch: {
     $route(to, from)
     {
-      if(to["path"] == "/catalog/search")
+      if(to["path"] === "/catalog/search")
       {
         this.searchterm = to["query"]["search"];
         this.forSale = [];
         this.watchMethod();
       }
-      if(from["path"] == "/article")
+      if(from["path"] === "/article")
       {
         this.forSale = [];
         this.watchMethod();
@@ -139,13 +138,13 @@ export default {
   },
 
   methods: {
-    clickMethod()
+    clickMethod(id)
     {
-      this.$router.push({name: 'Article', params: {articleId: event.target.id},  query: { article: event.target.id } });
+      this.$router.push({name: 'Article', query: { article: id } });
     },
     checkboxHersteller()
     {
-      if(this.hersteller[event.target.id] == true)
+      if(this.hersteller[event.target.id] === true)
       {
         this.hersteller[event.target.id] = false;
       }
@@ -156,7 +155,7 @@ export default {
     },
     checkboxKategorie()
     {
-      if(this.kategorie[event.target.id] == true)
+      if(this.kategorie[event.target.id] === true)
       {
         this.kategorie[event.target.id] = false;
       }
@@ -169,12 +168,12 @@ export default {
     {
       //Preiseingabe überprüfen
       var regex = new RegExp(/^(\d)+(,|\.){0,1}(\d){0,2}$/);
-      if(!(this.preisMin == "" || regex.test(this.preisMin)))
+      if(!(this.preisMin === "" || regex.test(this.preisMin)))
       {
         alert("Ungültige Eingabe für den Minimalpreis.");
         return;
       }
-      if(!(this.preisMax == "" || regex.test(this.preisMax)))
+      if(!(this.preisMax === "" || regex.test(this.preisMax)))
       {
         alert("Ungültige Eingabe für den Maximalpreis.");
         return;
@@ -203,27 +202,27 @@ export default {
       }
 
       var tempJson = {};
-      if(manufacturer.length != 0)
+      if(manufacturer.length !== 0)
       {
         tempJson["hersteller"] = manufacturer;
       }
-      if(category.length != 0)
+      if(category.length !== 0)
       {
         tempJson["kategorie"] = category;
       }
       //Preise formatieren
-      if(this.preisMin != "")
+      if(this.preisMin !== "")
       {
         let minPreis = "";
         if(this.preisMin.includes("."))
         {
           var split = this.preisMin.split(".")
           //1 Nachkommastelle
-          if(split[1].length == 1)
+          if(split[1].length === 1)
           {
             minPreis = this.preisMin + "0";
           }
-          else if (split[1].length == 0)
+          else if (split[1].length === 0)
           {
             minPreis = this.preisMin + "00";
           }
@@ -236,11 +235,11 @@ export default {
         {
           var split4 = this.preisMin.split(",")
           //1 Nachkommastelle
-          if(split4[1].length == 1)
+          if(split4[1].length === 1)
           {
             minPreis = this.preisMin + "0";
           }
-          else if (split4[1].length == 0)
+          else if (split4[1].length === 0)
           {
             minPreis = this.preisMin + "00";
           }
@@ -258,18 +257,18 @@ export default {
         minPreis = minPreis.replace(",", "");
         tempJson["preisMin"] = minPreis;
       }
-      if(this.preisMax != "")
+      if(this.preisMax !== "")
       {
         let maxPreis = "";
         if(this.preisMax.includes("."))
         {
           var split2 = this.preisMax.split(".")
           //1 Nachkommastelle
-          if(split2[1].length == 1)
+          if(split2[1].length === 1)
           {
             maxPreis = this.preisMax + "0";
           }
-          else if (split2[1].length == 0)
+          else if (split2[1].length === 0)
           {
             maxPreis = this.preisMax + "00";
           }
@@ -282,11 +281,11 @@ export default {
         {
           var split3 = this.preisMax.split(",")
           //1 Nachkommastelle
-          if(split3[1].length == 1)
+          if(split3[1].length === 1)
           {
             maxPreis = this.preisMax + "0";
           }
-          else if (split3[1].length == 0)
+          else if (split3[1].length === 0)
           {
             maxPreis = this.preisMax + "00";
           }

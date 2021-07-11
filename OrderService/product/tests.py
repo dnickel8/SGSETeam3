@@ -7,13 +7,6 @@ from django.test.client import RequestFactory
 from bson.objectid import ObjectId
 
 class URLTests(TestCase):
-    def setup_databases(self):
-        """Overrides DjangoTestSuiteRunner"""
-        pass
-
-    def teardown_databases(self, *args):
-        """Overrides DjangoTestSuiteRunner"""
-        pass
     
     def test_place_order_valid_json(self):
         data = {

@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-toolbar
-      v-if="$store.state.userRole == 'Admin'"
+      v-if="$store.state.userRole === 'Admin'"
       id="navbar"
       dense
       elevation="1"
@@ -12,7 +12,7 @@
 
       <v-toolbar-items d-flex>
         <v-btn
-          v-if="$store.state.userRole == 'Admin'"
+          v-if="$store.state.userRole === 'Admin'"
           @click="$router.push({ name: 'Article', query: { article: 'add' } })"
           >Artikel hinzufügen</v-btn
         >
@@ -35,14 +35,17 @@
         </center>
       </div>
       <div class="col-md-2" v-for="item in value" v-bind:key="item.id">
-        <v-card v-on:click="clickMethod(item.id)" elevation="2">
+        <v-card
+          v-on:click="clickMethod(item.id)"
+          elevation="2"
+          style="height: 370px"
+        >
           <v-img
             :src="item.image"
             :alt="item.name"
-            :width="200"
-            :height="200"
+            :aspect-ratio="1"
             contain
-            class="card-img-top article-image-hack"
+            class=""
           ></v-img>
           <v-card-title> {{ item.name }}</v-card-title>
           <v-card-text> {{ item.price / 100 }}€</v-card-text>
@@ -102,9 +105,3 @@ export default {
   }
 };
 </script>
-
-<style scoped>
-.article-image-hack {
-  flex: none;
-}
-</style>
