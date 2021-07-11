@@ -3,6 +3,7 @@
     <v-row align="center">
       <v-img
         :src="image"
+        :eager="true"
         :width="200"
         :height="140"
         contain
