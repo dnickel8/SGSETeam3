@@ -3,7 +3,7 @@
     <div v-if="showNoContentMessage" class="text-h6 mb-8">
       Keine Bestellungen vorhanden
     </div>
-    <v-expansion-panels>
+    <v-expansion-panels v-if="!showNoContentMessage">
       <v-expansion-panel v-for="(order, index) in orders" :key="index">
         <v-expansion-panel-header>
           {{ getDate(order) }}
