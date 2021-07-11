@@ -106,7 +106,7 @@ export default {
       this.$router.push({ name: "Wishlist" });
     },
     openHistory: function () {
-      this.$router.push({ path: "OrderHistory" });
+      this.$router.push({ name: "OrderHistory" });
     },
     openAccount() {
       this.$router.push({ name: "Account" });

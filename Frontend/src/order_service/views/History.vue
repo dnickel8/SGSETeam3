@@ -47,7 +47,7 @@ export default {
       user_id: 123,
       e1: 1,
       orders: [],
-      showNoContentMessage: false,
+      showNoContentMessage: true,
     };
   },
   methods: {
@@ -68,10 +68,10 @@ export default {
       await axios
         .get(url)
         .then((response) => {
-          if (response.status == 200) {
+          if (response.status === 200) {
             this.orders = JSON.parse(response.data);
-            if (this.orders.length === 0) {
-              this.showNoContentMessage = true;
+            if (this.orders.length !== 0) {
+              this.showNoContentMessage = false;
               this.calculateTotalAmount();
             }
           }
