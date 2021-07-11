@@ -129,7 +129,7 @@
             <v-img
               max-height="50"
               max-width="50"
-              :src="getImage(product.article_imagepath)"
+              :src="product.article_imagepath"
             ></v-img>
             <strong class="pa-2">{{ product.article_name }}</strong>
             <v-col cols="6" sm="6" md="1">
@@ -234,6 +234,12 @@ export default {
     onChangeStep(step) {
       this.e1 = step;
     },
+    getAllImages: function () {
+      for (let i = 0; i < this.products.length; ++i) {
+        let product = this.products[i];
+        product.article_imagepath = this.getImage(product.article_imagepath);
+      }
+    },
     getImage: function (image_url) {
       this.axios.get(image_url).then((response) => {
         if (response.status === 200) {
@@ -260,6 +266,7 @@ export default {
   },
   async mounted() {
     this.products = this.$store.state.products;
+    this.getAllImages();
     this.calculateTotalAmount();
   },
 };
