@@ -61,7 +61,7 @@ class ArticleService {
     return await axios({
       method: "post",
       url:
-        `${process.env.VUE_APP_CART_SERVICE_URL}/cart/addArticle/` +
+        `${process.env.VUE_APP_CART_SERVICE_URL}/cart/addArticle` +
         userId +
         "/",
       data: bodyData,
