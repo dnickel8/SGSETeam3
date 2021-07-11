@@ -10,7 +10,9 @@
         class="ml-3 article-image-hack"
       ></v-img>
       <v-col class="pt-0">
-        <div class="text-h6 mb-1">{{ product.article_name }}</div>
+        <div v-on:click="visitArticleSite" class="text-h6 mb-1">
+          {{ product.article_name }}
+        </div>
         <div>Verkäufer: {{ product.article_vendor }}</div>
         <v-row align="center" justify="start" class="ml-0 mt-4">
           <v-text-field
@@ -78,6 +80,12 @@ export default {
         .put(url, body)
         .then()
         .catch(() => {});
+    },
+    visitArticleSite: function () {
+      this.$router.push({
+        name: "Article",
+        query: { article: this.product.article_url },
+      });
     },
   },
   watch: {
