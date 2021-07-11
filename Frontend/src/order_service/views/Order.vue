@@ -239,20 +239,13 @@ export default {
       this.e1 = step;
     },
     getImage: function (image_url) {
-      this.axios.get(image_url).then((response) => {
-        if (response.status === 200) {
-          return response.data.data;
-        } else {
-          return "";
-        }
-      });
-      return "ERROR";
+      return this.axios.get(image_url);
     },
     getAllImages: function () {
       for (let i = 0; i < this.products.length; ++i) {
         let image = this.getImage(this.products[i].article_imagepath);
         if (image) {
-          this.products[i].article_imagepath = image;
+          this.products[i].article_imagepath = image.data.data;
         } else {
           this.products[i].article_imagepath = "ERROR";
         }
