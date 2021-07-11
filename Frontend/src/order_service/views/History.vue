@@ -52,7 +52,15 @@ export default {
   },
   methods: {
     getDate(order) {
-      const date = new Date(order.date);
+      const options = {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "numeric",
+        minute: "numeric",
+      };
+      const date = new Date(order.date).toLocaleDateString("de-DE", options);
       return date;
     },
     calculateTotalAmount: function () {
