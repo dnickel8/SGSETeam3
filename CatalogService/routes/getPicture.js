@@ -40,7 +40,7 @@ async function getPicture(pictureId)
       }
       else
       {
-        console.log("ResultArray Laenge:" + result.length);
+        console.log("ResultArray:" + result[0]["_id"]);
         returnArr = [200, result[0]];
       }
     }
