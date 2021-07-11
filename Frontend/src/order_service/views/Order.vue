@@ -128,9 +128,11 @@
           >
             <v-img
               :src="product.article_imagepath"
-              max-height="50"
-              max-width="50"
+              :eager="true"
+              :width="70"
+              :height="70"
               contain
+              class="ma-3"
             ></v-img>
             <strong class="pa-2">{{ product.article_name }}</strong>
             <v-col cols="6" sm="6" md="1">
