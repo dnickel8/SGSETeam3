@@ -117,8 +117,8 @@
 
       <v-stepper-content step="2">
         <div
-          v-for="(product, index) in products"
-          :key="index"
+          v-for="product in products"
+          :key="product.article_id"
           class="d-flex justify-center mb-6"
         >
           <v-card
@@ -130,7 +130,6 @@
               max-height="50"
               max-width="50"
               :src="getImage(product.article_imagepath)"
-              :eager="true"
             ></v-img>
             <strong class="pa-2">{{ product.article_name }}</strong>
             <v-col cols="6" sm="6" md="1">
