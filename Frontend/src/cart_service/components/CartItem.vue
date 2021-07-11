@@ -108,7 +108,7 @@ export default {
   mounted() {
     this.axios.get(this.product.article_imagepath).then((response) => {
       if (response.status === 200) {
-        return response.data.data;
+        this.image = response.data.data;
       }
     });
   },
