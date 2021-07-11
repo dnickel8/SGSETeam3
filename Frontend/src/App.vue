@@ -129,6 +129,9 @@ export default {
         query: { search: this.search },
       });
     },
+    sleep(ms) {
+      return new Promise((resolve) => setTimeout(resolve, ms));
+    },
   },
   computed: {
     article_count_number() {
@@ -147,7 +150,12 @@ export default {
       return this.$store.state.userId;
     },
   },
-  mounted() {
+  async mounted() {
+    // Wait for Keycloak init
+    while (this.$keycloak.createLoginUrl === null) {
+      await this.sleep(100);
+    }
+
     if (this.$keycloak.authenticated) {
       // Get keycloak role
       if (
