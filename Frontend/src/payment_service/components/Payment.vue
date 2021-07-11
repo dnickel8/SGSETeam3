@@ -101,17 +101,7 @@
             </v-row>
             <v-row justify="center"> </v-row>
             <v-row justify="center">
-              <v-col cols="6"
-                ><v-select
-                  v-on:change="onSelect"
-                  v-model="fields.country"
-                  :rules="fieldRules"
-                  label="Land"
-                  :items="countries"
-                  solo
-                ></v-select
-              ></v-col>
-              <v-col cols="6"
+              <v-col cols="12"
                 ><v-text-field
                   v-model="fields.phone"
                   :rules="fieldRules"
@@ -150,7 +140,6 @@ export default {
         sameAsDeliveryAddress: true,
         alert: false,
         valid: false,
-        countries: ["Deutschland", "Frankreich", "Belgien", "Österreich"],
         fields: {
           email: '',
           firstname: '',
@@ -158,7 +147,6 @@ export default {
           street: '',
           postalCode: '',
           city: '',
-          country: '',
           phone: '',
           countryCode: ''
         },
@@ -211,25 +199,6 @@ export default {
       }
       return false;
     },
-    onSelect(newValue) {
-      switch (newValue) {
-        case "Deutschland":
-          this.fields.countryCode = "DE";
-          break;
-        case "Frankreich":
-          this.fields.countryCode = "FR";
-          break;
-        case "Belgien":
-          this.fields.countryCode = "BE";
-          break;
-        case "Österreich":
-          this.fields.countryCode = "AT";
-          break;
-        default:
-          this.fields.countryCode = "";
-          break;
-      }
-    },
     async createInvoiceAndPay() {
       const invoice = this.createInvoice();
       const amount = this.createAmount();
@@ -270,7 +239,7 @@ export default {
             street: this.address.street + " " + this.address.number,
             postalCode: this.address.code,
             city: this.address.city,
-            countryCode: this.fields.countryCode,
+            countryCode: "DE",
           },
           emailAddress: this.fields.email,
           phoneNumber: this.fields.phone,
@@ -281,7 +250,7 @@ export default {
               street: this.sameAsDeliveryAddress ? this.address.street + " " + this.address.number : this.fields.street,
               postalCode: this.sameAsDeliveryAddress ? this.address.code : this.fields.postalCode,
               city: this.sameAsDeliveryAddress ? this.address.city : this.fields.city,
-              countryCode: this.sameAsDeliveryAddress ? "DE" : this.fields.countryCode
+              countryCode: "DE"
             }
           }
         },
@@ -337,14 +306,14 @@ export default {
       const paymentItems = []
       this.items.forEach(item => {
         const paymentItem = {
-          name: item.name,
+          name: item.article_name,
           description: "",
-          quantity: item.count,
-          discount: item.discount || 0,
-          tax: item.tax || 0,
+          quantity: item.article_count,
+          discount: 0,
+          tax: 0,
           amount: {
             currencyCode: "EUR",
-            value: item.price
+            value: item.article_price
           }
         };
         paymentItems.push(paymentItem);
