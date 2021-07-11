@@ -163,7 +163,6 @@ export default {
       } else {
         this.$store.state.userRole = "User";
       }
-      console.log("test");
       // Get keycloak userID
       this.$store.state.userId = this.$keycloak.subject;
 
