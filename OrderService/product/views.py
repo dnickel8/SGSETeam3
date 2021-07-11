@@ -36,19 +36,16 @@ class GetOrder(APIView):
 
 @api_view(['POST'])
 def placeOrder(request):
-    '''
     schema = {
         "$schema": "http://json-schema.org/draft-06/schema#",
-        "$ref": "#/definitions/Welcome7",
+        "$ref": "#/definitions/Welcome4",
         "definitions": {
-            "Welcome7": {
+            "Welcome4": {
                 "type": "object",
                 "properties": {
                     "date": {
-                        "type": "string"
-                    },
-                    "total": {
-                        "type": "integer"
+                        "type": "string",
+                        "format": "date-time"
                     },
                     "user": {
                         "$ref": "#/definitions/User"
@@ -58,49 +55,127 @@ def placeOrder(request):
                         "items": {
                             "$ref": "#/definitions/Product"
                         }
+                    },
+                    "address": {
+                        "$ref": "#/definitions/Address"
+                    },
+                    "shippingAddress": {
+                        "$ref": "#/definitions/Address"
+                    },
+                    "shippingMethod": {
+                        "$ref": "#/definitions/ShippingMethod"
                     }
                 },
                 "required": [
+                    "address",
                     "date",
                     "products",
-                    "total",
+                    "shippingAddress",
+                    "shippingMethod",
                     "user"
                 ],
-                "title": "Welcome7"
+                "title": "Welcome4"
+            },
+            "Address": {
+                "type": "object",
+                "properties": {
+                    "firstName": {
+                        "type": "string"
+                    },
+                    "lastName": {
+                        "type": "string"
+                    },
+                    "street": {
+                        "type": "string"
+                    },
+                    "number": {
+                        "type": "string",
+                        "format": "integer"
+                    },
+                    "postCode": {
+                        "type": "string",
+                        "format": "integer"
+                    },
+                    "city": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "city",
+                    "firstName",
+                    "lastName",
+                    "number",
+                    "postCode",
+                    "street"
+                ],
+                "title": "Address"
             },
             "Product": {
+                "type": "object",
+                "properties": {
+                    "article_name": {
+                        "type": "string"
+                    },
+                    "article_vendor": {
+                        "type": "string"
+                    },
+                    "article_price": {
+                        "type": "number"
+                    },
+                    "article_url": {
+                        "type": "string"
+                    },
+                    "article_imagepath": {
+                        "type": "string"
+                    },
+                    "article_count": {
+                        "type": "integer"
+                    },
+                    "article_id": {
+                        "type": "string"
+                    },
+                    "checkbox_value": {
+                        "type": "boolean"
+                    }
+                },
+                "required": [
+                    "article_count",
+                    "article_id",
+                    "article_imagepath",
+                    "article_name",
+                    "article_price",
+                    "article_url",
+                    "article_vendor",
+                    "checkbox_value"
+                ],
+                "title": "Product"
+            },
+            "ShippingMethod": {
                 "type": "object",
                 "properties": {
                     "name": {
                         "type": "string"
                     },
-                    "image": {
-                        "type": "string",
-                        "format": "uri",
-                        "qt-uri-protocols": [
-                            "https"
-                        ]
-                    },
-                    "count": {
-                        "type": "integer"
+                    "description": {
+                        "type": "string"
                     },
                     "price": {
-                        "type": "integer"
+                        "type": "string"
                     }
                 },
                 "required": [
-                    "count",
-                    "image",
+                    "description",
                     "name",
                     "price"
                 ],
-                "title": "Product"
+                "title": "ShippingMethod"
             },
             "User": {
                 "type": "object",
                 "properties": {
                     "id": {
-                        "type": "string"
+                        "type": "string",
+                        "format": "uuid"
                     }
                 },
                 "required": [
@@ -115,7 +190,6 @@ def placeOrder(request):
         validate(instance=request.data, schema=schema)
     except:
         return Response("Data not acceptable", status=status.HTTP_406_NOT_ACCEPTABLE)
-        '''
 
     collection.insert_one(request.data)
     return Response('ok')
