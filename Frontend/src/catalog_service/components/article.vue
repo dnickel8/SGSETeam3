@@ -143,8 +143,8 @@
                 <v-img
                   :src="images[imageCounter]"
                   :eager="true"
-                  :width="200"
-                  :height="200"
+                  :width="300"
+                  :height="300"
                   contain
                   class="mt-4 article-image-hack"
                 ></v-img>
@@ -158,10 +158,14 @@
 
             <div v-else>
               <div>
-                <img
-                  v-bind:src="images[imageCounter]"
-                  style="width: 100%; max-width: 500px"
-                />
+                <v-img
+                  :src="images[imageCounter]"
+                  :eager="true"
+                  :width="400"
+                  :height="400"
+                  contain
+                  class="mt-4 article-image-hack"
+                ></v-img>
               </div>
               <div>
                 <v-btn @click="imageLeft">Links</v-btn>
