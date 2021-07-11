@@ -156,6 +156,7 @@ export default {
       await this.sleep(100);
     }
 
+    // Check if authenticated
     if (this.$keycloak.authenticated) {
       // Get keycloak role
       if (

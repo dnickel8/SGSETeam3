@@ -166,6 +166,9 @@ export default {
       this.$store.commit("setProducts", this.getSelectedProducts());
       this.$router.push({ name: "Order" });
     },
+    sleep(ms) {
+      return new Promise((resolve) => setTimeout(resolve, ms));
+    },
   },
   watch: {
     products: {
@@ -193,26 +196,34 @@ export default {
       deep: true,
     },
   },
-  mounted() {
-    // Get userID
-    this.user_id = this.$store.state.userId;
+  async mounted() {
+    // Wait for Keycloak init
+    while (this.$keycloak.createLoginUrl === null) {
+      await this.sleep(100);
+    }
 
-    // Get products from redis database
-    let url =
-      process.env.VUE_APP_CART_SERVICE_URL +
-      "/cart/getArticles/" +
-      this.user_id;
+    // Check if authenticated
+    if (this.$keycloak.authenticated) {
+      // Get userID
+      this.user_id = this.$store.state.userId;
 
-    this.axios.get(url).then((response) => {
-      if (response.status === 200) {
-        let tmpArticles = response.data.articles;
-        this.changeReceivedArticleData(tmpArticles);
-        this.products = tmpArticles;
-        if (this.products.length === 0) {
-          this.showNoContentMessage = true;
+      // Get products from redis database
+      let url =
+        process.env.VUE_APP_CART_SERVICE_URL +
+        "/cart/getArticles/" +
+        this.user_id;
+
+      this.axios.get(url).then((response) => {
+        if (response.status === 200) {
+          let tmpArticles = response.data.articles;
+          this.changeReceivedArticleData(tmpArticles);
+          this.products = tmpArticles;
+          if (this.products.length === 0) {
+            this.showNoContentMessage = true;
+          }
         }
-      }
-    });
+      });
+    }
   },
 };
 </script>
