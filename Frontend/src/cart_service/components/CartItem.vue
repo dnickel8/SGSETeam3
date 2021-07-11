@@ -3,16 +3,16 @@
     <v-row align="center">
       <v-checkbox v-model="product.checkbox_value" class="ml-3"></v-checkbox>
       <v-img
-        v-bind:src="product.article_imagepath"
+        :src="getImage"
         :width="200"
         :height="140"
         contain
         class="ml-3 article-image-hack"
       ></v-img>
       <v-col class="pt-0">
-        <div v-on:click="visitArticleSite" class="text-h6 mb-1">
-          {{ product.article_name }}
-        </div>
+        <v-btn v-on:click="visitArticleSite" text class="text-none mb-1 pa-0">
+          <div class="text-h6">{{ product.article_name }}</div>
+        </v-btn>
         <div>Verkäufer: {{ product.article_vendor }}</div>
         <v-row align="center" justify="start" class="ml-0 mt-4">
           <v-text-field
@@ -85,6 +85,13 @@ export default {
       this.$router.push({
         name: "Article",
         query: { article: this.product.article_url },
+      });
+    },
+    getImage: function () {
+      this.axios.get(this.product.article_imagepath).then((response) => {
+        if (response.status === 200) {
+          return response.data.data;
+        }
       });
     },
   },
