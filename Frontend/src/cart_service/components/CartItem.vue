@@ -14,7 +14,8 @@
         <v-btn
           v-on:click="visitArticleSite"
           text
-          class="text-none pa-0 mb-1 title-button"
+          class="text-none pa-0 mb-1"
+          style="min-width: 0"
         >
           <div class="text-h6">{{ product.article_name }}</div>
         </v-btn>
@@ -118,8 +119,5 @@ export default {
 <style scoped>
 .article-image-hack {
   flex: none;
-}
-.title-button {
-  min-width: 0;
 }
 </style>
