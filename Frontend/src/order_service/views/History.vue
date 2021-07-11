@@ -1,37 +1,42 @@
 <template>
-  <v-expansion-panels>
-    <v-expansion-panel v-for="(order, index) in orders" :key="index">
-      <v-expansion-panel-header>
-        {{ order.date }}
-      </v-expansion-panel-header>
-      <v-expansion-panel-content>
-        <div
-          v-for="(product, index) in order.products"
-          :key="index"
-          class="d-flex justify-center mb-6"
-        >
-          <v-card
-            class="d-flex justify-space-between align-center"
-            height="50"
-            width="900"
+  <div class="d-flex justify-center mb-6">
+    <div v-if="showNoContentMessage" class="text-h6 mb-8">
+      Keine Bestellungen vorhanden
+    </div>
+    <v-expansion-panels>
+      <v-expansion-panel v-for="(order, index) in orders" :key="index">
+        <v-expansion-panel-header>
+          {{ order.date }}
+        </v-expansion-panel-header>
+        <v-expansion-panel-content>
+          <div
+            v-for="(product, index) in order.products"
+            :key="index"
+            class="d-flex justify-center mb-6"
           >
-            <v-img
-              max-height="50"
-              max-width="50"
-              v-bind:src="product.image"
-            ></v-img>
-            <strong class="pa-2">{{ product.name }}</strong>
-            <strong class="pa-2">{{ product.count }}</strong>
-            <strong class="pa-2">{{ product.price }}€ </strong>
-          </v-card>
-        </div>
+            <v-card
+              class="d-flex justify-space-between align-center"
+              height="50"
+              width="900"
+            >
+              <v-img
+                max-height="50"
+                max-width="50"
+                v-bind:src="product.article_imagepath"
+              ></v-img>
+              <strong class="pa-2">{{ product.article_name }}</strong>
+              <strong class="pa-2">{{ product.article_count }}</strong>
+              <strong class="pa-2">{{ product.article_price }}€ </strong>
+            </v-card>
+          </div>
 
-        <v-container class="d-flex justify-center mb-6">
-          <strong>Gesamtpreis: {{ order.total }}€</strong>
-        </v-container>
-      </v-expansion-panel-content>
-    </v-expansion-panel>
-  </v-expansion-panels>
+          <v-container class="d-flex justify-center mb-6">
+            <strong>Gesamtpreis: {{ order.total }}€</strong>
+          </v-container>
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+    </v-expansion-panels>
+  </div>
 </template>
 
 <script>
@@ -42,6 +47,7 @@ export default {
       user_id: 123,
       e1: 1,
       orders: [],
+      showNoContentMessage: false,
     };
   },
   methods: {
@@ -62,21 +68,38 @@ export default {
       await axios
         .get(url)
         .then((response) => {
-          this.orders = JSON.parse(response.data);
-
-          this.calculateTotalAmount();
+          if (response.status == 200) {
+            this.orders = JSON.parse(response.data);
+            if (this.orders.length === 0) {
+              this.showNoContentMessage = true;
+              this.calculateTotalAmount();
+            }
+          }
         })
         .catch(() => {});
     },
+    async getImage(image_url) {
+      return await this.axios.get(image_url);
+    },
+    async getAllImages() {
+      for (let o = 0; o < this.orders.length; ++o) {
+        for (let i = 0; i < this.orders[o].products.length; ++i) {
+          let image = await this.getImage(
+            this.orders[o].products[i].article_imagepath
+          );
+          if (image) {
+            this.orders[o].products[i].article_imagepath = image.data.data;
+          } else {
+            this.orders[o].products[i].article_imagepath = "ERROR";
+          }
+        }
+      }
+    },
   },
-  beforeMount() {
-    this.getOrders();
-
-    // Get userID
-    let user_id = this.$store.state.userId;
-    if (user_id !== "") {
-      this.user_id = user_id;
-    }
+  async mounted() {
+    this.user_id = this.$store.state.userId;
+    await this.getOrders();
+    await this.getAllImages();
   },
 };
 </script>
