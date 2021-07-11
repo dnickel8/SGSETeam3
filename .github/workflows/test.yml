@@ -64,8 +64,7 @@ jobs:
     
     # Run test
     - name: Run Test
-      run: docker run gcr.io/$PROJECT_ID/$IMAGE:$TAG
-    - run: docker exec gcr.io/$PROJECT_ID/$IMAGE manage.py
+      run: docker exec gcr.io/turing-variety-317113/cart-image:latest manage.py
 
     # Set up kustomize
     - name: Set up Kustomize
