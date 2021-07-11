@@ -60,10 +60,7 @@ class ArticleService {
   async addToCart(userId, bodyData) {
     return await axios({
       method: "post",
-      url:
-        `${process.env.VUE_APP_CART_SERVICE_URL}/cart/addArticle/` +
-        userId +
-        "/",
+      url: `${process.env.VUE_APP_CART_SERVICE_URL}/cart/addArticle/` + userId,
       data: bodyData,
     });
   }

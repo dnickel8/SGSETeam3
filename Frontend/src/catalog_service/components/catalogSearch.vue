@@ -124,7 +124,7 @@ export default {
   watch: {
     $route(to, from)
     {
-      if(to["path"] == "/catalogSearch")
+      if(to["path"] == "/catalog/search")
       {
         this.searchterm = to["query"]["search"];
         this.forSale = [];
