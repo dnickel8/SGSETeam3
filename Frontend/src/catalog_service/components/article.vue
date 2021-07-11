@@ -162,7 +162,10 @@
                 <v-btn @click="imageRight">Rechts</v-btn>
 
                 <h2>{{ price / 100 }}€</h2>
-                <v-btn @click="addToCart" style="margin-top: 10px"
+                <v-btn
+                  v-if="$store.state.userRole == 'Admin'"
+                  @click="addToCart"
+                  style="margin-top: 10px"
                   >In den Warenkorb legen</v-btn
                 >
               </div>
