@@ -112,15 +112,12 @@ export default {
       this.$router.push({ name: "Account" });
     },
     login() {
-      this.$keycloak.login().then((login) => {
-        if (login) {
-          this.search = "JA";
-        } else {
-          this.search = "NEIN";
-        }
-      });
+      this.$keycloak.login();
     },
     logout() {
+      this.$store.state.userId = "";
+      this.$store.state.token = {};
+      this.$store.state.userRole = "User";
       this.$keycloak.logoutFn();
     },
     searchMethod() {
@@ -128,6 +125,9 @@ export default {
         name: "CatalogSearch",
         query: { search: this.search },
       });
+    },
+    sleep(ms) {
+      return new Promise((resolve) => setTimeout(resolve, ms));
     },
   },
   computed: {
@@ -147,7 +147,13 @@ export default {
       return this.$store.state.userId;
     },
   },
-  mounted() {
+  async mounted() {
+    // Wait for Keycloak init
+    while (this.$keycloak.createLoginUrl === null) {
+      await this.sleep(100);
+    }
+
+    // Check if authenticated
     if (this.$keycloak.authenticated) {
       // Get keycloak role
       if (
@@ -175,8 +181,6 @@ export default {
           }
         })
         .catch(() => {});
-    } else {
-      this.search = "TEST TEST TEST"; // TODO Remove
     }
   },
 };
