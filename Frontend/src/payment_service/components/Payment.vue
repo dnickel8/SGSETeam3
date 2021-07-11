@@ -161,7 +161,6 @@ export default {
     }
   },
   async mounted() {
-    console.log(this.address);
     const store = this.$store;
     const me = this;
     const paypalSdk = await loadScript({
@@ -205,7 +204,6 @@ export default {
       const amount = this.createAmount();
       await PaymentService.createInvoiceAndPay(invoice, amount, false);
       this.alert = true;
-      console.log(invoice);
       await this.placeOrderAndDeleteArticlesInCart(invoice, amount, "Rechnung");
       this.$router.push({ name: "OrderHistory" });
 
@@ -213,10 +211,8 @@ export default {
     },
     async placeOrderAndDeleteArticlesInCart(invoice, amount, shippingMethod) {
       const order = OrderService.createOrder(invoice, amount, shippingMethod, this.address, this.$store.state.userId, this.items);
-      console.log(order);
       await OrderService.placeOrder(order);
       const articlesToDelete = this.createArticlesToDelete();
-      console.log(articlesToDelete);
       await CartService.deletePassedArticles(articlesToDelete, this.$store.state.userId);
     },
     createAmount() {
