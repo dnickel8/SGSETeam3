@@ -127,9 +127,10 @@
             width="900"
           >
             <v-img
+              :src="product.article_imagepath"
               max-height="50"
               max-width="50"
-              :src="product.article_imagepath"
+              contain
             ></v-img>
             <strong class="pa-2">{{ product.article_name }}</strong>
             <v-col cols="6" sm="6" md="1">
@@ -168,6 +169,7 @@
 
 <script>
 import Payment from "@/payment_service/components/Payment.vue";
+
 export default {
   components: {
     Payment,
@@ -231,13 +233,14 @@ export default {
         (item) => item.article_id !== product.article_id
       );
     },
-    onChangeStep(step) {
+    onChangeStep: function (step) {
       this.e1 = step;
     },
     getAllImages: function () {
       for (let i = 0; i < this.products.length; ++i) {
-        let product = this.products[i];
-        product.article_imagepath = this.getImage(product.article_imagepath);
+        this.products[i].article_imagepath = this.getImage(
+          this.products[i].article_imagepath
+        );
       }
     },
     getImage: function (image_url) {
@@ -264,7 +267,7 @@ export default {
       deep: true,
     },
   },
-  async mounted() {
+  mounted() {
     this.products = this.$store.state.products;
     this.getAllImages();
     this.calculateTotalAmount();
