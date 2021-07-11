@@ -112,15 +112,12 @@ export default {
       this.$router.push({ name: "Account" });
     },
     login() {
-      this.$keycloak.login().then((login) => {
-        if (login) {
-          this.search = "JA";
-        } else {
-          this.search = "NEIN";
-        }
-      });
+      this.$keycloak.login();
     },
     logout() {
+      this.$store.state.userId = "";
+      this.$store.state.token = {};
+      this.$store.state.userRole = "User";
       this.$keycloak.logoutFn();
     },
     searchMethod() {
@@ -184,8 +181,6 @@ export default {
           }
         })
         .catch(() => {});
-    } else {
-      this.search = "TEST TEST TEST"; // TODO Remove
     }
   },
 };
