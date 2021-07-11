@@ -238,9 +238,9 @@ export default {
     },
     getAllImages: function () {
       for (let i = 0; i < this.products.length; ++i) {
-        let product = this.products[i];
-        product.article_imagepath = this.getImage(product.article_imagepath);
-        this.products[i] = product;
+        this.products[i].article_imagepath = this.getImage(
+          this.products[i].article_imagepath
+        );
       }
     },
     getImage: function (image_url) {
@@ -267,7 +267,7 @@ export default {
       deep: true,
     },
   },
-  async mounted() {
+  mounted() {
     this.products = this.$store.state.products;
     this.getAllImages();
     this.calculateTotalAmount();
