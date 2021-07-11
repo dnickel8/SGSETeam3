@@ -134,7 +134,7 @@ import CartService from "@/payment_service/services/cart.service.js"
 import { loadScript } from "@paypal/paypal-js";
 export default {
   name: "Payment",
-  props: ["address", "items"],
+  props: ["address", "items", "totalAmount"],
   data() {
     return {
         sameAsDeliveryAddress: true,
@@ -174,7 +174,7 @@ export default {
         return actions.order.create({
           purchase_units: [{
             amount: {
-              value: store.state.orderAmount
+              value: me.totalAmount
             }
           }]
         })
@@ -218,7 +218,7 @@ export default {
     createAmount() {
       const amount = {
         currencyCode: "EUR",
-        value: this.$store.state.orderAmount
+        value: this.totalAmount
       }
       return amount;
     },
