@@ -108,7 +108,7 @@
           </v-row>
         </v-container>
 
-        <v-btn color="primary" :disabled="!isAdressValid" @click="e1 = 2">
+        <v-btn color="primary" :disabled="!isAddressValid" @click="e1 = 2">
           Weiter
         </v-btn>
 
@@ -129,19 +129,20 @@
             <v-img
               max-height="50"
               max-width="50"
-              v-bind:src="product.image"
+              :src="getImage(product.article_imagepath)"
+              :eager="true"
             ></v-img>
-            <strong class="pa-2">{{ product.name }}</strong>
+            <strong class="pa-2">{{ product.article_name }}</strong>
             <v-col cols="6" sm="6" md="1">
               <v-row class="align-center">
                 <v-text-field
                   :rules="rules_number"
-                  v-model="product.count"
+                  v-model="product.article_count"
                   @change="calculateTotalAmount"
                 ></v-text-field>
               </v-row>
             </v-col>
-            <strong>{{ product.price }}€</strong>
+            <strong>{{ product.article_price }}€</strong>
             <v-btn text @click="removeProduct(product)"> Entfernen </v-btn>
           </v-card>
         </div>
@@ -175,29 +176,7 @@ export default {
   data() {
     return {
       e1: 1,
-      products: [
-        {
-          id: "1",
-          name: "Mikrofon",
-          image: "https://picsum.photos/50/50",
-          count: 1,
-          price: 100,
-        },
-        {
-          id: "2",
-          name: "Mikrofonarm",
-          image: "https://picsum.photos/50/50",
-          count: 1,
-          price: 22,
-        },
-        {
-          id: "3",
-          name: "Kabel",
-          image: "https://picsum.photos/50/50",
-          count: 2,
-          price: 9,
-        },
-      ],
+      products: [],
       address: {
         first_name: "",
         last_name: "",
@@ -221,21 +200,21 @@ export default {
         (value) => !isNaN(value) || "Bitte Zahlen verwenden",
       ],
       totalAmount: "",
-      isAdressValid: false,
+      isAddressValid: false,
     };
   },
   methods: {
     calculateTotalAmount: function () {
       let total = 0;
       this.products.forEach((product) => {
-        if (product.count < 1) {
-          product.count = 1;
+        if (product.article_count < 1) {
+          product.article_count = 1;
         }
-        total += product.price * product.count;
+        total += product.article_price * product.article_count;
       });
       this.totalAmount = total;
     },
-    validateAdress: function () {
+    validateAddress: function () {
       if (
         this.address.first_name.length >= 3 &&
         this.address.last_name.length >= 3 &&
@@ -245,18 +224,25 @@ export default {
         !isNaN(this.address.number) &&
         !isNaN(this.address.code)
       ) {
-        this.isAdressValid = true;
+        this.isAddressValid = true;
       }
     },
     removeProduct: function (product) {
-      this.products = this.products.filter((item) => item.id !== product.id);
+      this.products = this.products.filter(
+        (item) => item.article_id !== product.article_id
+      );
     },
     onChangeStep(step) {
       this.e1 = step;
     },
-  },
-  beforeMount() {
-    this.calculateTotalAmount();
+    getImage: function (image_url) {
+      this.axios.get(image_url).then((response) => {
+        if (response.status === 200) {
+          return response.data.data;
+        }
+      });
+      return "";
+    },
   },
   watch: {
     products: {
@@ -268,10 +254,14 @@ export default {
     },
     address: {
       handler: function () {
-        this.validateAdress();
+        this.validateAddress();
       },
       deep: true,
     },
+  },
+  async mounted() {
+    this.products = this.$store.state.products;
+    this.calculateTotalAmount();
   },
 };
 </script>
