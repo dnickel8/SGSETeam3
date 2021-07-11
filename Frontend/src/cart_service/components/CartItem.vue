@@ -3,14 +3,22 @@
     <v-row align="center">
       <v-checkbox v-model="product.checkbox_value" class="ml-3"></v-checkbox>
       <v-img
-        v-bind:src="product.article_imagepath"
+        :src="image"
+        :eager="true"
         :width="200"
         :height="140"
         contain
         class="ml-3 article-image-hack"
       ></v-img>
       <v-col class="pt-0">
-        <div class="text-h6 mb-1">{{ product.article_name }}</div>
+        <v-btn
+          v-on:click="visitArticleSite"
+          text
+          class="text-none pa-0 mb-1"
+          style="min-width: 0"
+        >
+          <div class="text-h6">{{ product.article_name }}</div>
+        </v-btn>
         <div>Verkäufer: {{ product.article_vendor }}</div>
         <v-row align="center" justify="start" class="ml-0 mt-4">
           <v-text-field
@@ -56,6 +64,7 @@ export default {
   props: ["product"],
   data: function () {
     return {
+      image: "",
       rules_number_input: [
         (value) => !!value,
         (value) => !isNaN(value),
@@ -79,6 +88,12 @@ export default {
         .then()
         .catch(() => {});
     },
+    visitArticleSite: function () {
+      this.$router.push({
+        name: "Article",
+        query: { article: this.product.article_url },
+      });
+    },
   },
   watch: {
     "product.article_count": function (val) {
@@ -90,6 +105,13 @@ export default {
       }
       this.updateArticleCount();
     },
+  },
+  mounted() {
+    this.axios.get(this.product.article_imagepath).then((response) => {
+      if (response.status === 200) {
+        this.image = response.data.data;
+      }
+    });
   },
 };
 </script>

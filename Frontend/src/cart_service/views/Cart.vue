@@ -197,33 +197,25 @@ export default {
     },
   },
   async mounted() {
-    // Wait for Keycloak init
-    while (this.$keycloak.createLoginUrl === null) {
-      await this.sleep(100);
-    }
+    // Get userID
+    this.user_id = this.$store.state.userId;
 
-    // Check if authenticated
-    if (this.$keycloak.authenticated) {
-      // Get userID
-      this.user_id = this.$store.state.userId;
+    // Get products from redis database
+    let url =
+      process.env.VUE_APP_CART_SERVICE_URL +
+      "/cart/getArticles/" +
+      this.user_id;
 
-      // Get products from redis database
-      let url =
-        process.env.VUE_APP_CART_SERVICE_URL +
-        "/cart/getArticles/" +
-        this.user_id;
-
-      this.axios.get(url).then((response) => {
-        if (response.status === 200) {
-          let tmpArticles = response.data.articles;
-          this.changeReceivedArticleData(tmpArticles);
-          this.products = tmpArticles;
-          if (this.products.length === 0) {
-            this.showNoContentMessage = true;
-          }
+    this.axios.get(url).then((response) => {
+      if (response.status === 200) {
+        let tmpArticles = response.data.articles;
+        this.changeReceivedArticleData(tmpArticles);
+        this.products = tmpArticles;
+        if (this.products.length === 0) {
+          this.showNoContentMessage = true;
         }
-      });
-    }
+      }
+    });
   },
 };
 </script>
