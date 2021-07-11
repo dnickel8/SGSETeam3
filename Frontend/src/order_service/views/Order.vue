@@ -129,10 +129,10 @@
             <v-img
               :src="product.article_imagepath"
               :eager="true"
-              :width="70"
-              :height="70"
+              :width="50"
+              :height="50"
               contain
-              class="ma-3"
+              class="ma-3 article-image-hack"
             ></v-img>
             <strong class="pa-2">{{ product.article_name }}</strong>
             <v-col cols="6" sm="6" md="1">
@@ -238,20 +238,25 @@ export default {
     onChangeStep: function (step) {
       this.e1 = step;
     },
-    getAllImages: function () {
-      for (let i = 0; i < this.products.length; ++i) {
-        this.products[i].article_imagepath = this.getImage(
-          this.products[i].article_imagepath
-        );
-      }
-    },
     getImage: function (image_url) {
       this.axios.get(image_url).then((response) => {
         if (response.status === 200) {
           return response.data.data;
+        } else {
+          return "";
         }
       });
-      return "";
+      return "ERROR";
+    },
+    getAllImages: function () {
+      for (let i = 0; i < this.products.length; ++i) {
+        let image = this.getImage(this.products[i].article_imagepath);
+        if (image) {
+          this.products[i].article_imagepath = image;
+        } else {
+          this.products[i].article_imagepath = "ERROR";
+        }
+      }
     },
   },
   watch: {
@@ -276,3 +281,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.article-image-hack {
+  flex: none;
+}
+</style>
