@@ -5,7 +5,7 @@
         <v-card>
           <v-card-title>Mein Konto</v-card-title>
           <v-card-text>
-            <LoggedInUser :userProfile="userProfile" />
+            <user-data :userProfile="userProfile" />
           </v-card-text>
           <v-card-actions>
             <v-btn @click="logout" v-if="$keycloak.authenticated" color="amber">
@@ -19,17 +19,12 @@
 </template>
 
 <script>
-import LoggedInUser from "@/account_service/components/LoggedInUser.vue";
+import UserData from "@/account_service/components/UserData.vue";
 
 export default {
   name: "Account",
   components: {
-    LoggedInUser,
-  },
-  async created() {
-    if (this.$keycloak.authenticated) {
-      this.userProfile = await this.$keycloak.loadUserProfile();
-    }
+    UserData,
   },
   data() {
     return {
@@ -40,6 +35,11 @@ export default {
     async logout() {
       await this.$keycloak.logoutFn();
     },
+  },
+  async mounted() {
+    if (this.$keycloak.authenticated) {
+      this.userProfile = await this.$keycloak.loadUserProfile();
+    }
   },
 };
 </script>

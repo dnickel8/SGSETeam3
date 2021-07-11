@@ -43,8 +43,7 @@
 
 <script>
 export default {
-  name: "LoggedInUser",
+  name: "UserData",
   props: ["userProfile"],
-  methods: {},
 };
 </script>

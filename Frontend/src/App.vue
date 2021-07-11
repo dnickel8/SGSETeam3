@@ -175,6 +175,8 @@ export default {
           }
         })
         .catch(() => {});
+    } else {
+      this.search = "TEST TEST TEST";
     }
   },
 };
