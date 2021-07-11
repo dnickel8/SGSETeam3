@@ -85,4 +85,4 @@ jobs:
     
     # Run test
     - name: Run Test
-      run: kubectl exec -it $POD -- python manage.py test
+      run: kubectl exec -it ${{ POD }} -- python manage.py test
