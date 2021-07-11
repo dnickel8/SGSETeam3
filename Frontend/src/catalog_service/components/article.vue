@@ -486,8 +486,8 @@ export default {
       json["article_name"] = this.articlename;
       json["article_vendor"] = this.hersteller;
       json["article_price"] = parseFloat(this.price)/100;
-      json["article_url"] = "http://35.246.128.219:3000/getArticle/" + this.articleId;
-      json["article_imagepath"] = "http://35.246.128.219:3000/getPicture/" + this.imageIds[0];
+      json["article_url"] = `${process.env.VUE_APP_CATALOG_SERVICE_URL}/getArticle/` + this.articleId;
+      json["article_imagepath"] = `${process.env.VUE_APP_CATALOG_SERVICE_URL}/getPicture/` + this.imageIds[0];
       var userId = this.$store.state.userId;
       await ArticleService.addToCart(userId, json);
 
