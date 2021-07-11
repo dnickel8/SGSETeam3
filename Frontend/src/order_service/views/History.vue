@@ -3,7 +3,7 @@
     <div v-if="showNoContentMessage" class="text-h6 mb-8">
       Keine Bestellungen vorhanden
     </div>
-    <v-expansion-panels>
+    <v-expansion-panels v-if="!showNoContentMessage">
       <v-expansion-panel v-for="(order, index) in orders" :key="index">
         <v-expansion-panel-header>
           {{ order.date }}
@@ -55,7 +55,7 @@ export default {
       let total = 0;
       this.orders.forEach((order) => {
         order.products.forEach((product) => {
-          order.total += product.price * product.count;
+          order.total += product.article_price * product.article_count;
         });
         this.totalAmount = total;
       });
