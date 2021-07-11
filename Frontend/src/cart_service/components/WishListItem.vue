@@ -2,14 +2,18 @@
   <v-container fluid class="pa-0">
     <v-row align="center">
       <v-img
-        :src="getImage"
+        :src="image"
         :width="200"
         :height="140"
         contain
         class="ml-3 article-image-hack"
       ></v-img>
       <v-col class="pt-0">
-        <v-btn v-on:click="visitArticleSite" text class="text-none mb-1 pa-0">
+        <v-btn
+          v-on:click="visitArticleSite"
+          text
+          class="text-none pa-0 mb-1 title-button"
+        >
           <div class="text-h6">{{ product.article_name }}</div>
         </v-btn>
         <div>Verkäufer: {{ product.article_vendor }}</div>
@@ -43,6 +47,11 @@
 export default {
   name: "WishListItem",
   props: ["product"],
+  data: function () {
+    return {
+      image: "",
+    };
+  },
   methods: {
     visitArticleSite: function () {
       this.$router.push({
@@ -57,6 +66,13 @@ export default {
         }
       });
     },
+    mounted() {
+      this.axios.get(this.product.article_imagepath).then((response) => {
+        if (response.status === 200) {
+          return response.data.data;
+        }
+      });
+    },
   },
 };
 </script>
@@ -64,5 +80,8 @@ export default {
 <style scoped>
 .article-image-hack {
   flex: none;
+}
+.title-button {
+  min-width: 0;
 }
 </style>
