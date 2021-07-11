@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-toolbar
-      v-if="$store.state.userRole == 'Admin'"
+      v-if="this.$store.state.userRole === 'Admin'"
       id="navbar"
       dense
       elevation="1"
@@ -13,31 +13,33 @@
       <v-toolbar-items d-flex>
         <v-btn
           v-if="
-            $store.state.userRole == 'Admin' &&
-            this.$route.query.article == 'add'
+            this.$store.state.userRole === 'Admin' &&
+            this.$route.query.article === 'add'
           "
           @click="save"
           >Artikel speichern</v-btn
         >
         <v-btn
-          v-if="$store.state.userRole == 'Admin' && this.articleId.length > 20"
+          v-if="
+            this.$store.state.userRole === 'Admin' && this.articleId.length > 20
+          "
           @click="deleteArticle"
           >Artikel löschen</v-btn
         >
         <v-btn
           v-if="
-            $store.state.userRole == 'Admin' &&
+            this.$store.state.userRole === 'Admin' &&
             this.articleId.length > 20 &&
-            this.edit == false
+            this.edit === false
           "
           @click="editArticle"
           >Artikel bearbeiten</v-btn
         >
         <v-btn
           v-if="
-            $store.state.userRole == 'Admin' &&
+            this.$store.state.userRole === 'Admin' &&
             this.articleId.length > 20 &&
-            this.edit == true
+            this.edit === true
           "
           @click="editArticleSave"
           >Änderungen speichern</v-btn
@@ -138,10 +140,14 @@
                 style="display: inline-block; margin: 10px; max-height: 10px"
               />
               <div>
-                <img
-                  v-bind:src="images[imageCounter]"
-                  style="width: 100%; max-width: 500px; margin-top: 30px"
-                />
+                <v-img
+                  :src="images[imageCounter]"
+                  :eager="true"
+                  :width="200"
+                  :height="200"
+                  contain
+                  class="mt-4 article-image-hack"
+                ></v-img>
               </div>
               <div style="margin: 4%">
                 <v-btn @click="imageLeft">left</v-btn>
@@ -163,7 +169,7 @@
 
                 <h2>{{ price / 100 }}€</h2>
                 <v-btn
-                  v-if="$store.state.userRole == 'Admin'"
+                  v-if="this.$store.state.userRole == 'Admin'"
                   @click="addToCart"
                   style="margin-top: 10px"
                   >In den Warenkorb legen</v-btn
@@ -219,6 +225,7 @@
 //<b-table striped hover :items="items"></b-table>
 import ArticleService from "@/catalog_service/services/article.service.js"
 import UploadImages from "vue-upload-drop-images"
+
 export default {
   name: "Article",
   data() {
@@ -247,11 +254,11 @@ export default {
   },
   async created()
     {
-      if (this.$route.query.article == "add" && this.$store.state.userRole == "Admin")
+      if (this.$route.query.article === "add" && this.$store.state.userRole === "Admin")
       {
         this.addArticle = true;
       }
-      else if (this.$route.query.article == "edit" && this.$store.state.userRole == "Admin")
+      else if (this.$route.query.article === "edit" && this.$store.state.userRole === "Admin")
       {
         this.edit = true;
       }
@@ -312,15 +319,15 @@ export default {
   watch: {
     $route(to, from)
     {
-      if(from["fullPath"] == "/article?article=add")
+      if(from["fullPath"] === "/article?article=add")
       {
         this.$router.go(this.$router.currentRoute)
       }
-      if(this.$route.query.article == "edit")
+      if(this.$route.query.article === "edit")
       {
         this.$router.go(this.$router.currentRoute)
       }
-      if(from["query"]["article"] == "edit")
+      if(from["query"]["article"] === "edit")
       {
         this.$router.go(this.$router.currentRoute)
       }
@@ -336,7 +343,7 @@ export default {
     },
     imageRight()
     {
-      if(this.imageCounter +1 != this.images.length)
+      if((this.imageCounter + 1) != this.images.length)
       {
         this.imageCounter += 1;
       }
@@ -443,7 +450,7 @@ export default {
       for(let imageId of this.deleteImageIds)
       {
         var result = await ArticleService.deletePicture(imageId);
-        if(result.status != 200)
+        if(result.status !== 200)
         {
           console.err(result.data);
           return;
@@ -475,7 +482,7 @@ export default {
       }
       articleJson["details"] = detailsJson;
       await ArticleService.changeArticle(articleJson, this.articleId);
-      this.$router.push({name: 'Article', params: {articleId: event.target.id},  query: { article: this.articleId } });
+      this.$router.push({name: 'Article', query: { article: this.articleId } });
     },
     async uploadImage(data)
     {
@@ -513,3 +520,9 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.article-image-hack {
+  flex: none;
+}
+</style>
