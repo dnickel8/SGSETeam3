@@ -79,4 +79,5 @@ jobs:
         
     # Run test
     - name: Run Test
-      run: docker exec gcr.io/turing-variety-317113/cart-image:latest manage.py
+      run: docker run --name=test-cart gcr.io/turing-variety-317113/cart-image:latest
+    - run: docker exec test-cart manage.py
