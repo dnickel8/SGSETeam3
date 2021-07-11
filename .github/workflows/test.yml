@@ -77,7 +77,10 @@ jobs:
         kubectl rollout status deployment/$DEPLOYMENT_NAME
         kubectl get services -o wide
         
+    # get pod
+    - name: Get Pod
+      run: POD=$(kubectl get pod -l app=DEPLOYMENT_NAME -o name) | echo ${{ POD }}
+    
     # Run test
     - name: Run Test
-      run: docker run --name=test-cart gcr.io/turing-variety-317113/cart-image:latest
-    - run: docker exec test-cart manage.py
+      run: kubectl exec -it ${{ POD }} -- python manage.py test
