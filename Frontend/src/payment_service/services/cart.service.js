@@ -6,7 +6,11 @@ class CartService {
   async deletePassedArticles(articlesToDelete, userId) {
     return await axios.delete(
       `${process.env.VUE_APP_CART_SERVICE_URL}/cart/deletePassedArticles/${userId}`,
-      articlesToDelete
+      {
+        data: {
+          articles: articlesToDelete,
+        },
+      }
     );
   }
 }
