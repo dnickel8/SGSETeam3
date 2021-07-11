@@ -38,7 +38,6 @@ const store = new Vuex.Store({
     }),
   ],
   state: {
-    token: {},
     orderAmount: "1.99",
     items: [],
     userRole: "",
@@ -47,12 +46,6 @@ const store = new Vuex.Store({
     products: [],
   },
   mutations: {
-    logout(state) {
-      state.token = Object();
-    },
-    login(state, token) {
-      state.token = token;
-    },
     setUserRole(state, role) {
       state.userRole = role;
     },
@@ -73,11 +66,6 @@ const store = new Vuex.Store({
     },
     setProducts(state, products) {
       state.products = products;
-    },
-  },
-  getters: {
-    token: (state) => {
-      return state.token;
     },
   },
 });
