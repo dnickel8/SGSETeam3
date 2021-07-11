@@ -173,7 +173,7 @@
 
                 <h2>{{ price / 100 }}€</h2>
                 <v-btn
-                  v-if="this.$store.state.userRole == 'Admin'"
+                  v-if="this.$store.state.userRole == 'User'"
                   @click="addToCart"
                   style="margin-top: 10px"
                   >In den Warenkorb legen</v-btn
