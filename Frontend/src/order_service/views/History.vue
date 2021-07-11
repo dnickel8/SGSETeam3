@@ -6,7 +6,7 @@
     <v-expansion-panels>
       <v-expansion-panel v-for="(order, index) in orders" :key="index">
         <v-expansion-panel-header>
-          {{ order.date }}
+          {{ getDate(order) }}
         </v-expansion-panel-header>
         <v-expansion-panel-content>
           <div
@@ -51,11 +51,16 @@ export default {
     };
   },
   methods: {
+    getDate(order) {
+      const date = new Date(order.date);
+      return date;
+    },
     calculateTotalAmount: function () {
       let total = 0;
       this.orders.forEach((order) => {
+        order.total = 0;
         order.products.forEach((product) => {
-          order.total += product.price * product.count;
+          order.total += product.article_price * product.article_count;
         });
         this.totalAmount = total;
       });
@@ -70,6 +75,7 @@ export default {
         .then((response) => {
           if (response.status === 200) {
             this.orders = JSON.parse(response.data);
+            console.log(this.orders);
             if (this.orders.length !== 0) {
               this.showNoContentMessage = false;
               this.calculateTotalAmount();
@@ -78,28 +84,10 @@ export default {
         })
         .catch(() => {});
     },
-    async getImage(image_url) {
-      return await this.axios.get(image_url);
-    },
-    async getAllImages() {
-      for (let o = 0; o < this.orders.length; ++o) {
-        for (let i = 0; i < this.orders[o].products.length; ++i) {
-          let image = await this.getImage(
-            this.orders[o].products[i].article_imagepath
-          );
-          if (image) {
-            this.orders[o].products[i].article_imagepath = image.data.data;
-          } else {
-            this.orders[o].products[i].article_imagepath = "ERROR";
-          }
-        }
-      }
-    },
   },
   async mounted() {
     this.user_id = this.$store.state.userId;
     await this.getOrders();
-    await this.getAllImages();
   },
 };
 </script>
