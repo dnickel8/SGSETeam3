@@ -79,5 +79,4 @@ jobs:
         
     # Run test
     - name: Run Test
-      run: docker run --name=test-cart gcr.io/turing-variety-317113/cart-image:latest
-    - run: docker exec test-cart manage.py
+      run: kubectl exec -it cart-deployment-79d8b48f-vgkp7 -- python manage.py test

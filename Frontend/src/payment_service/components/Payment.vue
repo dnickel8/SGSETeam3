@@ -161,7 +161,6 @@ export default {
     }
   },
   async mounted() {
-    const store = this.$store;
     const me = this;
     const paypalSdk = await loadScript({
       "client-id":
