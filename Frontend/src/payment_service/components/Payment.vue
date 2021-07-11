@@ -185,9 +185,9 @@ export default {
           const invoice = me.createInvoiceWithPaypalData(details);
           const amount = me.createAmountWithPaypalData(details.purchase_units[0].amount);
           await PaymentService.createInvoiceAndPay(invoice, amount, true);
-          this.alert = true;
-          await this.placeOrderAndDeleteArticlesInCart(invoice, amount, "PayPal");
-          this.$router.push({ name: "OrderHistory" });
+          me.alert = true;
+          await me.placeOrderAndDeleteArticlesInCart(invoice, amount, "PayPal");
+          me.$router.push({ name: "OrderHistory" });
     });
     }
     }).render("#paypal-buttons");
@@ -323,11 +323,10 @@ export default {
       this.$emit("changeStep", stepNumber);
     },
     createArticlesToDelete() {
-      const articles = []
+      const articles = [];
       this.items.forEach((element) => {
-        articles.push(`user:${this.$store.state.userId}:${element.article_name}:${element.article_id}`)
+        articles.push(element.article_id);
       });
-
       return articles;
     }
   }
