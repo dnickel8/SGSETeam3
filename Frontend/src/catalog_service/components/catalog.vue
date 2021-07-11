@@ -34,23 +34,18 @@
           </h2>
         </center>
       </div>
-      <div class="col-md-2" v-for="item in value" v-bind:key="item.name">
-        <v-card :id="item.id" v-on:click="clickMethod" elevation="2">
-          <img
-            :id="item.id"
-            v-on:click="clickMethod"
+      <div class="col-md-2" v-for="item in value" v-bind:key="item.id">
+        <v-card v-on:click="clickMethod(item.id)" elevation="2">
+          <v-img
             :src="item.image"
             :alt="item.name"
-            class="card-img-top"
-            style="width: 100%; max-width: 600px"
-          />
-
-          <v-card-title :id="item.id" v-on:click="clickMethod">
-            {{ item.name }}</v-card-title
-          >
-          <v-card-text :id="item.id" v-on:click="clickMethod">
-            {{ item.price / 100 }}€</v-card-text
-          >
+            :width="200"
+            :height="200"
+            contain
+            class="card-img-top article-image-hack"
+          ></v-img>
+          <v-card-title> {{ item.name }}</v-card-title>
+          <v-card-text> {{ item.price / 100 }}€</v-card-text>
         </v-card>
       </div>
     </div>
@@ -101,10 +96,16 @@ export default {
       this.$forceUpdate();
     },
   methods: {
-    clickMethod()
+    clickMethod(id)
     {
-      this.$router.push({name: 'Article', params: {articleId: event.target.id},  query: { article: event.target.id } });
+      this.$router.push({name: 'Article', query: { article: id } });
     },
   }
 };
 </script>
+
+<style scoped>
+.article-image-hack {
+  flex: none;
+}
+</style>
