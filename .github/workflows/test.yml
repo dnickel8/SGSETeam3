@@ -80,6 +80,9 @@ jobs:
     # get pod
     - name: Get Pod
       run: POD=$(kubectl get pod -l app=DEPLOYMENT_NAME -o name)
+      
+    - run: echo $POD
+    
     # Run test
     - name: Run Test
       run: kubectl exec -it $POD -- python manage.py test
