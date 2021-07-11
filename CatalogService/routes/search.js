@@ -28,19 +28,19 @@ async function getResults(searchterm, body)
                       {
                         "data.articlename": 
                         {
-                          "$regex": "@searchterm" 
+                          "$regex": "@searchterm", "$options" : "i"
                         }
                       },
                       {
                         "data.description": 
                         {
-                          "$regex": "@searchterm" 
+                          "$regex": "@searchterm", "$options" : "i"
                         }
                       },
                       {
                         "data.details.value": 
                         {
-                          "$regex": "@searchterm" 
+                          "$regex": "@searchterm", "$options" : "i"
                         }
                       }
                     ]
