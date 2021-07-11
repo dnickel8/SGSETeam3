@@ -114,11 +114,10 @@ export default {
     login() {
       this.$keycloak.login();
     },
-    logout() {
-      this.$store.state.userId = "";
-      this.$store.state.token = {};
-      this.$store.state.userRole = "User";
-      this.$keycloak.logoutFn();
+    async logout() {
+      await this.$keycloak.logoutFn();
+      this.$store.commit("setUserId", "");
+      this.$store.commit("setUserRole", "User");
     },
     searchMethod() {
       this.$router.push({
@@ -164,7 +163,6 @@ export default {
       } else {
         this.$store.state.userRole = "User";
       }
-
       // Get keycloak userID
       this.$store.state.userId = this.$keycloak.subject;
 

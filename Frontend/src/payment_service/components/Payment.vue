@@ -161,7 +161,6 @@ export default {
     }
   },
   async mounted() {
-    const store = this.$store;
     const me = this;
     const paypalSdk = await loadScript({
       "client-id":
@@ -214,6 +213,8 @@ export default {
       await OrderService.placeOrder(order);
       const articlesToDelete = this.createArticlesToDelete();
       await CartService.deletePassedArticles(articlesToDelete, this.$store.state.userId);
+      this.$store.state.cart_article_count = 0;
+      this.$store.state.products = [];
     },
     createAmount() {
       const amount = {

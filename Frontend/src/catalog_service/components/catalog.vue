@@ -74,7 +74,6 @@ export default {
   },
   async created()
     {
-
         const response = await CatalogService.getData();
         for (let i = 0; i < response["data"].length; i++)
         {
