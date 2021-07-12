@@ -145,7 +145,7 @@
               </v-row>
             </v-col>
             <strong>{{ product.article_price }}€</strong>
-            <v-btn text @click="removeProduct(product)"> Entfernen </v-btn>
+            <v-btn text @click="removeProduct(product)" :disabled="!enableRemoveButtons"> Entfernen </v-btn>
           </v-card>
         </div>
 
@@ -205,6 +205,7 @@ export default {
       ],
       totalAmount: "",
       isAddressValid: false,
+      enableRemoveButtons: true,
     };
   },
   methods: {
@@ -235,6 +236,9 @@ export default {
       this.products = this.products.filter(
         (item) => item.article_id !== product.article_id
       );
+      if (this.products.length === 1) {
+        this.enableRemoveButtons = false;
+      }
     },
     onChangeStep: function (step) {
       this.e1 = step;
