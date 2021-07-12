@@ -83,6 +83,6 @@ jobs:
     
     # Run test
     - name: Run Test
-      run: echo "POD=$(kubectl get pod -l app={{ env.DEPLOYMENT_NAME }} -o name)">> $GITHUB_ENV
+      run: echo "POD=$(kubectl get pod -l app=$(env.DEPLOYMENT_NAME) -o name)">> $GITHUB_ENV
       
     - run: kubectl exec -it ${{ env.POD }} -- python manage.py test
