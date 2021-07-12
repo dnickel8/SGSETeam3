@@ -7,43 +7,43 @@ from django.test.client import RequestFactory
 from bson.objectid import ObjectId
 
 class URLTests(TestCase):
-    
+
     def test_place_order_valid_json(self):
         data = {
-            "date": "2021-07-11T19:07:00.831Z",
-            "user": { "id": "6e7c34fe-61f4-4851-ad5c-ee0809acee71" },
+            "date": "2021-07-12T00:22:40.965Z",
+            "user": { "id": "024ee877-a6ca-422f-b2be-baa6ac3cbb16" },
             "products": [
                 {
                 "article_name": "Logitech G432",
                 "article_vendor": "Logitech",
                 "article_price": 53.99,
                 "article_url": "60e9da18d77e720014c613da",
-                "article_imagepath": "image_url",
-                "article_count": 1,
-                "article_id": "user:6e7c34fe-61f4-4851-ad5c-ee0809acee71:cart-item:0",
+                "article_imagepath": "image",
+                "article_count": "2",
+                "article_id": "user:024ee877-a6ca-422f-b2be-baa6ac3cbb16:cart-item:2",
                 "checkbox_value": True
                 }
             ],
             "address": {
-                "firstName": "asdasd",
-                "lastName": "asdasd",
-                "street": "asdasd",
-                "number": "234",
-                "postCode": "23423",
-                "city": "asdasd"
+                "firstName": "123",
+                "lastName": "123",
+                "street": "123",
+                "number": "123",
+                "postCode": "123",
+                "city": "123"
             },
             "shippingAddress": {
-                "firstName": "John",
-                "lastName": "Doe",
-                "street": "ESpachstr.",
-                "number": "1",
-                "postCode": "79111",
-                "city": "Freiburg"
+                "firstName": "123",
+                "lastName": "123",
+                "street": "123",
+                "number": "123",
+                "postCode": "123",
+                "city": "123"
             },
             "shippingMethod": {
-                "name": "PayPal",
-                "description": "PayPal",
-                "price": "53.99"
+                "name": "Rechnung",
+                "description": "Rechnung",
+                "price": 2481.74
             }
         }
         response = self.client.post("/api/v1/placeOrder/", json.dumps(data), content_type="application/json")
