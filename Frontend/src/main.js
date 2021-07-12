@@ -15,6 +15,7 @@ Vue.use(Vuex);
 Vue.use(VueKeyCloak, {
   init: {
     onLoad: "check-sso",
+    checkLoginIframe: false,
   },
   logout: {
     redirectUri: process.env.VUE_APP_FRONTEND_URL,
