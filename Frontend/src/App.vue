@@ -159,12 +159,12 @@ export default {
         this.$keycloak.realmAccess &&
         this.$keycloak.realmAccess.roles.indexOf("admin") > -1
       ) {
-        this.$store.state.userRole = "Admin";
+        this.$store.commit("setUserRole", "Admin");
       } else {
-        this.$store.state.userRole = "User";
+        this.$store.commit("setUserRole", "User");
       }
       // Get keycloak userID
-      this.$store.state.userId = this.$keycloak.subject;
+      this.$store.commit("setUserId", this.$keycloak.subject);
 
       // Get cart article count to update badge
       let url =

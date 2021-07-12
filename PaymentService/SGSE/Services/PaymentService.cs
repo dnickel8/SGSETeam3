@@ -68,7 +68,7 @@ namespace SGSE.Services
             {
                 From = new MailAddress("hans.olafthebest@gmail.com"),
                 Subject = "Ihre Bestellung",
-                Body = $"<p>Sehr geehrter Kunde,</p><p>Vielen Dank für ihre Bestellung, anbei sind die Bankinformationen, damit sie die Überweisung innerhalb von 2 Wochen durchführen können.</p><br>IBAN: xxxxx<br>Grund: Kauf #{invoiceId}<br><br>Wir freuen uns auf ihren nächsten Besuch!<br><h3>MicroShop.de</h3>",
+                Body = $"<p>Sehr geehrter Kunde,</p><p>Vielen Dank für ihre Bestellung, anbei sind die Bankinformationen, damit sie die Überweisung innerhalb von 2 Wochen durchführen können.</p><br>IBAN: xxxxx<br>Verwendungszweck: Kauf #{invoiceId}<br>Geldbetrag: {amount.Value} Euro<br><br>Wir freuen uns auf ihren nächsten Besuch!<br><h3>MicroShop.de</h3>",
                 IsBodyHtml = true,
             };
 
