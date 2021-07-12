@@ -79,7 +79,7 @@ jobs:
         
     # get pod
     - name: Get Pod
-      run: POD=$(kubectl get pod --selector=app=${{ DEPLOYMENT_NAME }} )
+      run: POD=$(kubectl get pod --selector=app=${{ env.DEPLOYMENT_NAME }} )
     
     # Run test
     - name: Run Test
