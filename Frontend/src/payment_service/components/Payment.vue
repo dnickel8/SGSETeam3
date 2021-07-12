@@ -71,25 +71,36 @@
               ></v-col>
             </v-row>
             <v-row justify="center">
-              <v-col cols="5"
+              <v-col cols="6"
                 ><v-text-field
                   v-model="fields.street"
                   :rules="fieldRules"
-                  label="Straße und Hausnummer"
+                  label="Straße"
                   required
                   solo
                 ></v-text-field
               ></v-col>
-              <v-col cols="3"
+              <v-col cols="6"
+                ><v-text-field
+                  v-model="fields.number"
+                  :rules="numberRules"
+                  label="Hausnummer"
+                  required
+                  solo
+                ></v-text-field
+              ></v-col>
+            </v-row>
+            <v-row justify="center"
+              ><v-col cols="6"
                 ><v-text-field
                   v-model="fields.postalCode"
-                  :rules="fieldRules"
+                  :rules="numberRules"
                   label="PLZ"
                   required
                   solo
                 ></v-text-field
               ></v-col>
-              <v-col cols="4"
+              <v-col cols="6"
                 ><v-text-field
                   v-model="fields.city"
                   :rules="fieldRules"
@@ -99,12 +110,11 @@
                 ></v-text-field
               ></v-col>
             </v-row>
-            <v-row justify="center"> </v-row>
             <v-row justify="center">
               <v-col cols="12"
                 ><v-text-field
                   v-model="fields.phone"
-                  :rules="fieldRules"
+                  :rules="numberRules"
                   label="Telefon"
                   required
                   solo
@@ -148,7 +158,8 @@ export default {
           postalCode: '',
           city: '',
           phone: '',
-          countryCode: ''
+          countryCode: '',
+          number: ''
         },
         fieldRules: [
         v => !!v || 'Das Feld ist erforderlich',
@@ -156,6 +167,10 @@ export default {
         emailRules: [
         v => !!v || 'Eine E-Mail Adresse ist erforderlich',
         v => /.+@.+/.test(v) || 'Die E-Mail Adresse ist nicht zulässig',
+      ],
+      numberRules: [
+        v => !!v || "Das Feld ist erforderlich",
+        v => !isNaN(v) || "Bitte Zahlen verwenden",
       ],
 
     }
@@ -245,7 +260,7 @@ export default {
             firstName: this.sameAsDeliveryAddress ? this.address.first_name : this.fields.firstname,
             surname: this.sameAsDeliveryAddress ? this.address.last_name : this.fields.surname,
             address: {
-              street: this.sameAsDeliveryAddress ? this.address.street + " " + this.address.number : this.fields.street,
+              street: this.sameAsDeliveryAddress ? this.address.street + " " + this.address.number : this.fields.street + " " + this.fields.number,
               postalCode: this.sameAsDeliveryAddress ? this.address.code : this.fields.postalCode,
               city: this.sameAsDeliveryAddress ? this.address.city : this.fields.city,
               countryCode: "DE"
