@@ -36,7 +36,7 @@ class OrderService {
       shippingMethod: {
         name: shippingMethod,
         description: shippingMethod,
-        price: amount.value,
+        price: parseFloat(amount.value),
       },
     };
     return order;

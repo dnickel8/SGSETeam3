@@ -267,6 +267,10 @@ export default {
   async mounted() {
     this.products = this.$store.state.products;
     this.calculateTotalAmount();
+
+    if (this.products.length === 1) {
+      this.enableRemoveButtons = false;
+    }
   },
 };
 </script>
