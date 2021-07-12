@@ -64,13 +64,12 @@ export default {
       return new Date(order.date).toLocaleDateString("de-DE", options);
     },
     calculateTotalAmount: function () {
-      let total = 0;
       this.orders.forEach((order) => {
         order.total = 0;
         order.products.forEach((product) => {
           order.total += product.article_price * product.article_count;
         });
-        this.totalAmount = total;
+        order.total = +order.total.toFixed(2);
       });
     },
     async getOrders() {

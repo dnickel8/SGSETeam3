@@ -222,7 +222,7 @@ export default {
         }
         total += product.article_price * product.article_count;
       });
-      this.totalAmount = total;
+      this.totalAmount = +total.toFixed(2);
     },
     validateAddress: function () {
       if (
