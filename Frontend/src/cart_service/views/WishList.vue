@@ -87,9 +87,6 @@ export default {
         })
         .catch(() => {});
     },
-    sleep(ms) {
-      return new Promise((resolve) => setTimeout(resolve, ms));
-    },
   },
   watch: {
     products: {

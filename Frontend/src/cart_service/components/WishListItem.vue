@@ -2,8 +2,7 @@
   <v-container fluid class="pa-0">
     <v-row align="center">
       <v-img
-        :src="image"
-        :eager="true"
+        :src="product.article_image"
         :width="200"
         :height="140"
         contain
@@ -49,32 +48,13 @@
 export default {
   name: "WishListItem",
   props: ["product"],
-  data: function () {
-    return {
-      image: "",
-    };
-  },
   methods: {
     visitArticleSite: function () {
       this.$router.push({
         name: "Article",
-        query: { article: this.product.article_url },
+        query: { article: this.product.article_catalog_id },
       });
     },
-    getImage: function () {
-      this.axios.get(this.product.article_imagepath).then((response) => {
-        if (response.status === 200) {
-          return response.data.data;
-        }
-      });
-    },
-  },
-  mounted() {
-    this.axios.get(this.product.article_imagepath).then((response) => {
-      if (response.status === 200) {
-        this.image = response.data.data;
-      }
-    });
   },
 };
 </script>

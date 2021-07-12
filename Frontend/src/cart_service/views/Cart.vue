@@ -166,9 +166,6 @@ export default {
       this.$store.commit("setProducts", this.getSelectedProducts());
       this.$router.push({ name: "Order" });
     },
-    sleep(ms) {
-      return new Promise((resolve) => setTimeout(resolve, ms));
-    },
   },
   watch: {
     products: {
