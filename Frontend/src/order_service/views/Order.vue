@@ -127,8 +127,7 @@
             width="900"
           >
             <v-img
-              :src="product.article_imagepath"
-              :eager="true"
+              :src="product.article_image"
               :width="50"
               :height="50"
               contain
@@ -223,7 +222,7 @@ export default {
         }
         total += product.article_price * product.article_count;
       });
-      this.totalAmount = total;
+      this.totalAmount = +total.toFixed(2);
     },
     validateAddress: function () {
       if (
@@ -249,19 +248,6 @@ export default {
     onChangeStep: function (step) {
       this.e1 = step;
     },
-    async getImage(image_url) {
-      return await this.axios.get(image_url);
-    },
-    async getAllImages() {
-      for (let i = 0; i < this.products.length; ++i) {
-        let image = await this.getImage(this.products[i].article_imagepath);
-        if (image) {
-          this.products[i].article_imagepath = image.data.data;
-        } else {
-          this.products[i].article_imagepath = "ERROR";
-        }
-      }
-    },
   },
   watch: {
     products: {
@@ -280,7 +266,6 @@ export default {
   },
   async mounted() {
     this.products = this.$store.state.products;
-    await this.getAllImages();
     this.calculateTotalAmount();
   },
 };

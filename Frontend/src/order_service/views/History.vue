@@ -22,7 +22,7 @@
               <v-img
                 max-height="50"
                 max-width="50"
-                v-bind:src="product.article_imagepath"
+                v-bind:src="product.article_image"
               ></v-img>
               <strong class="pa-2">{{ product.article_name }}</strong>
               <strong class="pa-2">{{ product.article_count }}</strong>
@@ -41,10 +41,11 @@
 
 <script>
 import axios from "axios";
+
 export default {
   data() {
     return {
-      user_id: 123,
+      user_id: "",
       e1: 1,
       orders: [],
       showNoContentMessage: true,
@@ -60,17 +61,15 @@ export default {
         hour: "numeric",
         minute: "numeric",
       };
-      const date = new Date(order.date).toLocaleDateString("de-DE", options);
-      return date;
+      return new Date(order.date).toLocaleDateString("de-DE", options);
     },
     calculateTotalAmount: function () {
-      let total = 0;
       this.orders.forEach((order) => {
         order.total = 0;
         order.products.forEach((product) => {
           order.total += product.article_price * product.article_count;
         });
-        this.totalAmount = total;
+        order.total = +order.total.toFixed(2);
       });
     },
     async getOrders() {

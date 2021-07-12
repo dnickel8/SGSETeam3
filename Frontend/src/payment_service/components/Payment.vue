@@ -205,16 +205,14 @@ export default {
       this.alert = true;
       await this.placeOrderAndDeleteArticlesInCart(invoice, amount, "Rechnung");
       this.$router.push({ name: "OrderHistory" });
-
-
     },
     async placeOrderAndDeleteArticlesInCart(invoice, amount, shippingMethod) {
       const order = OrderService.createOrder(invoice, amount, shippingMethod, this.address, this.$store.state.userId, this.items);
       await OrderService.placeOrder(order);
       const articlesToDelete = this.createArticlesToDelete();
       await CartService.deletePassedArticles(articlesToDelete, this.$store.state.userId);
-      this.$store.state.cart_article_count = 0;
-      this.$store.state.products = [];
+      this.$store.commit("setCartArticleCount", 0);
+      this.$store.commit("setProducts", []);
     },
     createAmount() {
       const amount = {

@@ -83,8 +83,8 @@ def add_article(request, *args, **kwargs):
             "article_name": request_data['article_name'],
             "article_vendor": request_data['article_vendor'],
             "article_price": request_data['article_price'],
-            "article_url": request_data['article_url'],
-            "article_imagepath": request_data['article_imagepath']
+            "article_catalog_id": request_data['article_catalog_id'],
+            "article_image": request_data['article_image']
         }
 
         # Get max item (highest id) from the user's wishlist (sorted set)
