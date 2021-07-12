@@ -269,8 +269,8 @@ export default {
     this.calculateTotalAmount();
 
     if (this.products.length === 1) {
-        this.enableRemoveButtons = false;
-      }
+      this.enableRemoveButtons = false;
+    }
   },
 };
 </script>
