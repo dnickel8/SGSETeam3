@@ -77,12 +77,9 @@ jobs:
         kubectl rollout status deployment/$DEPLOYMENT_NAME
         kubectl get services -o wide
         
-    # get pod
-    - name: Get Pod
-      run: POD=$(kubectl get pod -l app=DEPLOYMENT_NAME)
     
     # Run test
     - name: Run Test
-      run: echo "POD=$(kubectl get pod -l app=$(env.DEPLOYMENT_NAME) -o name)">> $GITHUB_ENV
+      run: echo "POD=$(kubectl get pod --selector=app=${{ env.DEPLOYMENT_NAME }} -o name)">> $GITHUB_ENV
       
     - run: kubectl exec -it ${{ env.POD }} -- python manage.py test
