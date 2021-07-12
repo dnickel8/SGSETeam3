@@ -231,7 +231,7 @@ export default {
             minPreis = this.preisMin;
           }
         }
-        if(this.preisMin.includes(","))
+        else if(this.preisMin.includes(","))
         {
           var split4 = this.preisMin.split(",")
           //1 Nachkommastelle
@@ -277,7 +277,7 @@ export default {
             maxPreis = this.preisMax;
           }
         }
-        if(this.preisMax.includes(","))
+        else if(this.preisMax.includes(","))
         {
           var split3 = this.preisMax.split(",")
           //1 Nachkommastelle
