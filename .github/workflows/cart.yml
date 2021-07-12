@@ -78,7 +78,3 @@ jobs:
         ./kustomize build . | kubectl apply -f -
         kubectl rollout status deployment/$DEPLOYMENT_NAME
         kubectl get services -o wide
-        
-    # Run test
-    #- name: Run Test
-      #run: kubectl exec -it cart-deployment-79d8b48f-vgkp7 -- python manage.py test
