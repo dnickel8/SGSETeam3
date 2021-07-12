@@ -116,7 +116,7 @@ export default {
         preisMax: "",
     }
   },
-  async created()
+  async mounted()
     {
       await this.watchMethod();
     },

@@ -259,7 +259,7 @@ export default {
     }
 
   },
-  async created()
+  async mounted()
     {
       if (this.$route.query.article === "add" && this.$store.state.userRole === "Admin")
       {
