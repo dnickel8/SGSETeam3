@@ -15,6 +15,7 @@ const asyncMiddleware = fn =>
 
 async function getPicture(pictureId)
 {
+  console.log("Gesuchtes Bild:" + pictureId);
   const client = new MongoClient(uri);
   returnArr = [];
   try
@@ -39,6 +40,7 @@ async function getPicture(pictureId)
       }
       else
       {
+        console.log("ResultArray:" + result[0]["_id"]);
         returnArr = [200, result[0]];
       }
     }
