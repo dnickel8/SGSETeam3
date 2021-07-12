@@ -56,7 +56,6 @@ namespace SGSE.Services
                 InvoiceId = invoiceId,
                 Status = payed ? "BEZAHLT" : "UNBEZAHLT"
             };
-            await _repository.CreatePayment(payment);
 
             var smtpClient = new SmtpClient("smtp.gmail.com")
             {
@@ -76,6 +75,8 @@ namespace SGSE.Services
             mailMessage.To.Add(email);
 
             smtpClient.Send(mailMessage);
+			
+			await _repository.CreatePayment(payment);
         }
 
         public async Task Update(string id, Invoice invoice)

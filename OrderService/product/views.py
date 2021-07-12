@@ -37,170 +37,158 @@ class GetOrder(APIView):
 @api_view(['POST'])
 def placeOrder(request):
     schema = {
-    "$schema": "http://json-schema.org/draft-06/schema#",
-    "$ref": "#/definitions/Welcome1",
-    "definitions": {
-        "Welcome1": {
-            "type": "object",
-            "properties": {
-                "date": {
-                    "type": "string",
-                    "format": "date-time"
-                },
-                "user": {
-                    "$ref": "#/definitions/User"
-                },
-                "products": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/Product"
+        "$schema": "http://json-schema.org/draft-06/schema#",
+        "$ref": "#/definitions/Welcome7",
+        "definitions": {
+            "Welcome7": {
+                "type": "object",
+                "properties": {
+                    "date": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "user": {
+                        "$ref": "#/definitions/User"
+                    },
+                    "products": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/definitions/Product"
+                        }
+                    },
+                    "address": {
+                        "$ref": "#/definitions/Address"
+                    },
+                    "shippingAddress": {
+                        "$ref": "#/definitions/Address"
+                    },
+                    "shippingMethod": {
+                        "$ref": "#/definitions/ShippingMethod"
                     }
                 },
-                "address": {
-                    "$ref": "#/definitions/Address"
-                },
-                "shippingAddress": {
-                    "$ref": "#/definitions/Address"
-                },
-                "shippingMethod": {
-                    "$ref": "#/definitions/ShippingMethod"
-                }
+                "required": [
+                    "address",
+                    "date",
+                    "products",
+                    "shippingAddress",
+                    "shippingMethod",
+                    "user"
+                ],
+                "title": "Welcome7"
             },
-            "required": [
-                "address",
-                "date",
-                "products",
-                "shippingAddress",
-                "shippingMethod",
-                "user"
-            ],
-            "title": "Welcome1"
-        },
-        "Address": {
-            "type": "object",
-            "properties": {
-                "firstName": {
-                    "type": "string",
-                    "format": "integer"
+            "Address": {
+                "type": "object",
+                "properties": {
+                    "firstName": {
+                        "type": "string",
+                        "format": "integer"
+                    },
+                    "lastName": {
+                        "type": "string",
+                        "format": "integer"
+                    },
+                    "street": {
+                        "type": "string",
+                        "format": "integer"
+                    },
+                    "number": {
+                        "type": "string",
+                        "format": "integer"
+                    },
+                    "postCode": {
+                        "type": "string",
+                        "format": "integer"
+                    },
+                    "city": {
+                        "type": "string",
+                        "format": "integer"
+                    }
                 },
-                "lastName": {
-                    "type": "string",
-                    "format": "integer"
-                },
-                "street": {
-                    "type": "string",
-                    "format": "integer"
-                },
-                "number": {
-                    "type": "string",
-                    "format": "integer"
-                },
-                "postCode": {
-                    "type": "string",
-                    "format": "integer"
-                },
-                "city": {
-                    "type": "string",
-                    "format": "integer"
-                }
+                "required": [
+                    "city",
+                    "firstName",
+                    "lastName",
+                    "number",
+                    "postCode",
+                    "street"
+                ],
+                "title": "Address"
             },
-            "required": [
-                "city",
-                "firstName",
-                "lastName",
-                "number",
-                "postCode",
-                "street"
-            ],
-            "title": "Address"
-        },
-        "Product": {
-            "type": "object",
-            "properties": {
-                "article_name": {
-                    "type": "string"
+            "Product": {
+                "type": "object",
+                "properties": {
+                    "article_name": {
+                        "type": "string"
+                    },
+                    "article_count": {
+                        "type": "integer"
+                    },
+                    "article_catalog_id": {
+                        "type": "string"
+                    },
+                    "article_vendor": {
+                        "type": "string"
+                    },
+                    "article_image": {
+                        "type": "string"
+                    },
+                    "article_price": {
+                        "type": "number"
+                    },
+                    "article_id": {
+                        "type": "string"
+                    },
+                    "checkbox_value": {
+                        "type": "boolean"
+                    }
                 },
-                "article_vendor": {
-                    "type": "string"
-                },
-                "article_price": {
-                    "type": "number"
-                },
-                "article_url": {
-                    "type": "string"
-                },
-                "article_imagepath": {
-                    "type": "string"
-                },
-                "article_count": {
-                    "$ref": "#/definitions/ArticleCount"
-                },
-                "article_id": {
-                    "type": "string"
-                },
-                "checkbox_value": {
-                    "type": "boolean"
-                }
+                "required": [
+                    "article_catalog_id",
+                    "article_count",
+                    "article_id",
+                    "article_image",
+                    "article_name",
+                    "article_price",
+                    "article_vendor",
+                    "checkbox_value"
+                ],
+                "title": "Product"
             },
-            "required": [
-                "article_count",
-                "article_id",
-                "article_imagepath",
-                "article_name",
-                "article_price",
-                "article_url",
-                "article_vendor",
-                "checkbox_value"
-            ],
-            "title": "Product"
-        },
-        "ShippingMethod": {
-            "type": "object",
-            "properties": {
-                "name": {
-                    "type": "string"
+            "ShippingMethod": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "price": {
+                        "type": "number"
+                    }
                 },
-                "description": {
-                    "type": "string"
-                },
-                "price": {
-                    "type": "number"
-                }
+                "required": [
+                    "description",
+                    "name",
+                    "price"
+                ],
+                "title": "ShippingMethod"
             },
-            "required": [
-                "description",
-                "name",
-                "price"
-            ],
-            "title": "ShippingMethod"
-        },
-        "User": {
-            "type": "object",
-            "properties": {
-                "id": {
-                    "type": "string",
-                    "format": "uuid"
-                }
-            },
-            "required": [
-                "id"
-            ],
-            "title": "User"
-        },
-        "ArticleCount": {
-            "anyOf": [
-                {
-                    "type": "integer"
+            "User": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid"
+                    }
                 },
-                {
-                    "type": "string",
-                    "format": "integer"
-                }
-            ],
-            "title": "ArticleCount"
+                "required": [
+                    "id"
+                ],
+                "title": "User"
+            }
         }
     }
-}
 
     try:
         validate(instance=request.data, schema=schema)
