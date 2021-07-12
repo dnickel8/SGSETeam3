@@ -20,6 +20,7 @@
 
 <script>
 import UserData from "@/account_service/components/UserData.vue";
+import router from "@/router";
 
 export default {
   name: "Account",
@@ -37,9 +38,15 @@ export default {
       this.$store.commit("setUserId", "");
       this.$store.commit("setUserRole", "User");
     },
+    sleep: function (ms) {
+      return new Promise((resolve) => setTimeout(resolve, ms));
+    },
   },
   async mounted() {
-    if (this.$keycloak.authenticated) {
+    while (router.app.$keycloak.createLoginUrl === null) {
+      await this.sleep(100);
+    }
+    if (router.app.$keycloak.authenticated) {
       this.userProfile = await this.$keycloak.loadUserProfile();
       if (!this.userProfile) {
         this.$router.go(0);
