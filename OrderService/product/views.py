@@ -10,8 +10,8 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
 
-myclient = MongoClient("mongodb://172.17.0.2:27017")
-db = myclient["micro-shop"]
+client = MongoClient("mongodb+srv://mongo:123@cluster0.raszr.mongodb.net/micro-shop?retryWrites=true&w=majority")
+db = client['micro-shop']
 collection = db["order"]
 
 class GetOrders(APIView):
@@ -36,7 +36,6 @@ class GetOrder(APIView):
 
 @api_view(['POST'])
 def placeOrder(request):
-    '''
     schema = {
         "$schema": "http://json-schema.org/draft-06/schema#",
         "$ref": "#/definitions/Welcome7",
@@ -45,10 +44,8 @@ def placeOrder(request):
                 "type": "object",
                 "properties": {
                     "date": {
-                        "type": "string"
-                    },
-                    "total": {
-                        "type": "integer"
+                        "type": "string",
+                        "format": "date-time"
                     },
                     "user": {
                         "$ref": "#/definitions/User"
@@ -58,49 +55,131 @@ def placeOrder(request):
                         "items": {
                             "$ref": "#/definitions/Product"
                         }
+                    },
+                    "address": {
+                        "$ref": "#/definitions/Address"
+                    },
+                    "shippingAddress": {
+                        "$ref": "#/definitions/Address"
+                    },
+                    "shippingMethod": {
+                        "$ref": "#/definitions/ShippingMethod"
                     }
                 },
                 "required": [
+                    "address",
                     "date",
                     "products",
-                    "total",
+                    "shippingAddress",
+                    "shippingMethod",
                     "user"
                 ],
                 "title": "Welcome7"
             },
+            "Address": {
+                "type": "object",
+                "properties": {
+                    "firstName": {
+                        "type": "string",
+                        "format": "integer"
+                    },
+                    "lastName": {
+                        "type": "string",
+                        "format": "integer"
+                    },
+                    "street": {
+                        "type": "string",
+                        "format": "integer"
+                    },
+                    "number": {
+                        "type": "string",
+                        "format": "integer"
+                    },
+                    "postCode": {
+                        "type": "string",
+                        "format": "integer"
+                    },
+                    "city": {
+                        "type": "string",
+                        "format": "integer"
+                    }
+                },
+                "required": [
+                    "city",
+                    "firstName",
+                    "lastName",
+                    "number",
+                    "postCode",
+                    "street"
+                ],
+                "title": "Address"
+            },
             "Product": {
+                "type": "object",
+                "properties": {
+                    "article_name": {
+                        "type": "string"
+                    },
+                    "article_count": {
+                        "type": "integer"
+                    },
+                    "article_catalog_id": {
+                        "type": "string"
+                    },
+                    "article_vendor": {
+                        "type": "string"
+                    },
+                    "article_image": {
+                        "type": "string"
+                    },
+                    "article_price": {
+                        "type": "number"
+                    },
+                    "article_id": {
+                        "type": "string"
+                    },
+                    "checkbox_value": {
+                        "type": "boolean"
+                    }
+                },
+                "required": [
+                    "article_catalog_id",
+                    "article_count",
+                    "article_id",
+                    "article_image",
+                    "article_name",
+                    "article_price",
+                    "article_vendor",
+                    "checkbox_value"
+                ],
+                "title": "Product"
+            },
+            "ShippingMethod": {
                 "type": "object",
                 "properties": {
                     "name": {
                         "type": "string"
                     },
-                    "image": {
-                        "type": "string",
-                        "format": "uri",
-                        "qt-uri-protocols": [
-                            "https"
-                        ]
-                    },
-                    "count": {
-                        "type": "integer"
+                    "description": {
+                        "type": "string"
                     },
                     "price": {
-                        "type": "integer"
+                        "type": "number"
                     }
                 },
                 "required": [
-                    "count",
-                    "image",
+                    "description",
                     "name",
                     "price"
                 ],
-                "title": "Product"
+                "title": "ShippingMethod"
             },
             "User": {
                 "type": "object",
                 "properties": {
                     "id": {
-                        "type": "string"
+                        "type": "string",
+                        "format": "uuid"
                     }
                 },
                 "required": [
@@ -115,7 +194,6 @@ def placeOrder(request):
         validate(instance=request.data, schema=schema)
     except:
         return Response("Data not acceptable", status=status.HTTP_406_NOT_ACCEPTABLE)
-        '''
 
     collection.insert_one(request.data)
     return Response('ok')

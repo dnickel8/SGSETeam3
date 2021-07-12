@@ -28,19 +28,19 @@ async function getResults(searchterm, body)
                       {
                         "data.articlename": 
                         {
-                          "$regex": "@searchterm" 
+                          "$regex": "@searchterm", "$options" : "i"
                         }
                       },
                       {
                         "data.description": 
                         {
-                          "$regex": "@searchterm" 
+                          "$regex": "@searchterm", "$options" : "i"
                         }
                       },
                       {
                         "data.details.value": 
                         {
-                          "$regex": "@searchterm" 
+                          "$regex": "@searchterm", "$options" : "i"
                         }
                       }
                     ]
@@ -70,7 +70,7 @@ async function getResults(searchterm, body)
     }
     else
     {
-      query = query.replace("@priceMin", "999999999");
+      query = query.replace("@priceMax", "999999999");
     }
   }
   else

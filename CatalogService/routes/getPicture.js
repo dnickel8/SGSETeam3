@@ -9,12 +9,13 @@ const uri = utils.database;
 const asyncMiddleware = fn =>
   (req, res, next) => 
   {
-    Promise.resolve(fn(req, res, next))
+    return Promise.resolve(fn(req, res, next))
       .catch(next);
   };
 
 async function getPicture(pictureId)
 {
+  console.log("Gesuchtes Bild:" + pictureId);
   const client = new MongoClient(uri);
   returnArr = [];
   try
@@ -39,6 +40,7 @@ async function getPicture(pictureId)
       }
       else
       {
+        console.log("ResultArray:" + result[0]["_id"]);
         returnArr = [200, result[0]];
       }
     }

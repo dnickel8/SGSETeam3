@@ -17,7 +17,13 @@
       ></v-text-field>
 
       <div class="ml-4 d-flex align-center">
-        <v-btn v-on:click="openCart" class="ma-2" text icon>
+        <v-btn
+          v-on:click="openCart"
+          v-if="$keycloak.authenticated"
+          class="ma-2"
+          text
+          icon
+        >
           <v-badge
             color="amber"
             :content="article_count_number"
@@ -26,31 +32,49 @@
             <v-icon large>mdi-cart-outline</v-icon>
           </v-badge>
         </v-btn>
-        <v-btn v-on:click="openWishlist" class="ma-2" text icon>
+
+        <v-btn
+          v-on:click="openWishlist"
+          v-if="$keycloak.authenticated"
+          class="ma-2"
+          text
+          icon
+        >
           <v-icon large>mdi-format-list-bulleted</v-icon>
         </v-btn>
-        <v-btn v-on:click="openHistory" class="ma-2" text icon>
+
+        <v-btn
+          v-on:click="openHistory"
+          v-if="$keycloak.authenticated"
+          class="ma-2"
+          text
+          icon
+        >
           <v-icon large>mdi-clock</v-icon>
         </v-btn>
+
         <v-menu offset-y>
-          <template v-slot:activator="{ on, attrs }"
-            ><v-btn v-on="on" v-bind="attrs" class="ma-2" text icon>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn v-on="on" v-bind="attrs" class="ma-2" text icon>
               <v-icon large>mdi-account</v-icon>
             </v-btn>
           </template>
-          <v-list>
+
+          <v-list v-if="$keycloak.ready">
             <v-list-item
               v-if="$keycloak.authenticated"
               @click="openAccount"
               link
             >
-              <v-list-item-title>Account</v-list-item-title>
+              <v-list-item-title>Mein Konto</v-list-item-title>
             </v-list-item>
+
             <v-list-item v-if="!$keycloak.authenticated" @click="login" link>
-              <v-list-item-title>Login</v-list-item-title>
+              <v-list-item-title>Anmelden</v-list-item-title>
             </v-list-item>
-            <v-list-item v-if="$keycloak.authenticated" @click="logout" link>
-              <v-list-item-title>Logout</v-list-item-title>
+
+            <v-list-item v-else @click="logout" link>
+              <v-list-item-title>Abmelden</v-list-item-title>
             </v-list-item>
           </v-list>
         </v-menu>
@@ -68,37 +92,41 @@ export default {
   name: "App",
   data: function () {
     return {
-      user_id: "lol",
       search: "",
     };
   },
   methods: {
     openHome: function () {
-      this.$router.push({ name: "CatalogView" });
+      this.$router.push({ name: "Catalog" });
     },
     openCart: function () {
-      this.$router.push({ name: "cart" });
+      this.$router.push({ name: "Cart" });
     },
     openWishlist: function () {
-      this.$router.push({ name: "wishlist" });
+      this.$router.push({ name: "Wishlist" });
     },
     openHistory: function () {
-      this.$router.push({ path: "history" });
+      this.$router.push({ name: "OrderHistory" });
     },
     openAccount() {
-      this.$router.push({ name: "account" });
+      this.$router.push({ name: "Account" });
     },
     login() {
       this.$keycloak.login();
     },
-    logout() {
-      this.$keycloak.logoutFn();
+    async logout() {
+      await this.$keycloak.logoutFn();
+      this.$store.commit("setUserId", "");
+      this.$store.commit("setUserRole", "User");
     },
     searchMethod() {
       this.$router.push({
-        name: "CatalogSearchView",
+        name: "CatalogSearch",
         query: { search: this.search },
       });
+    },
+    sleep(ms) {
+      return new Promise((resolve) => setTimeout(resolve, ms));
     },
   },
   computed: {
@@ -114,30 +142,44 @@ export default {
     article_count_display() {
       return this.$store.state.cart_article_count > 0;
     },
+    userID() {
+      return this.$store.state.userId;
+    },
   },
   async mounted() {
-    if (
-      this.$keycloak.realmAccess &&
-      this.$keycloak.realmAccess.roles.indexOf("admin") > -1
-    ) {
-      this.$store.state.userRole = "Admin";
-    } else {
-      this.$store.state.userRole = "User";
+    // Wait for Keycloak init
+    while (this.$keycloak.createLoginUrl === null) {
+      await this.sleep(100);
     }
-    this.$store.state.userId = this.$keycloak.subject;
-    // Get cart article count to update badge
-    let url =
-      process.env.VUE_APP_CART_SERVICE_URL +
-      "/cart/getArticleCount/" +
-      this.user_id;
-    this.axios
-      .get(url)
-      .then((response) => {
-        if (response.status === 200) {
-          this.$store.commit("setCartArticleCount", response.data.count);
-        }
-      })
-      .catch(() => {});
+
+    // Check if authenticated
+    if (this.$keycloak.authenticated) {
+      // Get keycloak role
+      if (
+        this.$keycloak.realmAccess &&
+        this.$keycloak.realmAccess.roles.indexOf("admin") > -1
+      ) {
+        this.$store.state.userRole = "Admin";
+      } else {
+        this.$store.state.userRole = "User";
+      }
+      // Get keycloak userID
+      this.$store.state.userId = this.$keycloak.subject;
+
+      // Get cart article count to update badge
+      let url =
+        process.env.VUE_APP_CART_SERVICE_URL +
+        "/cart/getArticleCount/" +
+        this.userID;
+      this.axios
+        .get(url)
+        .then((response) => {
+          if (response.status === 200) {
+            this.$store.commit("setCartArticleCount", response.data.count);
+          }
+        })
+        .catch(() => {});
+    }
   },
 };
 </script>

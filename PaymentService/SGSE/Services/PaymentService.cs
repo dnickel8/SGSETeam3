@@ -56,26 +56,27 @@ namespace SGSE.Services
                 InvoiceId = invoiceId,
                 Status = payed ? "BEZAHLT" : "UNBEZAHLT"
             };
-            await _repository.CreatePayment(payment);
 
-            /* var smtpClient = new SmtpClient("smtp.gmail.com")
+            var smtpClient = new SmtpClient("smtp.gmail.com")
             {
                 Port = 587,
-                Credentials = new NetworkCredential("imnexa@gmail.com", "test"),
+                Credentials = new NetworkCredential("hans.olafthebest@gmail.com", "RW7rFhkGBwQrpGwYfcPV"),
                 EnableSsl = true,
             };
 
             var mailMessage = new MailMessage
             {
-                From = new MailAddress("imnexa@gmail.com"),
+                From = new MailAddress("hans.olafthebest@gmail.com"),
                 Subject = "Ihre Bestellung",
-                Body = "<p>Sehr geehrter Kunde,</p><p>Vielen Dank für ihre Bestellung, anbei sind die Bankinformationen, damit sie die Überweisung innerhalb von 2 Wochen durchführen können.</p><br>IBAN: xxxxx<br>Grund: Kauf #1234<br><br>Wir freuen uns auf ihren nächsten Besuch!<br><h3>MicroShop.de</h3>",
+                Body = $"<p>Sehr geehrter Kunde,</p><p>Vielen Dank für ihre Bestellung, anbei sind die Bankinformationen, damit sie die Überweisung innerhalb von 2 Wochen durchführen können.</p><br>IBAN: xxxxx<br>Verwendungszweck: Kauf #{invoiceId}<br>Geldbetrag: {amount.Value} Euro<br><br>Wir freuen uns auf ihren nächsten Besuch!<br><h3>MicroShop.de</h3>",
                 IsBodyHtml = true,
             };
 
             mailMessage.To.Add(email);
 
-            smtpClient.Send(mailMessage);    */
+            smtpClient.Send(mailMessage);
+			
+			await _repository.CreatePayment(payment);
         }
 
         public async Task Update(string id, Invoice invoice)

@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -25,7 +26,7 @@ SECRET_KEY = 'django-insecure-96t*m&-!_&52(w5_2s0lq$0@g5kco*q0gt0dha4hs67ih_f@q+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['34.107.43.139']
+ALLOWED_HOSTS = ['35.246.201.207', 'localhost']
 
 
 # Application definition
@@ -46,6 +47,7 @@ INSTALLED_APPS = [
     'product'
 ]
 
+CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:8080",
 ]
@@ -90,10 +92,20 @@ DATABASE = {
         'ENGINE': 'djongo',
         'NAME': 'micro-shop',
         'CLIENT': {
-            'host': 'mongodb://localhost:27017',
+            'host': 'mongodb+srv://mongo:123@cluster0.raszr.mongodb.net/micro-shop?retryWrites=true&w=majority',
         }
     }
 }
+
+'''
+DATABASES = {
+    'default': {
+        'ENGINE': 'djongo',
+        'NAME': 'micro-shop',
+        'HOST': 'mongodb://localhost:27017'
+    }
+}
+'''
 
 
 # Password validation
