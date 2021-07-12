@@ -70,7 +70,7 @@ async function getResults(searchterm, body)
     }
     else
     {
-      query = query.replace("@priceMin", "999999999");
+      query = query.replace("@priceMax", "999999999");
     }
   }
   else
