@@ -145,7 +145,13 @@
               </v-row>
             </v-col>
             <strong>{{ product.article_price }}€</strong>
-            <v-btn text @click="removeProduct(product)" :disabled="!enableRemoveButtons"> Entfernen </v-btn>
+            <v-btn
+              text
+              @click="removeProduct(product)"
+              :disabled="!enableRemoveButtons"
+            >
+              Entfernen
+            </v-btn>
           </v-card>
         </div>
 
