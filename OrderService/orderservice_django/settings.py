@@ -87,6 +87,7 @@ WSGI_APPLICATION = 'orderservice_django.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+'''
 DATABASE = {
     'default': {
         'ENGINE': 'djongo',
@@ -96,8 +97,8 @@ DATABASE = {
         }
     }
 }
-
 '''
+
 DATABASES = {
     'default': {
         'ENGINE': 'djongo',
@@ -105,7 +106,6 @@ DATABASES = {
         'HOST': 'mongodb://localhost:27017'
     }
 }
-'''
 
 
 # Password validation

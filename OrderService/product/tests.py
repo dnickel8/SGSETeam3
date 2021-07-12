@@ -10,40 +10,40 @@ class URLTests(TestCase):
 
     def test_place_order_valid_json(self):
         data = {
-            "date": "2021-07-12T00:22:40.965Z",
-            "user": { "id": "024ee877-a6ca-422f-b2be-baa6ac3cbb16" },
+            "date": "2021-07-12T11:26:18.551Z",
+            "user": { "id": "ba090517-cff7-4ce7-83e0-ec729ff09d6c" },
             "products": [
                 {
-                "article_name": "Logitech G432",
-                "article_vendor": "Logitech",
-                "article_price": 53.99,
-                "article_url": "60e9da18d77e720014c613da",
-                "article_imagepath": "image",
-                "article_count": "2",
-                "article_id": "user:024ee877-a6ca-422f-b2be-baa6ac3cbb16:cart-item:2",
+                "article_name": "JBL Flip 5",
+                "article_count": 1,
+                "article_catalog_id": "60eb49e0d77e720014c613fb",
+                "article_vendor": "HARMAN",
+                "article_image": "data:image",
+                "article_price": 26.99,
+                "article_id": "user:ba090517-cff7-4ce7-83e0-ec729ff09d6c:cart-item:6",
                 "checkbox_value": True
                 }
             ],
             "address": {
-                "firstName": "123",
-                "lastName": "123",
-                "street": "123",
-                "number": "123",
-                "postCode": "123",
-                "city": "123"
+                "firstName": "88888",
+                "lastName": "8888888",
+                "street": "88888888",
+                "number": "88888888",
+                "postCode": "8888888",
+                "city": "8888888"
             },
             "shippingAddress": {
-                "firstName": "123",
-                "lastName": "123",
-                "street": "123",
-                "number": "123",
-                "postCode": "123",
-                "city": "123"
+                "firstName": "88888",
+                "lastName": "8888888",
+                "street": "88888888",
+                "number": "88888888",
+                "postCode": "8888888",
+                "city": "8888888"
             },
             "shippingMethod": {
                 "name": "Rechnung",
                 "description": "Rechnung",
-                "price": 2481.74
+                "price": 283.95
             }
         }
         response = self.client.post("/api/v1/placeOrder/", json.dumps(data), content_type="application/json")
