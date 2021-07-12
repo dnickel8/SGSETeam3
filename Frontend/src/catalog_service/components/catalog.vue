@@ -70,7 +70,7 @@ export default {
     }
 
   },
-  async created()
+  async mounted()
     {
         const response = await CatalogService.getData();
         for (let i = 0; i < response["data"].length; i++)

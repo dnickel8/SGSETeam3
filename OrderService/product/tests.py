@@ -10,41 +10,52 @@ class URLTests(TestCase):
 
     def test_place_order_valid_json(self):
         data = {
-            "date": "2021-07-12T11:26:18.551Z",
-            "user": { "id": "ba090517-cff7-4ce7-83e0-ec729ff09d6c" },
-            "products": [
-                {
-                "article_name": "JBL Flip 5",
-                "article_count": 1,
-                "article_catalog_id": "60eb49e0d77e720014c613fb",
-                "article_vendor": "HARMAN",
-                "article_image": "data:image",
-                "article_price": 26.99,
-                "article_id": "user:ba090517-cff7-4ce7-83e0-ec729ff09d6c:cart-item:6",
-                "checkbox_value": True
-                }
-            ],
-            "address": {
-                "firstName": "88888",
-                "lastName": "8888888",
-                "street": "88888888",
-                "number": "88888888",
-                "postCode": "8888888",
-                "city": "8888888"
+        "date": "2021-07-12T13:51:45.535Z",
+        "user": { "id": "123" },
+        "products": [
+            {
+            "article_price": 53.99,
+            "article_name": "Logitech G432",
+            "article_count": 1,
+            "article_catalog_id": "60e9da18d77e720014c613da",
+            "article_vendor": "Logitech",
+            "article_image": "data:image",
+            "article_id": "user:23442792-703a-4016-a7ad-de0e5183144c:cart-item:0",
+            "checkbox_value": True,
+            "value": "test"
             },
-            "shippingAddress": {
-                "firstName": "88888",
-                "lastName": "8888888",
-                "street": "88888888",
-                "number": "88888888",
-                "postCode": "8888888",
-                "city": "8888888"
-            },
-            "shippingMethod": {
-                "name": "Rechnung",
-                "description": "Rechnung",
-                "price": 283.95
+            {
+            "article_vendor": "Apple",
+            "article_price": 190.49,
+            "article_name": "Apple AirPods Pro",
+            "article_count": "2",
+            "article_catalog_id": "60eb4d1cd77e720014c61400",
+            "article_image": "data:image",
+            "article_id": "user:23442792-703a-4016-a7ad-de0e5183144c:cart-item:1",
+            "checkbox_value": True
             }
+        ],
+        "address": {
+            "firstName": "123",
+            "lastName": "123",
+            "street": "123",
+            "number": "123",
+            "postCode": "123",
+            "city": "123"
+        },
+        "shippingAddress": {
+            "firstName": "123",
+            "lastName": "123",
+            "street": "123",
+            "number": "123",
+            "postCode": "123",
+            "city": "123"
+        },
+        "shippingMethod": {
+            "name": "Rechnung",
+            "description": "Rechnung",
+            "price": 434.97
+        }
         }
         response = self.client.post("/api/v1/placeOrder/", json.dumps(data), content_type="application/json")
 

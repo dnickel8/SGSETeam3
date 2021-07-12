@@ -38,10 +38,11 @@ class GetOrder(APIView):
 def placeOrder(request):
     schema = {
         "$schema": "http://json-schema.org/draft-06/schema#",
-        "$ref": "#/definitions/Welcome7",
+        "$ref": "#/definitions/Welcome10",
         "definitions": {
-            "Welcome7": {
+            "Welcome10": {
                 "type": "object",
+                "additionalProperties": True,
                 "properties": {
                     "date": {
                         "type": "string",
@@ -74,10 +75,11 @@ def placeOrder(request):
                     "shippingMethod",
                     "user"
                 ],
-                "title": "Welcome7"
+                "title": "Welcome10"
             },
             "Address": {
                 "type": "object",
+                "additionalProperties": True,
                 "properties": {
                     "firstName": {
                         "type": "string",
@@ -116,12 +118,16 @@ def placeOrder(request):
             },
             "Product": {
                 "type": "object",
+                "additionalProperties": True,
                 "properties": {
+                    "article_price": {
+                        "type": "number"
+                    },
                     "article_name": {
                         "type": "string"
                     },
                     "article_count": {
-                        "type": "integer"
+                        "$ref": "#/definitions/ArticleCount"
                     },
                     "article_catalog_id": {
                         "type": "string"
@@ -131,9 +137,6 @@ def placeOrder(request):
                     },
                     "article_image": {
                         "type": "string"
-                    },
-                    "article_price": {
-                        "type": "number"
                     },
                     "article_id": {
                         "type": "string"
@@ -156,6 +159,7 @@ def placeOrder(request):
             },
             "ShippingMethod": {
                 "type": "object",
+                "additionalProperties": True,
                 "properties": {
                     "name": {
                         "type": "string"
@@ -176,6 +180,7 @@ def placeOrder(request):
             },
             "User": {
                 "type": "object",
+                "additionalProperties": True,
                 "properties": {
                     "id": {
                         "type": "string",
@@ -186,9 +191,22 @@ def placeOrder(request):
                     "id"
                 ],
                 "title": "User"
+            },
+            "ArticleCount": {
+                "anyOf": [
+                    {
+                        "type": "integer"
+                    },
+                    {
+                        "type": "string",
+                        "format": "integer"
+                    }
+                ],
+                "title": "ArticleCount"
             }
         }
     }
+
 
     try:
         validate(instance=request.data, schema=schema)
