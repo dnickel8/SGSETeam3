@@ -41,6 +41,9 @@ export default {
   async mounted() {
     if (this.$keycloak.authenticated) {
       this.userProfile = await this.$keycloak.loadUserProfile();
+      if (!this.userProfile) {
+        this.$router.go(0);
+      }
     }
   },
 };
