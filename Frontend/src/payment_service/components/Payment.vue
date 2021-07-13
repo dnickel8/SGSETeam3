@@ -208,7 +208,7 @@ export default {
   },
   methods: {
     checkEmailRules() {
-      if (this.emailRules[0] === true && this.emailRules[0] === true) {
+      if (this.emailRules[0] === true && this.emailRules[1] === true) {
         return true;
       }
       return false;
